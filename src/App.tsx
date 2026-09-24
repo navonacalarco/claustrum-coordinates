@@ -1,121 +1,165 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+    <div className="app">
+      <header className="site-header">
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+          <div className="eyebrow">SYSTEMATIC REVIEW COMPANION</div>
+          <h1>Claustrum Coordinates</h1>
+          <p className="subtitle">
+            An interactive map of reported coordinates from the human neuroimaging literature
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <div className="header-actions">
+          <button className="button secondary">About</button>
+          <button className="button primary">Download data</button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+      </header>
+
+      <main className="workspace">
+        <aside className="filters">
+          <div className="panel-heading">
+            <h2>Filters</h2>
+            <button className="text-button">Reset</button>
+          </div>
+
+          <Filter label="Claustrum focus" value="All studies" />
+          <Filter label="Central aim" value="All aims" />
+          <Filter label="Peak source / modality" value="All modalities" />
+          <Filter label="Population" value="All populations" />
+          <Filter label="Patient group" value="All groups" />
+          <Filter label="Hemisphere" value="Left + Right" />
+          <Filter label="Publication year" value="All years" />
+          <Filter label="Original coordinate space" value="MNI + Talairach" />
+          <Filter label="Coordinate type" value="All coordinate types" />
+        </aside>
+
+        <section className="viewer-section">
+          <div className="viewer-toolbar">
+            <div>
+              <span className="stat-strong">86</span> coordinates
+              <span className="dot">·</span>
+              <span className="stat-strong">40</span> studies
+            </div>
+
+            <div className="toolbar-controls">
+              <button className="segmented active">Points</button>
+              <button className="segmented">Study-weighted density</button>
+            </div>
+          </div>
+
+          <div className="viewer">
+            <div className="viewer-placeholder">
+              <div className="brain-outline">
+                <div className="brain-dot dot-one" />
+                <div className="brain-dot dot-two" />
+                <div className="brain-dot dot-three" />
+                <div className="brain-dot dot-four" />
+                <div className="brain-dot dot-five" />
+              </div>
+
+              <h3>MNI brain viewer</h3>
+              <p>
+                Interactive sagittal, coronal, axial and 3D views will appear here.
+              </p>
+            </div>
+
+            <div className="viewer-footer">
+              <div>
+                <span className="coordinate-label">MNI</span>
+                x 0 &nbsp;&nbsp; y 0 &nbsp;&nbsp; z 0
+              </div>
+
+              <button className="button secondary small">
+                Select 3D region
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <aside className="studies">
+          <div className="panel-heading">
+            <div>
+              <h2>Studies</h2>
+              <p className="muted">40 currently visible</p>
+            </div>
+          </div>
+
+          <StudyCard
+            author="Brattico et al."
+            year="2011"
+            meta="task-fMRI · HC"
+            peaks="1 coordinate"
+          />
+
+          <StudyCard
+            author="Cascella et al."
+            year="2011"
+            meta="VBM · Schizophrenia"
+            peaks="1 coordinate"
+          />
+
+          <StudyCard
+            author="Krimmel et al."
+            year="2019"
+            meta="rs-fMRI · HC"
+            peaks="4 coordinates"
+          />
+
+          <button className="show-all">View all studies</button>
+        </aside>
+      </main>
+
+      <section className="selection-bar">
+        <div>
+          <strong>Current selection</strong>
+          <span>All coordinates</span>
+        </div>
+
+        <div className="selection-actions">
+          <button className="text-button">Enter bounding coordinates</button>
+          <button className="button secondary">Download selection CSV</button>
         </div>
       </section>
+    </div>
+  )
+}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+function Filter({ label, value }: { label: string; value: string }) {
+  return (
+    <label className="filter">
+      <span>{label}</span>
+      <button className="filter-control">
+        <span>{value}</span>
+        <span className="chevron">⌄</span>
+      </button>
+    </label>
+  )
+}
+
+function StudyCard({
+  author,
+  year,
+  meta,
+  peaks,
+}: {
+  author: string
+  year: string
+  meta: string
+  peaks: string
+}) {
+  return (
+    <button className="study-card">
+      <div className="study-topline">
+        <strong>{author}</strong>
+        <span>{year}</span>
+      </div>
+
+      <div className="study-meta">{meta}</div>
+      <div className="study-peaks">{peaks}</div>
+    </button>
   )
 }
 
