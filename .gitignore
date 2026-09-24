@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Large/local neuroimaging source files
+public/imaging/*.nii
+public/imaging/*0p5mm*.nii.gz
+
+# Local neuroimaging source files
+public/imaging/*.nii
+public/imaging/*0p5mm*.nii.gz
+public/imaging/mni_icbm152_t1_tal_nlin_asym_09a.nii.gz

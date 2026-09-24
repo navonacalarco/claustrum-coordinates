@@ -274,6 +274,22 @@ h1 {
   background: #32363e;
 }
 
+.brain-viewer {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #101216;
+}
+
+.brain-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .brain-dot {
   position: absolute;
   width: 7px;

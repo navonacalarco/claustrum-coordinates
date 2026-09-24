@@ -1,4 +1,5 @@
 import './App.css'
+import BrainViewer from './components/BrainViewer'
 
 function App() {
   return (
@@ -6,9 +7,11 @@ function App() {
       <header className="site-header">
         <div>
           <div className="eyebrow">SYSTEMATIC REVIEW COMPANION</div>
+
           <h1>Claustrum Coordinates</h1>
+
           <p className="subtitle">
-            An interactive map of reported coordinates from the human neuroimaging literature
+            Reported locations from the human neuroimaging literature
           </p>
         </div>
 
@@ -32,7 +35,10 @@ function App() {
           <Filter label="Patient group" value="All groups" />
           <Filter label="Hemisphere" value="Left + Right" />
           <Filter label="Publication year" value="All years" />
-          <Filter label="Original coordinate space" value="MNI + Talairach" />
+          <Filter
+            label="Original coordinate space"
+            value="MNI + Talairach"
+          />
           <Filter label="Coordinate type" value="All coordinate types" />
         </aside>
 
@@ -46,25 +52,14 @@ function App() {
 
             <div className="toolbar-controls">
               <button className="segmented active">Points</button>
-              <button className="segmented">Study-weighted density</button>
+              <button className="segmented">
+                Study-weighted density
+              </button>
             </div>
           </div>
 
           <div className="viewer">
-            <div className="viewer-placeholder">
-              <div className="brain-outline">
-                <div className="brain-dot dot-one" />
-                <div className="brain-dot dot-two" />
-                <div className="brain-dot dot-three" />
-                <div className="brain-dot dot-four" />
-                <div className="brain-dot dot-five" />
-              </div>
-
-              <h3>MNI brain viewer</h3>
-              <p>
-                Interactive sagittal, coronal, axial and 3D views will appear here.
-              </p>
-            </div>
+            <BrainViewer />
 
             <div className="viewer-footer">
               <div>
@@ -119,18 +114,30 @@ function App() {
         </div>
 
         <div className="selection-actions">
-          <button className="text-button">Enter bounding coordinates</button>
-          <button className="button secondary">Download selection CSV</button>
+          <button className="text-button">
+            Enter bounding coordinates
+          </button>
+
+          <button className="button secondary">
+            Download selection CSV
+          </button>
         </div>
       </section>
     </div>
   )
 }
 
-function Filter({ label, value }: { label: string; value: string }) {
+function Filter({
+  label,
+  value,
+}: {
+  label: string
+  value: string
+}) {
   return (
     <label className="filter">
       <span>{label}</span>
+
       <button className="filter-control">
         <span>{value}</span>
         <span className="chevron">⌄</span>
