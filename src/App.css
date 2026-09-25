@@ -423,12 +423,81 @@ h1 {
   background: var(--surface);
   cursor: pointer;
   text-align: left;
-  transition: 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .study-card:hover {
-  border-color: #c9ccd2;
-  transform: translateY(-1px);
+  border-color: rgba(79, 95, 245, 0.28);
+}
+
+.study-card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.study-card-top strong {
+  min-width: 0;
+  font-weight: 700;
+}
+
+.study-year {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.pubmed-link {
+  display: inline-block;
+  margin-top: 3px;
+  color: #4f5ff5;
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.pubmed-link:hover {
+  text-decoration: underline;
+}
+
+.study-modality {
+  margin-top: 3px;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.study-sample-size {
+  margin-top: 3px;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.study-coordinate-count {
+  font-weight: 600;
+}
+
+.study-sample-size {
+  margin-top: 5px;
+  color: #4f5ff5;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.study-card-meta {
+  margin-top: 4px;
+  color: #4f5ff5;
+  font-size: 0.9rem;
 }
 
 .study-topline {
@@ -452,6 +521,14 @@ h1 {
   margin-top: 5px;
   color: var(--accent);
   font-size: 11px;
+}
+
+.study-card.selected {
+  border-color: #4f5ff5;
+  background: rgba(79, 95, 245, 0.045);
+  box-shadow:
+    0 0 0 1px
+    rgba(79, 95, 245, 0.08);
 }
 
 .show-all {
@@ -528,4 +605,187 @@ h1 {
     gap: 14px;
     margin: 0 12px 12px;
   }
+}
+
+/* Expanded study card */
+
+.study-expanded {
+  margin-top: 11px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+  cursor: default;
+}
+
+.study-expanded-title {
+  margin-bottom: 11px;
+  color: var(--text);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.study-detail-row {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 6px;
+  color: #555b63;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.study-detail-label {
+  color: #8a9098;
+  font-weight: 600;
+}
+
+.study-peaks-heading {
+  margin-top: 13px;
+  margin-bottom: 6px;
+  color: #8a9098;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.study-peak-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.study-peak-button {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: #f7f8fa;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.study-peak-button:hover {
+  border-color: rgba(79, 95, 245, 0.22);
+  background: rgba(79, 95, 245, 0.05);
+}
+
+.study-peak-number {
+  display: flex;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.study-peak-content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.study-peak-coordinate {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.study-peak-meta {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.3;
+}
+
+/* Brain view selector */
+
+.view-mode-bar {
+  display: flex;
+  width: fit-content;
+  gap: 3px;
+  margin: 0 0 8px auto;
+  padding: 3px;
+  border-radius: 9px;
+  background: #e9ebee;
+}
+
+.view-mode-bar button {
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 500;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.view-mode-bar button:hover {
+  color: var(--text);
+}
+
+.view-mode-bar button.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow:
+    0 1px 4px rgba(20, 25, 30, 0.08);
+}
+
+/* Brain zoom controls */
+
+.zoom-controls {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(17, 20, 25, 0.78);
+  transform: translateX(-50%);
+  backdrop-filter: blur(5px);
+}
+
+.zoom-controls button {
+  display: flex;
+  min-width: 28px;
+  height: 27px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #d7dbe2;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.zoom-controls button:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.zoom-controls .zoom-reset {
+  min-width: 45px;
+  color: #aeb4be;
+  font-size: 10px;
+  font-weight: 600;
 }
