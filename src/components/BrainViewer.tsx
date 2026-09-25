@@ -65,6 +65,11 @@ export default function BrainViewer() {
   return (
     <div ref={containerRef} className="brain-viewer">
       <canvas ref={canvasRef} className="brain-canvas" />
+
+      <div className="view-label top-left">Coronal</div>
+      <div className="view-label top-right">Sagittal</div>
+      <div className="view-label bottom-left">Axial</div>
+      <div className="view-label bottom-right">3D</div>
     </div>
   )
 }

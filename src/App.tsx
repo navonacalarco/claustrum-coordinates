@@ -2,6 +2,7 @@ import './App.css'
 import BrainViewer from './components/BrainViewer'
 
 function App() {
+
   return (
     <div className="app">
       <header className="site-header">
@@ -62,9 +63,9 @@ function App() {
             <BrainViewer />
 
             <div className="viewer-footer">
-              <div>
+              <div className="coordinate-readout">
                 <span className="coordinate-label">MNI</span>
-                x 0 &nbsp;&nbsp; y 0 &nbsp;&nbsp; z 0
+                x 0 &nbsp;&nbsp; y 0 &nbsp;&nbsp; z 0                
               </div>
 
               <button className="button secondary small">
