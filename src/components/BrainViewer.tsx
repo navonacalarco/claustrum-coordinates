@@ -42,6 +42,9 @@ export default function BrainViewer({
 
       await nv.attachToCanvas(canvasRef.current)
 
+      // Use world-space millimetre coordinates for MNI locations.
+      nv.setSliceMM(true)
+
       await nv.loadVolumes([
         {
           url: '/imaging/mni_icbm152_t1_tal_nlin_asym_09c.nii.gz',
@@ -49,6 +52,49 @@ export default function BrainViewer({
           opacity: 1,
         },
       ])
+
+            // Load literature peak coordinates.
+      const peakResponse = await fetch('/data/peaks-mni.json')
+
+      if (!peakResponse.ok) {
+        throw new Error('Could not load literature peak coordinates')
+      }
+
+      const reviewData = await peakResponse.json()
+      const peaks = reviewData.peaks
+
+      nv.loadConnectome({
+        name: 'Reported literature coordinates',
+
+        nodeColormap: 'red',
+        nodeColormapNegative: 'red',
+        nodeMinColor: 0,
+        nodeMaxColor: 1,
+        nodeScale: 3,
+
+        edgeColormap: 'red',
+        edgeColormapNegative: 'red',
+        edgeMin: 0,
+        edgeMax: 1,
+        edgeScale: 0,
+
+        showLegend: false,
+
+        nodes: peaks.map((peak: any) => ({
+          name: `${peak.authors} (${peak.year})`,
+          x: peak.xMni,
+          y: peak.yMni,
+          z: peak.zMni,
+          colorValue: 1,
+          sizeValue: 1,
+        })),
+
+        edges: [],
+      })
+
+      // In the 2D views, show peaks lying close to the current slice
+      // rather than projecting every peak onto every slice.
+      nv.setMeshThicknessOn2D(4)
 
       nv.setSliceType(SLICE_TYPE.MULTIPLANAR)
       nv.setMultiplanarLayout(MULTIPLANAR_TYPE.GRID)
