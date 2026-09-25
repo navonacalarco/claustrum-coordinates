@@ -6,9 +6,22 @@ import {
   SHOW_RENDER,
 } from '@niivue/niivue'
 
-export default function BrainViewer() {
+type BrainViewerProps = {
+  onLocationChange?: (coords: [number, number, number]) => void
+}
+
+export default function BrainViewer({
+  onLocationChange,
+}: BrainViewerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
+
+  // Keep the latest callback without restarting NiiVue.
+  const onLocationChangeRef = useRef(onLocationChange)
+
+  useEffect(() => {
+    onLocationChangeRef.current = onLocationChange
+  }, [onLocationChange])
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return
@@ -42,6 +55,19 @@ export default function BrainViewer() {
 
       nv.opts.multiplanarShowRender = SHOW_RENDER.ALWAYS
       nv.opts.multiplanarEqualSize = true
+
+      // NiiVue reports MNI coordinates in location.mm.
+      nv.onLocationChange = (location: any) => {
+        if (!location?.mm || location.mm.length < 3) return
+
+        const coords: [number, number, number] = [
+          Number(location.mm[0]),
+          Number(location.mm[1]),
+          Number(location.mm[2]),
+        ]
+
+        onLocationChangeRef.current?.(coords)
+      }
 
       nv.resizeListener()
       nv.drawScene()

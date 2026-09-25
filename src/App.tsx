@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import './App.css'
 import BrainViewer from './components/BrainViewer'
 
 function App() {
-
+  const [coords, setCoords] = useState<[number, number, number]>([0, 0, 0])
   return (
     <div className="app">
       <header className="site-header">
@@ -60,12 +61,14 @@ function App() {
           </div>
 
           <div className="viewer">
-            <BrainViewer />
+            <BrainViewer onLocationChange={setCoords} />
 
             <div className="viewer-footer">
               <div className="coordinate-readout">
                 <span className="coordinate-label">MNI</span>
-                x 0 &nbsp;&nbsp; y 0 &nbsp;&nbsp; z 0                
+                <span className="coord-pill">x {coords[0].toFixed(1)}</span>
+                <span className="coord-pill">y {coords[1].toFixed(1)}</span>
+                <span className="coord-pill">z {coords[2].toFixed(1)}</span>
               </div>
 
               <button className="button secondary small">
