@@ -17,13 +17,18 @@ type BrainViewerProps = {
   onLocationChange?: (
     coords: [number, number, number],
   ) => void
+
   selectedStudyId?: string | null
+
   focusCoordinate?: [
     number,
     number,
     number,
   ] | null
+
   viewMode?: ViewMode
+
+  visiblePeakIds?: string[]
 }
 
 type Peak = {
@@ -41,6 +46,7 @@ export default function BrainViewer({
   selectedStudyId = null,
   focusCoordinate = null,
   viewMode = 'multi',
+  visiblePeakIds,
 }: BrainViewerProps) {
   const canvasRef =
     useRef<HTMLCanvasElement | null>(null)
@@ -57,6 +63,9 @@ export default function BrainViewer({
   const peaksRef =
     useRef<Peak[]>([])
 
+  const baseMeshRef =
+    useRef<any>(null)
+
   const highlightMeshRef =
     useRef<any>(null)
 
@@ -65,6 +74,9 @@ export default function BrainViewer({
 
   const [zoom, setZoom] =
     useState(1)
+
+  const [panMode, setPanMode] =
+    useState(false)
 
   useEffect(() => {
     onLocationChangeRef.current =
@@ -126,8 +138,12 @@ export default function BrainViewer({
         {
           url:
             '/imaging/mni_icbm152_t1_tal_nlin_asym_09c.nii.gz',
-          colormap: 'gray',
-          opacity: 1,
+
+          colormap:
+            'gray',
+
+          opacity:
+            1,
         },
       ])
 
@@ -136,7 +152,9 @@ export default function BrainViewer({
           '/data/peaks-mni.json',
         )
 
-      if (!peakResponse.ok) {
+      if (
+        !peakResponse.ok
+      ) {
         throw new Error(
           'Could not load literature peak coordinates',
         )
@@ -145,10 +163,12 @@ export default function BrainViewer({
       const reviewData =
         await peakResponse.json()
 
-      const peaks: Peak[] =
+      const peaks:
+        Peak[] =
         reviewData.peaks
 
-      peaksRef.current = peaks
+      peaksRef.current =
+        peaks
 
       nv.addColormap(
         'SelectedStudy',
@@ -161,40 +181,9 @@ export default function BrainViewer({
         },
       )
 
-      nv.loadConnectome({
-        name:
-          'Reported literature coordinates',
-
-        nodeColormap: 'red',
-        nodeColormapNegative: 'red',
-        nodeMinColor: 0,
-        nodeMaxColor: 1,
-        nodeScale: 3,
-
-        edgeColormap: 'red',
-        edgeColormapNegative: 'red',
-        edgeMin: 0,
-        edgeMax: 1,
-        edgeScale: 0,
-
-        showLegend: false,
-
-        nodes: peaks.map(
-          (peak) => ({
-            name:
-              `${peak.authors} (${peak.year})`,
-            x: peak.xMni,
-            y: peak.yMni,
-            z: peak.zMni,
-            colorValue: 1,
-            sizeValue: 1,
-          }),
-        ),
-
-        edges: [],
-      })
-
-      nv.setMeshThicknessOn2D(4)
+      nv.setMeshThicknessOn2D(
+        4,
+      )
 
       nv.setSliceType(
         SLICE_TYPE.MULTIPLANAR,
@@ -207,23 +196,33 @@ export default function BrainViewer({
       nv.opts.multiplanarShowRender =
         SHOW_RENDER.ALWAYS
 
-      nv.opts.multiplanarEqualSize = true
+      nv.opts.multiplanarEqualSize =
+        true
 
       nv.onLocationChange = (
         location: any,
       ) => {
         if (
           !location?.mm ||
-          location.mm.length < 3
+          location.mm.length <
+            3
         ) {
           return
         }
 
         const coords:
           [number, number, number] = [
-            Number(location.mm[0]),
-            Number(location.mm[1]),
-            Number(location.mm[2]),
+            Number(
+              location.mm[0],
+            ),
+
+            Number(
+              location.mm[1],
+            ),
+
+            Number(
+              location.mm[2],
+            ),
           ]
 
         onLocationChangeRef.current?.(
@@ -235,15 +234,19 @@ export default function BrainViewer({
       nv.drawScene()
 
       resizeObserver =
-        new ResizeObserver(() => {
-          nv.resizeListener()
-        })
+        new ResizeObserver(
+          () => {
+            nv.resizeListener()
+          },
+        )
 
       resizeObserver.observe(
         containerRef.current,
       )
 
-      setViewerReady(true)
+      setViewerReady(
+        true,
+      )
     }
 
     initializeViewer().catch(
@@ -258,20 +261,192 @@ export default function BrainViewer({
     return () => {
       resizeObserver?.disconnect()
 
-      nvRef.current = null
-      highlightMeshRef.current = null
+      nvRef.current =
+        null
+
+      baseMeshRef.current =
+        null
+
+      highlightMeshRef.current =
+        null
     }
   }, [])
 
-  // Switch between 4-view and single-view modes.
+  /*
+   * Rebuild the red point layer whenever
+   * the filters change.
+   */
   useEffect(() => {
-    const nv = nvRef.current
+    const nv =
+      nvRef.current
 
-    if (!nv || !viewerReady) {
+    if (
+      !nv ||
+      !viewerReady
+    ) {
       return
     }
 
-    if (viewMode === 'multi') {
+    if (
+      baseMeshRef.current
+    ) {
+      nv.removeMesh(
+        baseMeshRef.current,
+      )
+
+      baseMeshRef.current =
+        null
+    }
+
+    const visibleSet =
+      visiblePeakIds
+        ? new Set(
+            visiblePeakIds,
+          )
+        : null
+
+    const visiblePeaks =
+      visibleSet
+        ? peaksRef.current.filter(
+            (peak) =>
+              visibleSet.has(
+                peak.id,
+              ),
+          )
+        : peaksRef.current
+
+    if (
+      visiblePeaks.length ===
+      0
+    ) {
+      nv.drawScene()
+      return
+    }
+
+    nv.loadConnectome({
+      name:
+        'Reported literature coordinates',
+
+      nodeColormap:
+        'red',
+
+      nodeColormapNegative:
+        'red',
+
+      nodeMinColor:
+        0,
+
+      nodeMaxColor:
+        1,
+
+      nodeScale:
+        3,
+
+      edgeColormap:
+        'red',
+
+      edgeColormapNegative:
+        'red',
+
+      edgeMin:
+        0,
+
+      edgeMax:
+        1,
+
+      edgeScale:
+        0,
+
+      showLegend:
+        false,
+
+      nodes:
+        visiblePeaks.map(
+          (peak) => ({
+            name:
+              `${peak.authors} (${peak.year})`,
+
+            x:
+              peak.xMni,
+
+            y:
+              peak.yMni,
+
+            z:
+              peak.zMni,
+
+            colorValue:
+              1,
+
+            sizeValue:
+              1,
+          }),
+        ),
+
+      edges: [],
+    })
+
+    baseMeshRef.current =
+      nv.meshes[
+        nv.meshes.length -
+          1
+      ]
+
+    nv.drawScene()
+  }, [
+    visiblePeakIds,
+    viewerReady,
+  ])
+
+  /*
+   * Toggle pan interaction.
+   */
+  useEffect(() => {
+    const nv =
+      nvRef.current
+
+    if (
+      !nv ||
+      !viewerReady
+    ) {
+      return
+    }
+
+    if (panMode) {
+      nv.setDragMode(
+        'pan',
+      )
+    } else {
+      nv.setDragMode(
+        'contrast',
+      )
+    }
+
+    nv.drawScene()
+  }, [
+    panMode,
+    viewerReady,
+  ])
+
+  /*
+   * Switch between 4 views and
+   * individual views.
+   */
+  useEffect(() => {
+    const nv =
+      nvRef.current
+
+    if (
+      !nv ||
+      !viewerReady
+    ) {
+      return
+    }
+
+    if (
+      viewMode ===
+      'multi'
+    ) {
       nv.setSliceType(
         SLICE_TYPE.MULTIPLANAR,
       )
@@ -283,28 +458,41 @@ export default function BrainViewer({
       nv.opts.multiplanarShowRender =
         SHOW_RENDER.ALWAYS
 
-      nv.opts.multiplanarEqualSize = true
+      nv.opts.multiplanarEqualSize =
+        true
     }
 
-    if (viewMode === 'coronal') {
+    if (
+      viewMode ===
+      'coronal'
+    ) {
       nv.setSliceType(
         SLICE_TYPE.CORONAL,
       )
     }
 
-    if (viewMode === 'sagittal') {
+    if (
+      viewMode ===
+      'sagittal'
+    ) {
       nv.setSliceType(
         SLICE_TYPE.SAGITTAL,
       )
     }
 
-    if (viewMode === 'axial') {
+    if (
+      viewMode ===
+      'axial'
+    ) {
       nv.setSliceType(
         SLICE_TYPE.AXIAL,
       )
     }
 
-    if (viewMode === 'render') {
+    if (
+      viewMode ===
+      'render'
+    ) {
       nv.setSliceType(
         SLICE_TYPE.RENDER,
       )
@@ -317,41 +505,80 @@ export default function BrainViewer({
     viewerReady,
   ])
 
-  // Selected-study highlighting and navigation.
+  /*
+   * Highlight selected study and move
+   * crosshair to study/peak.
+   */
   useEffect(() => {
-    const nv = nvRef.current
+    const nv =
+      nvRef.current
 
-    if (!nv || !viewerReady) {
+    if (
+      !nv ||
+      !viewerReady
+    ) {
       return
     }
 
-    if (highlightMeshRef.current) {
+    if (
+      highlightMeshRef.current
+    ) {
       nv.removeMesh(
         highlightMeshRef.current,
       )
 
-      highlightMeshRef.current = null
+      highlightMeshRef.current =
+        null
     }
 
-    if (!selectedStudyId) {
+    if (
+      !selectedStudyId
+    ) {
       nv.drawScene()
       return
     }
 
+    const visibleSet =
+      visiblePeakIds
+        ? new Set(
+            visiblePeakIds,
+          )
+        : null
+
     const selectedPeaks =
       peaksRef.current.filter(
-        (peak) =>
-          peak.studyId ===
-          selectedStudyId,
+        (peak) => {
+          if (
+            peak.studyId !==
+            selectedStudyId
+          ) {
+            return false
+          }
+
+          if (
+            visibleSet &&
+            !visibleSet.has(
+              peak.id,
+            )
+          ) {
+            return false
+          }
+
+          return true
+        },
       )
 
-    if (selectedPeaks.length === 0) {
+    if (
+      selectedPeaks.length ===
+      0
+    ) {
       nv.drawScene()
       return
     }
 
     nv.loadConnectome({
-      name: 'Selected study',
+      name:
+        'Selected study',
 
       nodeColormap:
         'SelectedStudy',
@@ -359,9 +586,14 @@ export default function BrainViewer({
       nodeColormapNegative:
         'SelectedStudy',
 
-      nodeMinColor: 0,
-      nodeMaxColor: 1,
-      nodeScale: 5,
+      nodeMinColor:
+        0,
+
+      nodeMaxColor:
+        1,
+
+      nodeScale:
+        5,
 
       edgeColormap:
         'SelectedStudy',
@@ -369,52 +601,81 @@ export default function BrainViewer({
       edgeColormapNegative:
         'SelectedStudy',
 
-      edgeMin: 0,
-      edgeMax: 1,
-      edgeScale: 0,
+      edgeMin:
+        0,
 
-      showLegend: false,
+      edgeMax:
+        1,
 
-      nodes: selectedPeaks.map(
-        (peak) => ({
-          name:
-            `${peak.authors} (${peak.year})`,
-          x: peak.xMni,
-          y: peak.yMni,
-          z: peak.zMni,
-          colorValue: 1,
-          sizeValue: 1,
-        }),
-      ),
+      edgeScale:
+        0,
+
+      showLegend:
+        false,
+
+      nodes:
+        selectedPeaks.map(
+          (peak) => ({
+            name:
+              `${peak.authors} (${peak.year})`,
+
+            x:
+              peak.xMni,
+
+            y:
+              peak.yMni,
+
+            z:
+              peak.zMni,
+
+            colorValue:
+              1,
+
+            sizeValue:
+              1,
+          }),
+        ),
 
       edges: [],
     })
 
     highlightMeshRef.current =
       nv.meshes[
-        nv.meshes.length - 1
+        nv.meshes.length -
+          1
       ]
 
     let target:
       [number, number, number]
 
-    if (focusCoordinate) {
+    if (
+      focusCoordinate
+    ) {
       target =
         focusCoordinate
     } else {
       const total =
         selectedPeaks.reduce(
-          (sum, peak) => {
+          (
+            sum,
+            peak,
+          ) => {
             return [
-              sum[0] + peak.xMni,
-              sum[1] + peak.yMni,
-              sum[2] + peak.zMni,
+              sum[0] +
+                peak.xMni,
+
+              sum[1] +
+                peak.yMni,
+
+              sum[2] +
+                peak.zMni,
             ] as [
               number,
               number,
               number,
             ]
           },
+
           [0, 0, 0] as [
             number,
             number,
@@ -435,7 +696,9 @@ export default function BrainViewer({
     }
 
     const fractionalPosition =
-      nv.mm2frac(target)
+      nv.mm2frac(
+        target,
+      )
 
     nv.scene.crosshairPos =
       fractionalPosition
@@ -448,15 +711,20 @@ export default function BrainViewer({
   }, [
     selectedStudyId,
     focusCoordinate,
+    visiblePeakIds,
     viewerReady,
   ])
 
   function applyZoom(
     nextZoom: number,
   ) {
-    const nv = nvRef.current
+    const nv =
+      nvRef.current
 
-    if (!nv || !viewerReady) {
+    if (
+      !nv ||
+      !viewerReady
+    ) {
       return
     }
 
@@ -469,12 +737,13 @@ export default function BrainViewer({
         ),
       )
 
-    setZoom(safeZoom)
+    setZoom(
+      safeZoom,
+    )
 
-    // Preserve any existing 2D pan while
-    // changing only its zoom component.
     const currentPan =
-      nv.scene.pan2Dxyzmm ?? [
+      nv.scene.pan2Dxyzmm ??
+      [
         0,
         0,
         0,
@@ -488,8 +757,9 @@ export default function BrainViewer({
       safeZoom,
     ])
 
-    // 3D rendering uses its own scale.
-    nv.setScale(safeZoom)
+    nv.setScale(
+      safeZoom,
+    )
 
     nv.drawScene()
   }
@@ -507,23 +777,56 @@ export default function BrainViewer({
   }
 
   function resetZoom() {
-    applyZoom(1)
+    const nv =
+      nvRef.current
+
+    if (
+      !nv ||
+      !viewerReady
+    ) {
+      return
+    }
+
+    setZoom(1)
+
+    nv.setPan2Dxyzmm([
+      0,
+      0,
+      0,
+      1,
+    ])
+
+    nv.setScale(1)
+
+    nv.drawScene()
   }
 
   return (
     <div
-      ref={containerRef}
-      className="brain-viewer"
+      ref={
+        containerRef
+      }
+
+      className={
+        panMode
+          ? 'brain-viewer pan-active'
+          : 'brain-viewer'
+      }
     >
       <canvas
-        ref={canvasRef}
+        ref={
+          canvasRef
+        }
+
         className="brain-canvas"
       />
 
       <div className="zoom-controls">
         <button
           type="button"
-          onClick={zoomOut}
+          onClick={
+            zoomOut
+          }
           title="Zoom out"
           aria-label="Zoom out"
         >
@@ -533,23 +836,55 @@ export default function BrainViewer({
         <button
           type="button"
           className="zoom-reset"
-          onClick={resetZoom}
-          title="Reset zoom"
+          onClick={
+            resetZoom
+          }
+          title="Reset pan and zoom"
         >
           Reset
         </button>
 
         <button
           type="button"
-          onClick={zoomIn}
+          onClick={
+            zoomIn
+          }
           title="Zoom in"
           aria-label="Zoom in"
         >
           +
         </button>
+
+        <span className="viewer-control-divider" />
+
+        <button
+          type="button"
+
+          className={
+            panMode
+              ? 'pan-button active'
+              : 'pan-button'
+          }
+
+          onClick={() =>
+            setPanMode(
+              (current) =>
+                !current,
+            )
+          }
+
+          title={
+            panMode
+              ? 'Turn pan mode off'
+              : 'Turn pan mode on'
+          }
+        >
+          Pan
+        </button>
       </div>
 
-      {viewMode === 'multi' && (
+      {viewMode ===
+        'multi' && (
         <>
           <div className="view-label top-left">
             Coronal

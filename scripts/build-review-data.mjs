@@ -148,7 +148,7 @@ for (let index = 0; index < peakRows.length; index++) {
     authors: clean(row['Authors']),
     year: numeric(row['Year']),
     title: clean(row['Paper title']),
-    pmid: clean(row['PMID']),
+journal: clean(row['Journal name']) || clean(study['Journal name']),    pmid: clean(row['PMID']),
     doi: clean(study['DOI']),
 
     // Preserve exactly what the paper reported.

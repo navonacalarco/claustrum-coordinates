@@ -15,13 +15,22 @@ type Peak = {
   authors: string
   year: number | null
   title: string
+  journal: string
   pmid: string
+
   peakSource: string
   nInContrast: string
   contrast: string
   groupsInContrast: string
+
   coordinateType: string
   originalAnatomicalLabel: string
+
+  centralAim: string
+  population: string
+  patientGroup: string
+  hemisphere: string
+
   xMni: number
   yMni: number
   zMni: number
@@ -49,11 +58,39 @@ type StudySummary = {
   authors: string
   year: number | null
   title: string
+  journal: string
   pmid: string
   peakSources: string[]
   sampleSizes: string[]
   numberOfCoordinates: number
   peaks: StudyPeak[]
+}
+
+type FilterState = {
+  centralAim: string
+  peakSource: string
+  population: string
+  patientGroup: string
+  hemisphere: string
+  publicationYearMin: number | null
+  publicationYearMax: number | null
+}
+
+type TextFilterKey =
+  | 'centralAim'
+  | 'peakSource'
+  | 'population'
+  | 'patientGroup'
+  | 'hemisphere'
+
+const emptyFilters: FilterState = {
+  centralAim: '',
+  peakSource: '',
+  population: '',
+  patientGroup: '',
+  hemisphere: '',
+  publicationYearMin: null,
+  publicationYearMax: null,
 }
 
 function App() {
@@ -71,6 +108,9 @@ function App() {
 
   const [viewMode, setViewMode] =
     useState<ViewMode>('multi')
+
+  const [filters, setFilters] =
+    useState<FilterState>(emptyFilters)
 
   useEffect(() => {
     fetch('/data/peaks-mni.json')
@@ -92,105 +132,393 @@ function App() {
       })
   }, [])
 
-  const studies = useMemo<StudySummary[]>(() => {
-    if (!reviewData) return []
+  const yearBounds = useMemo(() => {
+    const years =
+      reviewData?.peaks
+        .map((peak) => peak.year)
+        .filter(
+          (year): year is number =>
+            year !== null &&
+            Number.isFinite(year),
+        ) ?? []
 
-    const studyMap =
-      new Map<string, StudySummary>()
-
-    for (const peak of reviewData.peaks) {
-      const studyPeak: StudyPeak = {
-        id: peak.id,
-        x: peak.xMni,
-        y: peak.yMni,
-        z: peak.zMni,
-        contrast: peak.contrast,
-        groupsInContrast: peak.groupsInContrast,
-        coordinateType: peak.coordinateType,
-        anatomicalLabel:
-          peak.originalAnatomicalLabel,
+    if (years.length === 0) {
+      return {
+        min: 2000,
+        max: 2000,
       }
-
-      const existing =
-        studyMap.get(peak.studyId)
-
-      if (existing) {
-        existing.numberOfCoordinates += 1
-        existing.peaks.push(studyPeak)
-
-        addUnique(
-          existing.peakSources,
-          peak.peakSource,
-        )
-
-        addUnique(
-          existing.sampleSizes,
-          cleanSampleSize(peak.nInContrast),
-        )
-
-        continue
-      }
-
-      const cleanedSampleSize =
-        cleanSampleSize(peak.nInContrast)
-
-      studyMap.set(peak.studyId, {
-        studyId: peak.studyId,
-        authors: peak.authors,
-        year: peak.year,
-        title: peak.title,
-        pmid: peak.pmid,
-
-        peakSources: usable(peak.peakSource)
-          ? [peak.peakSource]
-          : [],
-
-        sampleSizes: usable(cleanedSampleSize)
-          ? [cleanedSampleSize]
-          : [],
-
-        numberOfCoordinates: 1,
-        peaks: [studyPeak],
-      })
     }
 
-    return Array.from(studyMap.values()).sort(
-      (a, b) => {
-        if (a.year !== b.year) {
-          return (
-            (a.year ?? 9999) -
-            (b.year ?? 9999)
-          )
+    return {
+      min: Math.min(...years),
+      max: Math.max(...years),
+    }
+  }, [reviewData])
+
+  const activeYearMin =
+    filters.publicationYearMin ??
+    yearBounds.min
+
+  const activeYearMax =
+    filters.publicationYearMax ??
+    yearBounds.max
+
+  const filterOptions = useMemo(() => {
+    const peaks =
+      reviewData?.peaks ?? []
+
+    return {
+      centralAim: uniqueText(
+        peaks.map(
+          (peak) => peak.centralAim,
+        ),
+      ),
+
+      peakSource: uniqueText(
+        peaks.map(
+          (peak) => peak.peakSource,
+        ),
+      ),
+
+      population: uniqueText(
+        peaks.map(
+          (peak) => peak.population,
+        ),
+      ),
+
+      patientGroup: uniqueText(
+        peaks.map(
+          (peak) => peak.patientGroup,
+        ),
+      ),
+
+      hemisphere: uniqueText(
+        peaks.map(
+          (peak) => peak.hemisphere,
+        ),
+      ),
+    }
+  }, [reviewData])
+
+  const filteredPeaks = useMemo(() => {
+    if (!reviewData) {
+      return []
+    }
+
+    return reviewData.peaks.filter(
+      (peak) => {
+        if (
+          filters.centralAim &&
+          peak.centralAim !==
+            filters.centralAim
+        ) {
+          return false
         }
 
-        return a.authors.localeCompare(
-          b.authors,
-        )
+        if (
+          filters.peakSource &&
+          peak.peakSource !==
+            filters.peakSource
+        ) {
+          return false
+        }
+
+        if (
+          filters.population &&
+          peak.population !==
+            filters.population
+        ) {
+          return false
+        }
+
+        if (
+          filters.patientGroup &&
+          peak.patientGroup !==
+            filters.patientGroup
+        ) {
+          return false
+        }
+
+        if (
+          filters.hemisphere &&
+          peak.hemisphere !==
+            filters.hemisphere
+        ) {
+          return false
+        }
+
+        if (
+          peak.year !== null &&
+          (
+            peak.year < activeYearMin ||
+            peak.year > activeYearMax
+          )
+        ) {
+          return false
+        }
+
+        return true
       },
     )
-  }, [reviewData])
+  }, [
+    reviewData,
+    filters,
+    activeYearMin,
+    activeYearMax,
+  ])
+
+  const visiblePeakIds =
+    useMemo(
+      () =>
+        filteredPeaks.map(
+          (peak) => peak.id,
+        ),
+      [filteredPeaks],
+    )
+
+  const studies =
+    useMemo<StudySummary[]>(() => {
+      const studyMap =
+        new Map<
+          string,
+          StudySummary
+        >()
+
+      for (
+        const peak of filteredPeaks
+      ) {
+        const studyPeak:
+          StudyPeak = {
+          id: peak.id,
+
+          x: peak.xMni,
+          y: peak.yMni,
+          z: peak.zMni,
+
+          contrast:
+            peak.contrast,
+
+          groupsInContrast:
+            peak.groupsInContrast,
+
+          coordinateType:
+            peak.coordinateType,
+
+          anatomicalLabel:
+            peak.originalAnatomicalLabel,
+        }
+
+        const existing =
+          studyMap.get(
+            peak.studyId,
+          )
+
+        if (existing) {
+          existing.numberOfCoordinates +=
+            1
+
+          existing.peaks.push(
+            studyPeak,
+          )
+
+          addUnique(
+            existing.peakSources,
+            peak.peakSource,
+          )
+
+          addUnique(
+            existing.sampleSizes,
+            cleanSampleSize(
+              peak.nInContrast,
+            ),
+          )
+
+          continue
+        }
+
+        const cleanedSampleSize =
+          cleanSampleSize(
+            peak.nInContrast,
+          )
+
+        studyMap.set(
+          peak.studyId,
+          {
+            studyId:
+              peak.studyId,
+
+            authors:
+              peak.authors,
+
+            year:
+              peak.year,
+
+            title:
+              peak.title,
+
+            journal:
+              peak.journal,
+
+            pmid:
+              peak.pmid,
+
+            peakSources:
+              usable(
+                peak.peakSource,
+              )
+                ? [
+                    peak.peakSource,
+                  ]
+                : [],
+
+            sampleSizes:
+              usable(
+                cleanedSampleSize,
+              )
+                ? [
+                    cleanedSampleSize,
+                  ]
+                : [],
+
+            numberOfCoordinates:
+              1,
+
+            peaks: [
+              studyPeak,
+            ],
+          },
+        )
+      }
+
+      return Array.from(
+        studyMap.values(),
+      ).sort(
+        (a, b) => {
+          if (
+            a.year !==
+            b.year
+          ) {
+            return (
+              (a.year ??
+                9999) -
+              (b.year ??
+                9999)
+            )
+          }
+
+          return a.authors.localeCompare(
+            b.authors,
+          )
+        },
+      )
+    }, [filteredPeaks])
+
+  const numberOfVisibleStudies =
+    useMemo(
+      () =>
+        new Set(
+          filteredPeaks.map(
+            (peak) =>
+              peak.studyId,
+          ),
+        ).size,
+      [filteredPeaks],
+    )
 
   const visibleStudies =
     studies.slice(0, 4)
 
-  function selectStudy(
-    studyId: string,
-  ) {
-    if (selectedStudyId === studyId) {
-      setSelectedStudyId(null)
-      setFocusCoordinate(null)
+  useEffect(() => {
+    if (!selectedStudyId) {
       return
     }
 
-    setSelectedStudyId(studyId)
+    const stillVisible =
+      filteredPeaks.some(
+        (peak) =>
+          peak.studyId ===
+          selectedStudyId,
+      )
+
+    if (!stillVisible) {
+      setSelectedStudyId(null)
+      setFocusCoordinate(null)
+    }
+  }, [
+    filteredPeaks,
+    selectedStudyId,
+  ])
+
+  function updateFilter(
+    key: TextFilterKey,
+    value: string,
+  ) {
+    setFilters(
+      (current) => ({
+        ...current,
+        [key]: value,
+      }),
+    )
+
     setFocusCoordinate(null)
+  }
+
+  function updateYearRange(
+    min: number,
+    max: number,
+  ) {
+    setFilters(
+      (current) => ({
+        ...current,
+        publicationYearMin: min,
+        publicationYearMax: max,
+      }),
+    )
+
+    setFocusCoordinate(null)
+  }
+
+  function resetFilters() {
+    setFilters(emptyFilters)
+    setSelectedStudyId(null)
+    setFocusCoordinate(null)
+  }
+
+  function selectStudy(
+    studyId: string,
+  ) {
+    if (
+      selectedStudyId ===
+      studyId
+    ) {
+      setSelectedStudyId(
+        null,
+      )
+
+      setFocusCoordinate(
+        null,
+      )
+
+      return
+    }
+
+    setSelectedStudyId(
+      studyId,
+    )
+
+    setFocusCoordinate(
+      null,
+    )
   }
 
   function selectPeak(
     studyId: string,
-    coordinate: [number, number, number],
+    coordinate:
+      [number, number, number],
   ) {
-    setSelectedStudyId(studyId)
+    setSelectedStudyId(
+      studyId,
+    )
 
     setFocusCoordinate([
       coordinate[0],
@@ -207,11 +535,14 @@ function App() {
             SYSTEMATIC REVIEW COMPANION
           </div>
 
-          <h1>Claustrum Coordinates</h1>
+          <h1>
+            Claustrum Coordinates
+          </h1>
 
           <p>
-            Reported locations from the human
-            neuroimaging literature
+            Reported locations from
+            the human neuroimaging
+            literature
           </p>
         </div>
 
@@ -229,77 +560,124 @@ function App() {
       <main className="workspace">
         <aside className="filters">
           <div className="filters-header">
-            <h2>Filters</h2>
+            <h2>
+              Filters
+            </h2>
 
-            <button className="reset-button">
+            <button
+              className="reset-button"
+              onClick={resetFilters}
+            >
               Reset
             </button>
           </div>
 
           <Filter
-            label="Claustrum focus"
-            value="All studies"
-          />
-
-          <Filter
             label="Central aim"
-            value="All aims"
+            value={
+              filters.centralAim
+            }
+            allLabel="All aims"
+            options={
+              filterOptions.centralAim
+            }
+            onChange={(value) =>
+              updateFilter(
+                'centralAim',
+                value,
+              )
+            }
           />
 
           <Filter
             label="Peak source / modality"
-            value="All modalities"
+            value={
+              filters.peakSource
+            }
+            allLabel="All modalities"
+            options={
+              filterOptions.peakSource
+            }
+            onChange={(value) =>
+              updateFilter(
+                'peakSource',
+                value,
+              )
+            }
           />
 
           <Filter
             label="Population"
-            value="All populations"
+            value={
+              filters.population
+            }
+            allLabel="All populations"
+            options={
+              filterOptions.population
+            }
+            onChange={(value) =>
+              updateFilter(
+                'population',
+                value,
+              )
+            }
           />
 
           <Filter
             label="Patient group"
-            value="All groups"
+            value={
+              filters.patientGroup
+            }
+            allLabel="All groups"
+            options={
+              filterOptions.patientGroup
+            }
+            onChange={(value) =>
+              updateFilter(
+                'patientGroup',
+                value,
+              )
+            }
           />
 
           <Filter
             label="Hemisphere"
-            value="Left + Right"
+            value={
+              filters.hemisphere
+            }
+            allLabel="Left + Right"
+            options={
+              filterOptions.hemisphere
+            }
+            onChange={(value) =>
+              updateFilter(
+                'hemisphere',
+                value,
+              )
+            }
           />
 
-          <Filter
-            label="Publication year"
-            value="All years"
-          />
-
-          <Filter
-            label="Original coordinate space"
-            value="MNI"
-          />
-
-          <Filter
-            label="Coordinate type"
-            value="All coordinate types"
+          <YearRangeFilter
+            min={yearBounds.min}
+            max={yearBounds.max}
+            valueMin={activeYearMin}
+            valueMax={activeYearMax}
+            onChange={updateYearRange}
           />
         </aside>
 
         <section className="viewer-section">
           <div className="viewer-toolbar">
             <div className="viewer-stats">
-              {reviewData ? (
-                <>
-                  <strong>
-                    {reviewData.numberOfCoordinates}
-                  </strong>
-                  {' '}coordinates
-                  <span> · </span>
-                  <strong>
-                    {reviewData.numberOfStudies}
-                  </strong>
-                  {' '}studies
-                </>
-              ) : (
-                <>Loading review data…</>
-              )}
+              <strong>
+                {filteredPeaks.length}
+              </strong>
+              {' '}coordinates
+              <span> · </span>
+              <strong>
+                {numberOfVisibleStudies}
+              </strong>
+              {' '}studies
             </div>
 
             <div className="segmented">
@@ -316,12 +694,15 @@ function App() {
           <div className="view-mode-bar">
             <button
               className={
-                viewMode === 'multi'
+                viewMode ===
+                'multi'
                   ? 'active'
                   : ''
               }
               onClick={() =>
-                setViewMode('multi')
+                setViewMode(
+                  'multi',
+                )
               }
             >
               4 views
@@ -329,12 +710,15 @@ function App() {
 
             <button
               className={
-                viewMode === 'coronal'
+                viewMode ===
+                'coronal'
                   ? 'active'
                   : ''
               }
               onClick={() =>
-                setViewMode('coronal')
+                setViewMode(
+                  'coronal',
+                )
               }
             >
               Coronal
@@ -342,12 +726,15 @@ function App() {
 
             <button
               className={
-                viewMode === 'sagittal'
+                viewMode ===
+                'sagittal'
                   ? 'active'
                   : ''
               }
               onClick={() =>
-                setViewMode('sagittal')
+                setViewMode(
+                  'sagittal',
+                )
               }
             >
               Sagittal
@@ -355,12 +742,15 @@ function App() {
 
             <button
               className={
-                viewMode === 'axial'
+                viewMode ===
+                'axial'
                   ? 'active'
                   : ''
               }
               onClick={() =>
-                setViewMode('axial')
+                setViewMode(
+                  'axial',
+                )
               }
             >
               Axial
@@ -368,12 +758,15 @@ function App() {
 
             <button
               className={
-                viewMode === 'render'
+                viewMode ===
+                'render'
                   ? 'active'
                   : ''
               }
               onClick={() =>
-                setViewMode('render')
+                setViewMode(
+                  'render',
+                )
               }
             >
               3D
@@ -382,10 +775,25 @@ function App() {
 
           <div className="viewer">
             <BrainViewer
-              onLocationChange={setCoords}
-              selectedStudyId={selectedStudyId}
-              focusCoordinate={focusCoordinate}
-              viewMode={viewMode}
+              onLocationChange={
+                setCoords
+              }
+
+              selectedStudyId={
+                selectedStudyId
+              }
+
+              focusCoordinate={
+                focusCoordinate
+              }
+
+              viewMode={
+                viewMode
+              }
+
+              visiblePeakIds={
+                visiblePeakIds
+              }
             />
 
             <div className="viewer-footer">
@@ -395,15 +803,24 @@ function App() {
                 </span>
 
                 <span className="coord-pill">
-                  x {coords[0].toFixed(1)}
+                  x{' '}
+                  {coords[0].toFixed(
+                    1,
+                  )}
                 </span>
 
                 <span className="coord-pill">
-                  y {coords[1].toFixed(1)}
+                  y{' '}
+                  {coords[1].toFixed(
+                    1,
+                  )}
                 </span>
 
                 <span className="coord-pill">
-                  z {coords[2].toFixed(1)}
+                  z{' '}
+                  {coords[2].toFixed(
+                    1,
+                  )}
                 </span>
               </div>
 
@@ -416,37 +833,62 @@ function App() {
 
         <aside className="studies">
           <div className="studies-header">
-            <h2>Studies</h2>
+            <h2>
+              Studies
+            </h2>
 
             <p>
-              {studies.length} currently visible
+              {numberOfVisibleStudies}{' '}
+              currently visible
             </p>
           </div>
 
-          {visibleStudies.map((study) => (
-            <StudyCard
-              key={study.studyId}
-              study={study}
-              selected={
-                selectedStudyId ===
-                study.studyId
-              }
-              onSelect={() =>
-                selectStudy(study.studyId)
-              }
-              onPeakSelect={(coordinate) =>
-                selectPeak(
-                  study.studyId,
+          {visibleStudies.map(
+            (study) => (
+              <StudyCard
+                key={
+                  study.studyId
+                }
+
+                study={
+                  study
+                }
+
+                selected={
+                  selectedStudyId ===
+                  study.studyId
+                }
+
+                onSelect={() =>
+                  selectStudy(
+                    study.studyId,
+                  )
+                }
+
+                onPeakSelect={(
                   coordinate,
-                )
-              }
-            />
-          ))}
+                ) =>
+                  selectPeak(
+                    study.studyId,
+                    coordinate,
+                  )
+                }
+              />
+            ),
+          )}
+
+          {studies.length === 0 && (
+            <div className="no-results">
+              No studies match these filters.
+            </div>
+          )}
 
           {studies.length >
             visibleStudies.length && (
             <button className="view-all-button">
-              Browse all {studies.length} studies
+              Browse all{' '}
+              {studies.length}{' '}
+              studies
             </button>
           )}
         </aside>
@@ -459,7 +901,10 @@ function App() {
           </strong>
 
           <span>
-            All displayed coordinates
+            {filteredPeaks.length}{' '}
+            coordinates from{' '}
+            {numberOfVisibleStudies}{' '}
+            studies
           </span>
         </div>
 
@@ -478,12 +923,19 @@ function App() {
 }
 
 function usable(
-  value: string | null | undefined,
+  value:
+    | string
+    | null
+    | undefined,
 ) {
-  if (!value) return false
+  if (!value) {
+    return false
+  }
 
   const cleaned =
-    value.trim().toUpperCase()
+    value
+      .trim()
+      .toUpperCase()
 
   return (
     cleaned !== '' &&
@@ -492,25 +944,52 @@ function usable(
   )
 }
 
+function uniqueText(
+  values: string[],
+) {
+  return Array.from(
+    new Set(
+      values.filter(
+        usable,
+      ),
+    ),
+  ).sort(
+    (a, b) =>
+      a.localeCompare(b),
+  )
+}
+
 function addUnique(
   array: string[],
   value: string,
 ) {
-  if (!usable(value)) return
+  if (!usable(value)) {
+    return
+  }
 
-  if (!array.includes(value)) {
+  if (
+    !array.includes(value)
+  ) {
     array.push(value)
   }
 }
 
 function cleanSampleSize(
-  value: string | null | undefined,
+  value:
+    | string
+    | null
+    | undefined,
 ) {
-  if (!usable(value)) return ''
+  if (!usable(value)) {
+    return ''
+  }
 
   return String(value)
     .trim()
-    .replace(/^n\s*=\s*/i, '')
+    .replace(
+      /^n\s*=\s*/i,
+      '',
+    )
 }
 
 function abbreviatedAuthors(
@@ -529,14 +1008,17 @@ function abbreviatedAuthors(
   }
 
   const firstAuthor =
-    authors.split(';')[0].trim()
+    authors
+      .split(';')[0]
+      .trim()
 
   if (!firstAuthor) {
     return authors
   }
 
   const surname =
-    firstAuthor.split(/\s+/)[0]
+    firstAuthor
+      .split(/\s+/)[0]
 
   return `${surname} et al.`
 }
@@ -544,46 +1026,255 @@ function abbreviatedAuthors(
 function sampleSizeLabel(
   study: StudySummary,
 ) {
-  if (study.sampleSizes.length === 0) {
+  if (
+    study.sampleSizes.length ===
+    0
+  ) {
     return null
   }
 
-  if (study.sampleSizes.length === 1) {
+  if (
+    study.sampleSizes.length ===
+    1
+  ) {
     return `n = ${study.sampleSizes[0]}`
   }
 
-  return `n = ${study.sampleSizes.join(', ')}`
+  return `n = ${study.sampleSizes.join(
+    ', ',
+  )}`
 }
 
 function formatCoordinate(
   value: number,
 ) {
-  if (Number.isInteger(value)) {
+  if (
+    Number.isInteger(value)
+  ) {
     return String(value)
   }
 
   return value.toFixed(1)
 }
 
+function friendlyFilterLabel(
+  filterLabel: string,
+  option: string,
+) {
+  if (
+    filterLabel ===
+    'Population'
+  ) {
+    const lower =
+      option.toLowerCase()
+
+    if (
+      lower === 'hc'
+    ) {
+      return 'Healthy controls'
+    }
+
+    if (
+      lower === 'both'
+    ) {
+      return 'Patients + controls'
+    }
+
+    if (
+      lower === 'patients'
+    ) {
+      return 'Patients'
+    }
+  }
+
+  return option
+}
+
 type FilterProps = {
   label: string
   value: string
+  allLabel: string
+  options: string[]
+
+  onChange: (
+    value: string,
+  ) => void
 }
 
 function Filter({
   label,
   value,
+  allLabel,
+  options,
+  onChange,
 }: FilterProps) {
   return (
     <label className="filter-group">
-      <span>{label}</span>
+      <span>
+        {label}
+      </span>
 
-      <select defaultValue={value}>
-        <option value={value}>
-          {value}
+      <select
+        value={value}
+
+        onChange={(event) =>
+          onChange(
+            event.target.value,
+          )
+        }
+      >
+        <option value="">
+          {allLabel}
         </option>
+
+        {options.map(
+          (option) => (
+            <option
+              key={option}
+              value={option}
+            >
+              {friendlyFilterLabel(
+                label,
+                option,
+              )}
+            </option>
+          ),
+        )}
       </select>
     </label>
+  )
+}
+
+type YearRangeFilterProps = {
+  min: number
+  max: number
+  valueMin: number
+  valueMax: number
+
+  onChange: (
+    min: number,
+    max: number,
+  ) => void
+}
+
+function YearRangeFilter({
+  min,
+  max,
+  valueMin,
+  valueMax,
+  onChange,
+}: YearRangeFilterProps) {
+  const span =
+    Math.max(
+      1,
+      max - min,
+    )
+
+  const leftPercent =
+    ((valueMin - min) /
+      span) *
+    100
+
+  const rightPercent =
+    100 -
+    ((valueMax - min) /
+      span) *
+      100
+
+  return (
+    <div className="filter-group year-filter">
+      <span>
+        Publication year
+      </span>
+
+      <div className="year-range-value">
+        <span>
+          {valueMin}
+        </span>
+
+        <span className="year-range-dash">
+          –
+        </span>
+
+        <span>
+          {valueMax}
+        </span>
+      </div>
+
+      <div className="year-range-control">
+        <div className="year-range-track" />
+
+        <div
+          className="year-range-selected"
+          style={{
+            left:
+              `${leftPercent}%`,
+            right:
+              `${rightPercent}%`,
+          }}
+        />
+
+        <input
+          className="year-range-input year-range-min"
+          type="range"
+          min={min}
+          max={max}
+          step="1"
+          value={valueMin}
+          aria-label="Earliest publication year"
+
+          onChange={(event) => {
+            const next =
+              Number(
+                event.target.value,
+              )
+
+            onChange(
+              Math.min(
+                next,
+                valueMax,
+              ),
+              valueMax,
+            )
+          }}
+        />
+
+        <input
+          className="year-range-input year-range-max"
+          type="range"
+          min={min}
+          max={max}
+          step="1"
+          value={valueMax}
+          aria-label="Latest publication year"
+
+          onChange={(event) => {
+            const next =
+              Number(
+                event.target.value,
+              )
+
+            onChange(
+              valueMin,
+              Math.max(
+                next,
+                valueMin,
+              ),
+            )
+          }}
+        />
+      </div>
+
+      <div className="year-range-bounds">
+        <span>
+          {min}
+        </span>
+
+        <span>
+          {max}
+        </span>
+      </div>
+    </div>
   )
 }
 
@@ -591,8 +1282,10 @@ type StudyCardProps = {
   study: StudySummary
   selected: boolean
   onSelect: () => void
+
   onPeakSelect: (
-    coordinate: [number, number, number],
+    coordinate:
+      [number, number, number],
   ) => void
 }
 
@@ -603,12 +1296,16 @@ function StudyCard({
   onPeakSelect,
 }: StudyCardProps) {
   const source =
-    study.peakSources.length > 0
-      ? study.peakSources.join(' + ')
+    study.peakSources.length >
+    0
+      ? study.peakSources.join(
+          ' + ',
+        )
       : 'Reported coordinates'
 
   const coordinateLabel =
-    study.numberOfCoordinates === 1
+    study.numberOfCoordinates ===
+    1
       ? '1 coordinate'
       : `${study.numberOfCoordinates} coordinates`
 
@@ -619,8 +1316,13 @@ function StudyCard({
     Array.from(
       new Set(
         study.peaks
-          .map((peak) => peak.contrast)
-          .filter(usable),
+          .map(
+            (peak) =>
+              peak.contrast,
+          )
+          .filter(
+            usable,
+          ),
       ),
     )
 
@@ -631,12 +1333,20 @@ function StudyCard({
           ? 'study-card selected'
           : 'study-card'
       }
-      title={study.title}
-      onClick={onSelect}
+
+      title={
+        study.title
+      }
+
+      onClick={
+        onSelect
+      }
     >
       <div className="study-card-top">
         <strong>
-          {abbreviatedAuthors(study.authors)}
+          {abbreviatedAuthors(
+            study.authors,
+          )}
         </strong>
 
         <span className="study-year">
@@ -644,36 +1354,58 @@ function StudyCard({
         </span>
       </div>
 
-      {usable(study.pmid) && (
+      {usable(
+        study.pmid,
+      ) && (
         <a
           className="pubmed-link"
+
           href={`https://pubmed.ncbi.nlm.nih.gov/${encodeURIComponent(
             study.pmid,
           )}/`}
+
           target="_blank"
+
           rel="noreferrer"
-          onClick={(event) =>
+
+          onClick={(
+            event,
+          ) =>
             event.stopPropagation()
           }
         >
-          PMID {study.pmid}
+          PMID{' '}
+          {study.pmid}
         </a>
       )}
 
       <div className="study-modality">
-        {source} · {coordinateLabel}
+        {source}
+        {' · '}
+        {coordinateLabel}
       </div>
 
       {selected && (
         <div
           className="study-expanded"
-          onClick={(event) =>
+
+          onClick={(
+            event,
+          ) =>
             event.stopPropagation()
           }
         >
           <div className="study-expanded-title">
             {study.title}
           </div>
+
+          {usable(
+            study.journal,
+          ) && (
+            <div className="study-journal">
+              {study.journal}
+            </div>
+          )}
 
           {sampleSize && (
             <div className="study-detail-row">
@@ -687,14 +1419,17 @@ function StudyCard({
             </div>
           )}
 
-          {contrasts.length > 0 && (
+          {contrasts.length >
+            0 && (
             <div className="study-detail-row">
               <span className="study-detail-label">
                 Contrast
               </span>
 
               <span>
-                {contrasts.join('; ')}
+                {contrasts.join(
+                  '; ',
+                )}
               </span>
             </div>
           )}
@@ -705,30 +1440,45 @@ function StudyCard({
 
           <div className="study-peak-list">
             {study.peaks.map(
-              (peak, index) => {
+              (
+                peak,
+                index,
+              ) => {
                 const peakMeta =
                   [
                     peak.coordinateType,
                     peak.anatomicalLabel,
                   ]
-                    .filter(usable)
-                    .join(' · ')
+                    .filter(
+                      usable,
+                    )
+                    .join(
+                      ' · ',
+                    )
 
                 return (
                   <button
-                    key={peak.id}
+                    key={
+                      peak.id
+                    }
+
                     type="button"
+
                     className="study-peak-button"
+
                     onClick={() =>
-                      onPeakSelect([
-                        peak.x,
-                        peak.y,
-                        peak.z,
-                      ])
+                      onPeakSelect(
+                        [
+                          peak.x,
+                          peak.y,
+                          peak.z,
+                        ],
+                      )
                     }
                   >
                     <span className="study-peak-number">
-                      {index + 1}
+                      {index +
+                        1}
                     </span>
 
                     <span className="study-peak-content">
@@ -750,7 +1500,9 @@ function StudyCard({
 
                       {peakMeta && (
                         <span className="study-peak-meta">
-                          {peakMeta}
+                          {
+                            peakMeta
+                          }
                         </span>
                       )}
                     </span>
