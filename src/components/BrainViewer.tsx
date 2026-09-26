@@ -34,6 +34,10 @@ type BrainViewerProps = {
 
   viewMode?: ViewMode
 
+  onViewModeChange?: (
+    viewMode: ViewMode,
+  ) => void
+
   visiblePeakIds?: string[]
 }
 
@@ -58,6 +62,7 @@ export default function BrainViewer({
   selectedStudyId = null,
   focusCoordinate = null,
   viewMode = 'multi',
+  onViewModeChange,
   visiblePeakIds,
 }: BrainViewerProps) {
   const canvasRef =
@@ -102,6 +107,11 @@ export default function BrainViewer({
   const [panMode, setPanMode] =
     useState(false)
 
+  const [
+    crosshairsVisible,
+    setCrosshairsVisible,
+  ] = useState(true)
+
   useEffect(() => {
     onLocationChangeRef.current =
       onLocationChange
@@ -132,6 +142,7 @@ export default function BrainViewer({
 
     const nv = new Niivue({
       show3Dcrosshair: true,
+      crosshairWidth: 1,
 
       backColor: [
         0.06,
@@ -147,7 +158,7 @@ export default function BrainViewer({
         1,
       ],
 
-      textHeight: 0.025,
+      textHeight: 0.035,
       colorbarHeight: 0,
       isRadiologicalConvention: false,
       meshXRay: 0.1,
@@ -1044,97 +1055,196 @@ export default function BrainViewer({
     nv.drawScene()
   }
 
+  function toggleCrosshairs() {
+    const nv = nvRef.current
+
+    if (!nv || !viewerReady) {
+      return
+    }
+
+    const nextVisible =
+      !crosshairsVisible
+
+    setCrosshairsVisible(
+      nextVisible,
+    )
+
+    nv.setCrosshairWidth(
+      nextVisible
+        ? 1
+        : 0,
+    )
+
+    nv.opts.show3Dcrosshair =
+      nextVisible
+
+    nv.drawScene()
+  }
+
   return (
-    <div
-      ref={containerRef}
+    <div className="brain-viewer-shell">
+      <div className="brain-viewer-header">
+        <div className="view-mode-bar brain-header-views">
+          <button
+            type="button"
+            className={
+              viewMode === 'multi'
+                ? 'active'
+                : ''
+            }
+            onClick={() =>
+              onViewModeChange?.('multi')
+            }
+          >
+            4 views
+          </button>
 
-      className={
-        panMode
-          ? 'brain-viewer pan-active'
-          : 'brain-viewer'
-      }
-    >
-      <canvas
-        ref={canvasRef}
-        className="brain-canvas"
-      />
+          <button
+            type="button"
+            className={
+              viewMode === 'coronal'
+                ? 'active'
+                : ''
+            }
+            onClick={() =>
+              onViewModeChange?.('coronal')
+            }
+          >
+            Coronal
+          </button>
 
-      <div className="zoom-controls">
-        <button
-          type="button"
-          onClick={zoomOut}
-          title="Zoom out"
-          aria-label="Zoom out"
-        >
-          −
-        </button>
+          <button
+            type="button"
+            className={
+              viewMode === 'sagittal'
+                ? 'active'
+                : ''
+            }
+            onClick={() =>
+              onViewModeChange?.('sagittal')
+            }
+          >
+            Sagittal
+          </button>
 
-        <button
-          type="button"
-          className="zoom-reset"
-          onClick={resetZoom}
-          title="Reset pan and zoom"
-        >
-          Reset
-        </button>
+          <button
+            type="button"
+            className={
+              viewMode === 'axial'
+                ? 'active'
+                : ''
+            }
+            onClick={() =>
+              onViewModeChange?.('axial')
+            }
+          >
+            Axial
+          </button>
 
-        <button
-          type="button"
-          onClick={zoomIn}
-          title="Zoom in"
-          aria-label="Zoom in"
-        >
-          +
-        </button>
+          <button
+            type="button"
+            className={
+              viewMode === 'render'
+                ? 'active'
+                : ''
+            }
+            onClick={() =>
+              onViewModeChange?.('render')
+            }
+          >
+            3D
+          </button>
+        </div>
 
-        <span className="viewer-control-divider" />
+        <div className="zoom-controls brain-header-tools">
+          <button
+            type="button"
+            onClick={zoomOut}
+            title="Zoom out"
+            aria-label="Zoom out"
+          >
+            −
+          </button>
 
-        <button
-          type="button"
+          <button
+            type="button"
+            className="zoom-reset"
+            onClick={resetZoom}
+            title="Reset pan and zoom"
+          >
+            Reset
+          </button>
 
-          className={
-            panMode
-              ? 'pan-button active'
-              : 'pan-button'
-          }
+          <button
+            type="button"
+            onClick={zoomIn}
+            title="Zoom in"
+            aria-label="Zoom in"
+          >
+            +
+          </button>
 
-          onClick={() =>
-            setPanMode(
-              (current) =>
-                !current,
-            )
-          }
+          <span className="viewer-control-divider" />
 
-          title={
-            panMode
-              ? 'Turn pan mode off'
-              : 'Turn pan mode on'
-          }
-        >
-          Pan
-        </button>
+          <button
+            type="button"
+            className={
+              panMode
+                ? 'pan-button active'
+                : 'pan-button'
+            }
+            onClick={() =>
+              setPanMode(
+                (current) =>
+                  !current,
+              )
+            }
+            title={
+              panMode
+                ? 'Turn pan mode off'
+                : 'Turn pan mode on'
+            }
+          >
+            Pan
+          </button>
+
+          <span className="viewer-control-divider" />
+
+          <button
+            type="button"
+            className={
+              crosshairsVisible
+                ? 'crosshair-button active'
+                : 'crosshair-button'
+            }
+            onClick={toggleCrosshairs}
+            title={
+              crosshairsVisible
+                ? 'Hide crosshairs'
+                : 'Show crosshairs'
+            }
+            aria-pressed={
+              crosshairsVisible
+            }
+          >
+            Crosshairs
+          </button>
+        </div>
       </div>
 
-      {viewMode ===
-        'multi' && (
-        <>
-          <div className="view-label top-left">
-            Coronal
-          </div>
-
-          <div className="view-label top-right">
-            Sagittal
-          </div>
-
-          <div className="view-label bottom-left">
-            Axial
-          </div>
-
-          <div className="view-label bottom-right">
-            3D
-          </div>
-        </>
-      )}
+      <div
+        ref={containerRef}
+        className={
+          panMode
+            ? 'brain-viewer pan-active'
+            : 'brain-viewer'
+        }
+      >
+        <canvas
+          ref={canvasRef}
+          className="brain-canvas"
+        />
+      </div>
     </div>
   )
 }

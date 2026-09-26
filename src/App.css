@@ -1344,3 +1344,833 @@ h1 {
   align-items: center;
   gap: 8px;
 }
+
+/* =================================================
+   Aesthetic pass — consolidated literature summary,
+   cleaner study browser, and viewer controls
+   ================================================= */
+
+/* Match the two side-panel headings exactly. */
+.filters-header h2,
+.studies-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* Studies: one compact summary instead of repeated counts. */
+.studies-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.studies-heading-group {
+  min-width: 0;
+}
+
+.studies-summary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.studies-summary strong {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.studies-summary span {
+  margin: 0 1px;
+  color: #a0a5ad;
+}
+
+/* "Browse all" is now an action, not another count. */
+.browse-studies-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 7px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.browse-studies-button:hover {
+  background: var(--accent-soft);
+}
+
+.browse-studies-button span {
+  font-size: 13px;
+  transition: transform 0.15s ease;
+}
+
+.browse-studies-button:hover span {
+  transform: translateX(2px);
+}
+
+/* With the duplicate count removed, the display-mode control
+   can sit quietly at the right edge above the viewer. */
+.viewer-toolbar {
+  justify-content: flex-end;
+}
+
+/* The old always-visible "Current selection" bar is intentionally
+   removed from App.tsx. Region actions now originate in the viewer. */
+
+/* -------------------------------------------------
+   Cleaner full study browser
+   ------------------------------------------------- */
+
+.study-browser-header {
+  align-items: center;
+  padding-top: 22px;
+  padding-bottom: 18px;
+}
+
+.study-browser-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.study-browser-search {
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.study-browser-controls {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 24px 11px;
+}
+
+.study-browser-result-count {
+  padding: 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.study-sort {
+  position: relative;
+}
+
+.study-sort-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 7px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #555b63;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.study-sort-trigger:hover,
+.study-sort-trigger[aria-expanded="true"] {
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.study-sort-direction {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.study-sort-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 10;
+  width: 150px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  box-shadow: 0 10px 28px rgba(17, 20, 25, 0.14);
+}
+
+.study-sort-option {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 9px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  font-size: 11px;
+}
+
+.study-sort-option:hover {
+  background: var(--surface-soft);
+}
+
+.study-sort-option.active {
+  color: var(--accent);
+  font-weight: 650;
+}
+
+/* -------------------------------------------------
+   Viewer controls
+   ------------------------------------------------- */
+
+/* The Coronal/Sagittal/Axial/3D overlay labels were removed
+   from BrainViewer.tsx. NiiVue's anatomical orientation
+   markers are now larger via textHeight. */
+
+.crosshair-button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Slightly clarify the region-selection wording without
+   making it visually heavier. */
+.viewer-footer .button.small {
+  white-space: nowrap;
+}
+
+
+/* =================================================
+   Layout polish — viewer alignment and quieter controls
+   ================================================= */
+
+/* With the display-mode toggle removed from above the viewer,
+   the brain viewer begins at the same vertical level as the
+   Filters and Studies panels. */
+.viewer-section {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.viewer {
+  margin-top: 0;
+}
+
+/* Put the view selector below the brain, centered in the footer. */
+.viewer-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.viewer-footer .coordinate-readout {
+  justify-self: start;
+}
+
+.viewer-footer .viewer-footer-views {
+  justify-self: center;
+  margin: 0;
+}
+
+.viewer-footer .viewer-region-button {
+  justify-self: end;
+}
+
+/* The view buttons keep their existing segmented-control styling,
+   but no longer carry the old top/right positioning. */
+.viewer-footer .view-mode-bar {
+  width: fit-content;
+  margin: 0;
+}
+
+/* Make Crosshairs visually equal to Reset and Pan instead of
+   reading as the primary action. */
+.zoom-controls .crosshair-button {
+  min-width: 58px;
+  height: 27px;
+  padding: 0 8px;
+  background: transparent;
+  color: #aeb4be;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.zoom-controls .crosshair-button.active {
+  background: rgba(255, 255, 255, 0.07);
+  color: #d7dbe2;
+}
+
+.zoom-controls .crosshair-button:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+}
+
+/* Compact Studies preview: match the 12px scale used by the
+   filter dropdowns, without shrinking the expanded drawer cards. */
+.studies > .study-card .study-card-top strong,
+.studies > .study-card .study-year,
+.studies > .study-card .pubmed-link,
+.studies > .study-card .study-modality {
+  font-size: 12px;
+}
+
+.studies > .study-card .study-card-top strong {
+  font-weight: 700;
+}
+
+.studies > .study-card .study-modality {
+  line-height: 1.35;
+}
+
+/* Keep the compact cards proportionate after reducing type size. */
+.studies > .study-card {
+  padding: 11px 12px;
+}
+
+/* Small-screen fallback for the three-part viewer footer. */
+@media (max-width: 900px) {
+  .viewer-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .viewer-footer .coordinate-readout {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .viewer-footer .viewer-footer-views,
+  .viewer-footer .viewer-region-button {
+    justify-self: auto;
+  }
+}
+
+/* =================================================
+   Viewer header: view selection + navigation tools
+   ================================================= */
+
+.brain-viewer-shell {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.brain-viewer-header {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+
+  min-height: 46px;
+  padding: 7px 12px;
+
+  border-bottom: 1px solid #272a30;
+  background: #16191e;
+}
+
+.brain-viewer-header-spacer {
+  min-width: 0;
+}
+
+/* Move the zoom / pan / crosshair controls out of the anatomy
+   and into the viewer header. */
+.brain-viewer-header .zoom-controls {
+  position: static;
+  top: auto;
+  left: auto;
+  z-index: auto;
+
+  justify-self: end;
+
+  padding: 3px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.035);
+  transform: none;
+  backdrop-filter: none;
+}
+
+/* Keep all three text controls equally quiet. */
+.brain-viewer-header .zoom-controls .zoom-reset,
+.brain-viewer-header .zoom-controls .pan-button,
+.brain-viewer-header .zoom-controls .crosshair-button {
+  min-width: auto;
+  height: 27px;
+  padding: 0 8px;
+
+  background: transparent;
+  color: #aeb4be;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.brain-viewer-header .zoom-controls .pan-button.active,
+.brain-viewer-header .zoom-controls .crosshair-button.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e4e7ec;
+}
+
+/* Center the view selector in the header and adapt it to
+   the dark viewer chrome. */
+.brain-header-views {
+  justify-self: center;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.brain-header-views button {
+  color: #9fa5af;
+}
+
+.brain-header-views button:hover {
+  color: #e1e4e9;
+}
+
+.brain-header-views button.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+/* The canvas now occupies only the unobstructed space between
+   the header and footer. */
+.brain-viewer {
+  flex: 1;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+}
+
+/* Footer returns to its simpler two-part arrangement:
+   MNI coordinates left, region selection right. */
+.viewer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.viewer-footer .coordinate-readout {
+  justify-self: auto;
+}
+
+.viewer-footer .viewer-region-button {
+  justify-self: auto;
+}
+
+/* Old footer view selector is no longer rendered. */
+.viewer-footer-views {
+  display: none;
+}
+
+@media (max-width: 1050px) {
+  .brain-viewer-header {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .brain-viewer-header-spacer {
+    display: none;
+  }
+
+  .brain-viewer-header .zoom-controls {
+    justify-self: center;
+  }
+}
+
+/* =================================================
+   Final pre-functionality polish:
+   left-aligned viewer modes, dynamic study list,
+   and multi-select filters
+   ================================================= */
+
+/* Viewer header: mode selector left, navigation tools right. */
+.brain-viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brain-header-views {
+  justify-self: auto;
+  margin: 0;
+}
+
+.brain-viewer-header .zoom-controls {
+  margin-left: auto;
+}
+
+.brain-viewer-header-spacer {
+  display: none;
+}
+
+/* The Studies panel now uses all available vertical room.
+   It shows as many compact cards as fit, then scrolls quietly. */
+.studies {
+  display: flex;
+  height: calc(100vh - 208px);
+  min-height: 560px;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.studies-header {
+  flex-shrink: 0;
+}
+
+.studies-list {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 3px;
+  scrollbar-width: thin;
+  scrollbar-color: #d5d8dd transparent;
+}
+
+.studies-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.studies-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.studies-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #d5d8dd;
+}
+
+/* Multi-select controls retain the quiet visual language of
+   the previous native dropdowns. */
+.multi-select {
+  position: relative;
+  width: 100%;
+}
+
+.multi-select summary {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 42px;
+  align-items: center;
+  padding: 10px 34px 10px 11px;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  cursor: pointer;
+  list-style: none;
+
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.multi-select summary::-webkit-details-marker {
+  display: none;
+}
+
+.multi-select summary::after {
+  content: "⌄";
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  color: #555b63;
+  font-size: 14px;
+  transform: translateY(-58%);
+}
+
+.multi-select[open] summary {
+  border-color: var(--accent);
+  outline: 2px solid rgba(89, 104, 217, 0.10);
+}
+
+.multi-select[open] summary::after {
+  transform:
+    translateY(-42%)
+    rotate(180deg);
+}
+
+.multi-select-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  z-index: 30;
+
+  width: 100%;
+  max-height: 230px;
+  overflow-y: auto;
+
+  padding: 6px;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+
+  background: var(--surface);
+
+  box-shadow:
+    0 10px 28px rgba(17, 20, 25, 0.13);
+}
+
+.multi-select-option,
+.multi-select-all {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+
+  padding: 7px 8px;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+  color: var(--text);
+
+  cursor: pointer;
+  text-align: left;
+
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.multi-select-option:hover,
+.multi-select-all:hover {
+  background: var(--surface-soft);
+}
+
+.multi-select-option input {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  margin: 0;
+
+  accent-color: var(--accent);
+}
+
+.multi-select-check {
+  display: inline-flex;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #c9cdd3;
+  border-radius: 3px;
+
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.multi-select-all.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.multi-select-divider {
+  height: 1px;
+  margin: 4px 5px;
+  background: var(--line);
+}
+
+/* Patient group remains visibly present when irrelevant,
+   avoiding layout jumps while explaining why it is unavailable. */
+.multi-select-disabled {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+
+  padding: 8px 11px;
+
+  border: 1px solid #e2e4e7;
+  border-radius: 9px;
+
+  background: #f5f6f7;
+  color: #9a9fa7;
+
+  font-size: 10.5px;
+  line-height: 1.3;
+}
+
+@media (max-width: 1100px) {
+  .studies {
+    height: auto;
+    max-height: 560px;
+  }
+}
+
+@media (max-width: 760px) {
+  .brain-viewer-header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .brain-viewer-header .zoom-controls {
+    margin-left: 0;
+  }
+
+  .studies {
+    max-height: none;
+  }
+}
+
+/* =================================================
+   Permanent study browser — replaces fly-out drawer
+   ================================================= */
+
+/* Search and sorting now live in the right Studies panel. */
+.studies-search {
+  flex-shrink: 0;
+  margin-bottom: 7px;
+}
+
+.studies-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 10px;
+
+  border: 1px solid var(--line);
+  border-radius: 8px;
+
+  outline: none;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+  font-size: 11px;
+}
+
+.studies-search input::placeholder {
+  color: #999fa8;
+}
+
+.studies-search input:focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 2px rgba(89, 104, 217, 0.10);
+}
+
+.studies-toolbar {
+  position: relative;
+  z-index: 4;
+
+  display: flex;
+  flex-shrink: 0;
+  min-height: 27px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  margin-bottom: 8px;
+}
+
+.studies-search-status {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* Keep Sort compact enough for the narrow sidebar. */
+.studies .study-sort-trigger {
+  padding: 5px 6px;
+  font-size: 10px;
+}
+
+.studies .study-sort-menu {
+  width: 138px;
+}
+
+.studies .study-sort-option {
+  padding: 7px 8px;
+  font-size: 10.5px;
+}
+
+/* Make the permanent study list typographically as quiet as
+   the filter controls on the left. These selectors are more
+   specific than earlier study-card rules, so they win without
+   changing expanded-detail typography. */
+.studies-list .study-card {
+  padding: 10px 11px;
+}
+
+.studies-list .study-card-top strong,
+.studies-list .study-year,
+.studies-list .pubmed-link,
+.studies-list .study-modality {
+  font-size: 12px;
+}
+
+.studies-list .study-card-top strong {
+  font-weight: 700;
+}
+
+.studies-list .study-year,
+.studies-list .pubmed-link,
+.studies-list .study-modality {
+  font-weight: 400;
+}
+
+.studies-list .study-modality {
+  line-height: 1.3;
+}
+
+/* Preserve the fuller typography inside an expanded study. */
+.studies-list .study-expanded-title,
+.studies-list .study-journal {
+  font-size: 0.78rem;
+}
+
+.studies-panel-card-wrap {
+  scroll-margin-block: 12px;
+}
+
+/* The old drawer is no longer rendered by App.tsx.
+   Keep these hidden defensively in case stale markup survives
+   during hot reload. */
+.study-browser-backdrop,
+.study-browser-drawer {
+  display: none;
+}
+
+
+

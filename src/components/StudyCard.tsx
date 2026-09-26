@@ -26,6 +26,7 @@ type StudyCardProps = {
   study: StudySummary
   selected: boolean
   selectedPeakId?: string | null
+  showTitleTooltip?: boolean
   onSelect: () => void
 
   onPeakSelect: (
@@ -38,6 +39,7 @@ function StudyCard({
   study,
   selected,
   selectedPeakId = null,
+  showTitleTooltip = true,
   onSelect,
   onPeakSelect,
 }: StudyCardProps) {
@@ -68,7 +70,11 @@ function StudyCard({
           ? 'study-card selected'
           : 'study-card'
       }
-      title={study.title}
+      title={
+        showTitleTooltip
+          ? study.title
+          : undefined
+      }
       onClick={onSelect}
     >
       <div className="study-card-top">

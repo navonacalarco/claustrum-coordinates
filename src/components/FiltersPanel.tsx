@@ -1,11 +1,9 @@
-import type { ChangeEvent } from 'react'
-
 export type FilterState = {
-  centralAim: string
-  peakSource: string
-  population: string
-  patientGroup: string
-  hemisphere: string
+  centralAim: string[]
+  peakSource: string[]
+  population: string[]
+  patientGroup: string[]
+  hemisphere: string[]
   publicationYearMin: number | null
   publicationYearMax: number | null
 }
@@ -32,10 +30,11 @@ type FiltersPanelProps = {
   yearMax: number
   activeYearMin: number
   activeYearMax: number
+  patientGroupDisabled: boolean
 
   onFilterChange: (
     key: TextFilterKey,
-    value: string,
+    value: string[],
   ) => void
 
   onYearRangeChange: (
@@ -53,6 +52,7 @@ function FiltersPanel({
   yearMax,
   activeYearMin,
   activeYearMax,
+  patientGroupDisabled,
   onFilterChange,
   onYearRangeChange,
   onReset,
@@ -72,7 +72,7 @@ function FiltersPanel({
         </button>
       </div>
 
-      <Filter
+      <MultiSelectFilter
         label="Central aim"
         value={filters.centralAim}
         allLabel="All aims"
@@ -85,7 +85,7 @@ function FiltersPanel({
         }
       />
 
-      <Filter
+      <MultiSelectFilter
         label="Peak source / modality"
         value={filters.peakSource}
         allLabel="All modalities"
@@ -98,7 +98,7 @@ function FiltersPanel({
         }
       />
 
-      <Filter
+      <MultiSelectFilter
         label="Population"
         value={filters.population}
         allLabel="All populations"
@@ -111,11 +111,13 @@ function FiltersPanel({
         }
       />
 
-      <Filter
+      <MultiSelectFilter
         label="Patient group"
         value={filters.patientGroup}
         allLabel="All groups"
         options={filterOptions.patientGroup}
+        disabled={patientGroupDisabled}
+        disabledText="Not applicable to healthy-control-only studies"
         onChange={(value) =>
           onFilterChange(
             'patientGroup',
@@ -124,7 +126,7 @@ function FiltersPanel({
         }
       />
 
-      <Filter
+      <MultiSelectFilter
         label="Hemisphere"
         value={filters.hemisphere}
         allLabel="Left + Right"
@@ -148,61 +150,142 @@ function FiltersPanel({
   )
 }
 
-type FilterProps = {
+type MultiSelectFilterProps = {
   label: string
-  value: string
+  value: string[]
   allLabel: string
   options: string[]
+  disabled?: boolean
+  disabledText?: string
 
   onChange: (
-    value: string,
+    value: string[],
   ) => void
 }
 
-function Filter({
+function MultiSelectFilter({
   label,
   value,
   allLabel,
   options,
+  disabled = false,
+  disabledText = 'Not applicable',
   onChange,
-}: FilterProps) {
-  function handleChange(
-    event: ChangeEvent<HTMLSelectElement>,
+}: MultiSelectFilterProps) {
+  function toggleOption(
+    option: string,
   ) {
-    onChange(
-      event.target.value,
-    )
+    if (
+      value.includes(option)
+    ) {
+      onChange(
+        value.filter(
+          (item) =>
+            item !== option,
+        ),
+      )
+
+      return
+    }
+
+    onChange([
+      ...value,
+      option,
+    ])
   }
 
+  const summary =
+    multiSelectSummary(
+      label,
+      value,
+      allLabel,
+    )
+
   return (
-    <label className="filter-group">
+    <div className="filter-group">
       <span>
         {label}
       </span>
 
-      <select
-        value={value}
-        onChange={handleChange}
-      >
-        <option value="">
-          {allLabel}
-        </option>
+      {disabled ? (
+        <div
+          className="multi-select-disabled"
+          aria-disabled="true"
+        >
+          {disabledText}
+        </div>
+      ) : (
+        <details className="multi-select">
+          <summary>
+            <span>
+              {summary}
+            </span>
+          </summary>
 
-        {options.map(
-          (option) => (
-            <option
-              key={option}
-              value={option}
+          <div className="multi-select-menu">
+            <button
+              type="button"
+              className={
+                value.length === 0
+                  ? 'multi-select-all active'
+                  : 'multi-select-all'
+              }
+              onClick={() =>
+                onChange([])
+              }
             >
-              {friendlyFilterLabel(
-                label,
-                option,
-              )}
-            </option>
-          ),
-        )}
-      </select>
-    </label>
+              <span
+                className="multi-select-check"
+                aria-hidden="true"
+              >
+                {value.length === 0
+                  ? '✓'
+                  : ''}
+              </span>
+
+              <span>
+                {allLabel}
+              </span>
+            </button>
+
+            <div className="multi-select-divider" />
+
+            {options.map(
+              (option) => {
+                const checked =
+                  value.includes(
+                    option,
+                  )
+
+                return (
+                  <label
+                    key={option}
+                    className="multi-select-option"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() =>
+                        toggleOption(
+                          option,
+                        )
+                      }
+                    />
+
+                    <span>
+                      {friendlyFilterLabel(
+                        label,
+                        option,
+                      )}
+                    </span>
+                  </label>
+                )
+              },
+            )}
+          </div>
+        </details>
+      )}
+    </div>
   )
 }
 
@@ -335,6 +418,25 @@ function YearRangeFilter({
       </div>
     </div>
   )
+}
+
+function multiSelectSummary(
+  filterLabel: string,
+  values: string[],
+  allLabel: string,
+) {
+  if (values.length === 0) {
+    return allLabel
+  }
+
+  if (values.length === 1) {
+    return friendlyFilterLabel(
+      filterLabel,
+      values[0],
+    )
+  }
+
+  return `${values.length} selected`
 }
 
 function friendlyFilterLabel(

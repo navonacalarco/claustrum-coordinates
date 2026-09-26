@@ -5,8 +5,8 @@ import FiltersPanel, {
   type FilterState,
   type TextFilterKey,
 } from './components/FiltersPanel'
-import StudyCard, { type StudyPeak, type StudySummary } from './components/StudyCard'
-import StudyBrowser from './components/StudyBrowser'
+import { type StudyPeak, type StudySummary } from './components/StudyCard'
+import StudiesPanel from './components/StudiesPanel'
 
 type ViewMode =
   | 'multi'
@@ -49,11 +49,11 @@ type ReviewData = {
 }
 
 const emptyFilters: FilterState = {
-  centralAim: '',
-  peakSource: '',
-  population: '',
-  patientGroup: '',
-  hemisphere: '',
+  centralAim: [],
+  peakSource: [],
+  population: [],
+  patientGroup: [],
+  hemisphere: [],
   publicationYearMin: null,
   publicationYearMax: null,
 }
@@ -79,9 +79,6 @@ function App() {
 
   const [filters, setFilters] =
     useState<FilterState>(emptyFilters)
-
-  const [studyBrowserOpen, setStudyBrowserOpen] =
-    useState(false)
 
   useEffect(() => {
     fetch('/data/peaks-mni.json')
@@ -183,41 +180,46 @@ function App() {
     return reviewData.peaks.filter(
       (peak) => {
         if (
-          filters.centralAim &&
-          peak.centralAim !==
-            filters.centralAim
+          filters.centralAim.length > 0 &&
+          !filters.centralAim.includes(
+            peak.centralAim,
+          )
         ) {
           return false
         }
 
         if (
-          filters.peakSource &&
-          peak.peakSource !==
-            filters.peakSource
+          filters.peakSource.length > 0 &&
+          !filters.peakSource.includes(
+            peak.peakSource,
+          )
         ) {
           return false
         }
 
         if (
-          filters.population &&
-          peak.population !==
-            filters.population
+          filters.population.length > 0 &&
+          !filters.population.includes(
+            peak.population,
+          )
         ) {
           return false
         }
 
         if (
-          filters.patientGroup &&
-          peak.patientGroup !==
-            filters.patientGroup
+          filters.patientGroup.length > 0 &&
+          !filters.patientGroup.includes(
+            peak.patientGroup,
+          )
         ) {
           return false
         }
 
         if (
-          filters.hemisphere &&
-          peak.hemisphere !==
-            filters.hemisphere
+          filters.hemisphere.length > 0 &&
+          !filters.hemisphere.includes(
+            peak.hemisphere,
+          )
         ) {
           return false
         }
@@ -392,11 +394,20 @@ function App() {
       )
     }, [filteredPeaks])
 
-  const numberOfVisibleStudies =
-    studies.length
+  const healthyControlsOnly =
+    filters.population.length === 1 &&
+    isHealthyControlsValue(
+      filters.population[0],
+    )
 
-  const visibleStudies =
-    studies.slice(0, 4)
+  const hasActiveFilters =
+    filters.centralAim.length > 0 ||
+    filters.peakSource.length > 0 ||
+    filters.population.length > 0 ||
+    filters.patientGroup.length > 0 ||
+    filters.hemisphere.length > 0 ||
+    activeYearMin !== yearBounds.min ||
+    activeYearMax !== yearBounds.max
 
   /*
    * If filtering removes the selected
@@ -426,13 +437,27 @@ function App() {
 
   function updateFilter(
     key: TextFilterKey,
-    value: string,
+    value: string[],
   ) {
     setFilters(
-      (current) => ({
-        ...current,
-        [key]: value,
-      }),
+      (current) => {
+        const next = {
+          ...current,
+          [key]: value,
+        }
+
+        if (
+          key === 'population' &&
+          value.length === 1 &&
+          isHealthyControlsValue(
+            value[0],
+          )
+        ) {
+          next.patientGroup = []
+        }
+
+        return next
+      },
     )
 
     setSelectedPeakId(null)
@@ -470,7 +495,6 @@ function App() {
 
   function showAll() {
     clearSelection()
-    setStudyBrowserOpen(false)
   }
 
   function selectStudy(
@@ -548,12 +572,6 @@ function App() {
       coordinate[1],
       coordinate[2],
     ])
-
-    setStudyBrowserOpen(true)
-  }
-
-  function openStudyBrowser() {
-    setStudyBrowserOpen(true)
   }
 
   return (
@@ -594,119 +612,15 @@ function App() {
           yearMax={yearBounds.max}
           activeYearMin={activeYearMin}
           activeYearMax={activeYearMax}
+          patientGroupDisabled={
+            healthyControlsOnly
+          }
           onFilterChange={updateFilter}
           onYearRangeChange={updateYearRange}
           onReset={resetFilters}
         />
 
         <section className="viewer-section">
-          <div className="viewer-toolbar">
-            <div className="viewer-stats">
-              <strong>
-                {filteredPeaks.length}
-              </strong>
-              {' '}coordinates
-              <span> · </span>
-              <strong>
-                {numberOfVisibleStudies}
-              </strong>
-              {' '}studies
-
-            </div>
-
-            <div className="segmented">
-              <button className="active">
-                Points
-              </button>
-
-              <button>
-                Study-weighted density
-              </button>
-            </div>
-          </div>
-
-          <div className="view-mode-bar">
-            <button
-              className={
-                viewMode ===
-                'multi'
-                  ? 'active'
-                  : ''
-              }
-              onClick={() =>
-                setViewMode(
-                  'multi',
-                )
-              }
-            >
-              4 views
-            </button>
-
-            <button
-              className={
-                viewMode ===
-                'coronal'
-                  ? 'active'
-                  : ''
-              }
-              onClick={() =>
-                setViewMode(
-                  'coronal',
-                )
-              }
-            >
-              Coronal
-            </button>
-
-            <button
-              className={
-                viewMode ===
-                'sagittal'
-                  ? 'active'
-                  : ''
-              }
-              onClick={() =>
-                setViewMode(
-                  'sagittal',
-                )
-              }
-            >
-              Sagittal
-            </button>
-
-            <button
-              className={
-                viewMode ===
-                'axial'
-                  ? 'active'
-                  : ''
-              }
-              onClick={() =>
-                setViewMode(
-                  'axial',
-                )
-              }
-            >
-              Axial
-            </button>
-
-            <button
-              className={
-                viewMode ===
-                'render'
-                  ? 'active'
-                  : ''
-              }
-              onClick={() =>
-                setViewMode(
-                  'render',
-                )
-              }
-            >
-              3D
-            </button>
-          </div>
-
           <div className="viewer">
             <BrainViewer
               onLocationChange={
@@ -723,6 +637,10 @@ function App() {
 
               viewMode={
                 viewMode
+              }
+
+              onViewModeChange={
+                setViewMode
               }
 
               visiblePeakIds={
@@ -762,128 +680,24 @@ function App() {
                 </span>
               </div>
 
-              <button className="button small">
-                Select 3D region
+              <button className="button small viewer-region-button">
+                Select region
               </button>
             </div>
           </div>
         </section>
 
-        <aside className="studies">
-          <div className="studies-header">
-            <h2>
-              Studies
-            </h2>
-
-            {selectedStudyId ? (
-              <button
-                type="button"
-                className="show-all-button"
-                onClick={showAll}
-              >
-                Show all
-              </button>
-            ) : (
-              studies.length >
-                visibleStudies.length && (
-                <button
-                  type="button"
-                  className="browse-studies-button"
-                  onClick={openStudyBrowser}
-                >
-                  Browse all {studies.length}
-                  <span aria-hidden="true">
-                    →
-                  </span>
-                </button>
-              )
-            )}
-          </div>
-
-          {visibleStudies.map(
-            (study) => (
-              <StudyCard
-                key={
-                  study.studyId
-                }
-
-                study={
-                  study
-                }
-
-                selected={
-                  selectedStudyId ===
-                  study.studyId
-                }
-
-                selectedPeakId={
-                  selectedPeakId
-                }
-
-                onSelect={() =>
-                  selectStudy(
-                    study.studyId,
-                  )
-                }
-
-                onPeakSelect={(
-                  peakId,
-                  coordinate,
-                ) =>
-                  selectPeak(
-                    study.studyId,
-                    peakId,
-                    coordinate,
-                  )
-                }
-              />
-            ),
-          )}
-
-  {studies.length === 0 && (
-    <div className="no-results">
-      No studies match these filters.
-    </div>
-  )}
-</aside>
-      </main>
-
-      <div className="selection-bar">
-        <div>
-          <strong>
-            Current selection
-          </strong>
-
-          <span>
-            {filteredPeaks.length}{' '}
-            coordinates from{' '}
-            {numberOfVisibleStudies}{' '}
-            studies
-          </span>
-        </div>
-
-        <div className="selection-actions">
-          <button className="button secondary">
-            Enter bounding coordinates
-          </button>
-
-          <button className="button primary">
-            Download selection CSV
-          </button>
-        </div>
-      </div>
-
-      {studyBrowserOpen && (
-        <StudyBrowser
+        <StudiesPanel
           studies={studies}
+          filtered={hasActiveFilters}
+          numberOfCoordinates={filteredPeaks.length}
           selectedStudyId={selectedStudyId}
           selectedPeakId={selectedPeakId}
-          onClose={() => setStudyBrowserOpen(false)}
           onShowAll={showAll}
           onStudySelect={selectStudy}
           onPeakSelect={selectPeak}
         />
-      )}
+      </main>
     </div>
   )
 }
@@ -956,6 +770,21 @@ function cleanSampleSize(
       /^n\s*=\s*/i,
       '',
     )
+}
+
+function isHealthyControlsValue(
+  value: string,
+) {
+  const normalized = value
+    .trim()
+    .toLowerCase()
+
+  return (
+    normalized === 'hc' ||
+    normalized === 'hc only' ||
+    normalized === 'healthy controls' ||
+    normalized === 'healthy controls only'
+  )
 }
 
 export default App

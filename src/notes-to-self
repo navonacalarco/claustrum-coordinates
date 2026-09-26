@@ -9,3 +9,4 @@
 - add left and right labels (l/r, s/i, etc)
 - remove redundant 'current selection'
 - make clear 'download all data', 'download selection' csv
+- don't need the study name for tooltip
