@@ -33,6 +33,13 @@ export type RegionCuboidProjection = {
     y: number
     depth: number
   }>
+
+  viewport: {
+    left: number
+    top: number
+    width: number
+    height: number
+  }
 }
 
 export type RegionOverlayRect = {
@@ -53,6 +60,25 @@ export type RegionOverlayRect = {
   horizontalMaxPx: number
   verticalMinPx: number
   verticalMaxPx: number
+
+  /*
+   * Hard interaction limits.
+   *
+   * The pointer is clamped to the NiiVue tile and the
+   * resulting coordinate is clamped to the valid MNI
+   * extent of the template. This prevents a handle from
+   * creating an arbitrarily large box when dragged outside
+   * the visible slice.
+   */
+  tileLeftPx: number
+  tileTopPx: number
+  tileRightPx: number
+  tileBottomPx: number
+
+  horizontalLimitMin: number
+  horizontalLimitMax: number
+  verticalLimitMin: number
+  verticalLimitMax: number
 }
 
 type DragReleaseLike = {
@@ -151,10 +177,41 @@ export function updateBoundsFromDrag(
         Number(end[1]),
       )
 
-    next.xMin = roundMni(xMin)
-    next.xMax = roundMni(xMax)
-    next.yMin = roundMni(yMin)
-    next.yMax = roundMni(yMax)
+    next.xMin =
+      roundMni(
+        clamp(
+          xMin,
+          Number(minExtent[0]),
+          Number(maxExtent[0]),
+        ),
+      )
+
+    next.xMax =
+      roundMni(
+        clamp(
+          xMax,
+          Number(minExtent[0]),
+          Number(maxExtent[0]),
+        ),
+      )
+
+    next.yMin =
+      roundMni(
+        clamp(
+          yMin,
+          Number(minExtent[1]),
+          Number(maxExtent[1]),
+        ),
+      )
+
+    next.yMax =
+      roundMni(
+        clamp(
+          yMax,
+          Number(minExtent[1]),
+          Number(maxExtent[1]),
+        ),
+      )
   }
 
   if (
@@ -173,10 +230,41 @@ export function updateBoundsFromDrag(
         Number(end[2]),
       )
 
-    next.xMin = roundMni(xMin)
-    next.xMax = roundMni(xMax)
-    next.zMin = roundMni(zMin)
-    next.zMax = roundMni(zMax)
+    next.xMin =
+      roundMni(
+        clamp(
+          xMin,
+          Number(minExtent[0]),
+          Number(maxExtent[0]),
+        ),
+      )
+
+    next.xMax =
+      roundMni(
+        clamp(
+          xMax,
+          Number(minExtent[0]),
+          Number(maxExtent[0]),
+        ),
+      )
+
+    next.zMin =
+      roundMni(
+        clamp(
+          zMin,
+          Number(minExtent[2]),
+          Number(maxExtent[2]),
+        ),
+      )
+
+    next.zMax =
+      roundMni(
+        clamp(
+          zMax,
+          Number(minExtent[2]),
+          Number(maxExtent[2]),
+        ),
+      )
   }
 
   if (
@@ -195,10 +283,41 @@ export function updateBoundsFromDrag(
         Number(end[2]),
       )
 
-    next.yMin = roundMni(yMin)
-    next.yMax = roundMni(yMax)
-    next.zMin = roundMni(zMin)
-    next.zMax = roundMni(zMax)
+    next.yMin =
+      roundMni(
+        clamp(
+          yMin,
+          Number(minExtent[1]),
+          Number(maxExtent[1]),
+        ),
+      )
+
+    next.yMax =
+      roundMni(
+        clamp(
+          yMax,
+          Number(minExtent[1]),
+          Number(maxExtent[1]),
+        ),
+      )
+
+    next.zMin =
+      roundMni(
+        clamp(
+          zMin,
+          Number(minExtent[2]),
+          Number(maxExtent[2]),
+        ),
+      )
+
+    next.zMax =
+      roundMni(
+        clamp(
+          zMax,
+          Number(minExtent[2]),
+          Number(maxExtent[2]),
+        ),
+      )
   }
 
   return next
@@ -312,6 +431,26 @@ export function projectRegionBounds(
     canvas.clientHeight /
     canvas.height
 
+  const baseVolume =
+    nv.volumes[0]
+
+  const minExtent =
+    baseVolume
+      ?.extentsMinOrtho ??
+    nv.extentsMin
+
+  const maxExtent =
+    baseVolume
+      ?.extentsMaxOrtho ??
+    nv.extentsMax
+
+  if (
+    !minExtent ||
+    !maxExtent
+  ) {
+    return []
+  }
+
   const rects:
     RegionOverlayRect[] = []
 
@@ -350,6 +489,43 @@ export function projectRegionBounds(
       continue
     }
 
+    const tile =
+      nv.screenSlices[
+        firstCanvas.tileIndex
+      ]
+
+    const ltwh =
+      tile?.leftTopWidthHeight
+
+    if (
+      !ltwh ||
+      ltwh.length < 4
+    ) {
+      continue
+    }
+
+    const tileLeftPx =
+      Number(ltwh[0]) *
+      cssScaleX
+
+    const tileTopPx =
+      Number(ltwh[1]) *
+      cssScaleY
+
+    const tileRightPx =
+      (
+        Number(ltwh[0]) +
+        Number(ltwh[2])
+      ) *
+      cssScaleX
+
+    const tileBottomPx =
+      (
+        Number(ltwh[1]) +
+        Number(ltwh[3])
+      ) *
+      cssScaleY
+
     const x1 =
       firstCanvas.pos[0] *
       cssScaleX
@@ -365,6 +541,50 @@ export function projectRegionBounds(
     const y2 =
       secondCanvas.pos[1] *
       cssScaleY
+
+    let horizontalLimitMin:
+      number
+    let horizontalLimitMax:
+      number
+    let verticalLimitMin:
+      number
+    let verticalLimitMax:
+      number
+
+    if (
+      definition.plane ===
+      'coronal'
+    ) {
+      horizontalLimitMin =
+        Number(minExtent[0])
+      horizontalLimitMax =
+        Number(maxExtent[0])
+      verticalLimitMin =
+        Number(minExtent[2])
+      verticalLimitMax =
+        Number(maxExtent[2])
+    } else if (
+      definition.plane ===
+      'sagittal'
+    ) {
+      horizontalLimitMin =
+        Number(minExtent[1])
+      horizontalLimitMax =
+        Number(maxExtent[1])
+      verticalLimitMin =
+        Number(minExtent[2])
+      verticalLimitMax =
+        Number(maxExtent[2])
+    } else {
+      horizontalLimitMin =
+        Number(minExtent[0])
+      horizontalLimitMax =
+        Number(maxExtent[0])
+      verticalLimitMin =
+        Number(minExtent[1])
+      verticalLimitMax =
+        Number(maxExtent[1])
+    }
 
     rects.push({
       plane:
@@ -386,6 +606,16 @@ export function projectRegionBounds(
         y1,
       verticalMaxPx:
         y2,
+
+      tileLeftPx,
+      tileTopPx,
+      tileRightPx,
+      tileBottomPx,
+
+      horizontalLimitMin,
+      horizontalLimitMax,
+      verticalLimitMin,
+      verticalLimitMax,
     })
   }
 
@@ -533,6 +763,21 @@ export function projectRegionCuboid3D(
 
   return {
     points,
+
+    viewport: {
+      left:
+        Number(ltwh[0]) *
+        cssScaleX,
+      top:
+        Number(ltwh[1]) *
+        cssScaleY,
+      width:
+        Number(ltwh[2]) *
+        cssScaleX,
+      height:
+        Number(ltwh[3]) *
+        cssScaleY,
+    },
   }
 }
 
@@ -547,34 +792,68 @@ export function resizeRegionFromHandle(
     ...bounds,
   }
 
-  const horizontalValue =
-    screenToValue(
+  const safePointerX =
+    clamp(
       pointerX,
-      rect.horizontalMinPx,
-      rect.horizontalMaxPx,
-      horizontalMinValue(
-        bounds,
-        rect.plane,
+      Math.min(
+        rect.tileLeftPx,
+        rect.tileRightPx,
       ),
-      horizontalMaxValue(
-        bounds,
-        rect.plane,
+      Math.max(
+        rect.tileLeftPx,
+        rect.tileRightPx,
       ),
     )
 
-  const verticalValue =
-    screenToValue(
+  const safePointerY =
+    clamp(
       pointerY,
-      rect.verticalMinPx,
-      rect.verticalMaxPx,
-      verticalMinValue(
-        bounds,
-        rect.plane,
+      Math.min(
+        rect.tileTopPx,
+        rect.tileBottomPx,
       ),
-      verticalMaxValue(
-        bounds,
-        rect.plane,
+      Math.max(
+        rect.tileTopPx,
+        rect.tileBottomPx,
       ),
+    )
+
+  const horizontalValue =
+    clamp(
+      screenToValue(
+        safePointerX,
+        rect.horizontalMinPx,
+        rect.horizontalMaxPx,
+        horizontalMinValue(
+          bounds,
+          rect.plane,
+        ),
+        horizontalMaxValue(
+          bounds,
+          rect.plane,
+        ),
+      ),
+      rect.horizontalLimitMin,
+      rect.horizontalLimitMax,
+    )
+
+  const verticalValue =
+    clamp(
+      screenToValue(
+        safePointerY,
+        rect.verticalMinPx,
+        rect.verticalMaxPx,
+        verticalMinValue(
+          bounds,
+          rect.plane,
+        ),
+        verticalMaxValue(
+          bounds,
+          rect.plane,
+        ),
+      ),
+      rect.verticalLimitMin,
+      rect.verticalLimitMax,
     )
 
   if (

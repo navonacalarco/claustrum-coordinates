@@ -278,6 +278,35 @@ function RegionBoxOverlay({
           height="100%"
           aria-hidden="true"
         >
+          <defs>
+            <clipPath
+              id="region-cuboid-render-clip"
+              clipPathUnits="userSpaceOnUse"
+            >
+              <rect
+                x={
+                  cuboid3D
+                    .viewport.left
+                }
+                y={
+                  cuboid3D
+                    .viewport.top
+                }
+                width={
+                  cuboid3D
+                    .viewport.width
+                }
+                height={
+                  cuboid3D
+                    .viewport.height
+                }
+              />
+            </clipPath>
+          </defs>
+
+          <g
+            clipPath="url(#region-cuboid-render-clip)"
+          >
           {cuboidFaces
             .map(
               (face) => ({
@@ -367,6 +396,7 @@ function RegionBoxOverlay({
               />
             ),
           )}
+          </g>
         </svg>
       )}
 

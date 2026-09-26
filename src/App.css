@@ -2841,4 +2841,33 @@ h1 {
   z-index: 5;
 }
 
+/* =================================================
+   Passive 3D region cuboid
+   ================================================= */
+
+.region-cuboid-3d {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.region-cuboid-face {
+  fill: rgba(48, 201, 105, 0.075);
+  stroke: none;
+}
+
+.region-cuboid-edge {
+  stroke: rgba(75, 224, 128, 0.92);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Keep the 2D handles above the passive 3D SVG. */
+.region-box-rect {
+  z-index: 5;
+}
+
 
