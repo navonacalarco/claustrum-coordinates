@@ -1,0 +1,11 @@
+
+- move filtered selection found to 'filters' sidebar, not top
+- why is 'Studies' on bottom and side - one or the other
+- jump to coordinate if enter MNI
+- remove points / study-weighted density
+- maybe select studies with multiple coordiantes?
+- make 3d view more transparent
+- overlay bigbrain segmentation
+- add left and right labels (l/r, s/i, etc)
+- remove redundant 'current selection'
+- make clear 'download all data', 'download selection' csv

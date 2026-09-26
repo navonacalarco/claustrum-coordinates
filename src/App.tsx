@@ -103,6 +103,9 @@ function App() {
   const [selectedStudyId, setSelectedStudyId] =
     useState<string | null>(null)
 
+  const [selectedPeakId, setSelectedPeakId] =
+    useState<string | null>(null)
+
   const [focusCoordinate, setFocusCoordinate] =
     useState<[number, number, number] | null>(null)
 
@@ -111,6 +114,12 @@ function App() {
 
   const [filters, setFilters] =
     useState<FilterState>(emptyFilters)
+
+  const [studyBrowserOpen, setStudyBrowserOpen] =
+    useState(false)
+
+  const [studySearch, setStudySearch] =
+    useState('')
 
   useEffect(() => {
     fetch('/data/peaks-mni.json')
@@ -131,6 +140,35 @@ function App() {
         )
       })
   }, [])
+
+  /*
+   * Close the study browser with Escape.
+   */
+  useEffect(() => {
+    if (!studyBrowserOpen) {
+      return
+    }
+
+    function handleKeyDown(
+      event: KeyboardEvent,
+    ) {
+      if (event.key === 'Escape') {
+        setStudyBrowserOpen(false)
+      }
+    }
+
+    window.addEventListener(
+      'keydown',
+      handleKeyDown,
+    )
+
+    return () => {
+      window.removeEventListener(
+        'keydown',
+        handleKeyDown,
+      )
+    }
+  }, [studyBrowserOpen])
 
   const yearBounds = useMemo(() => {
     const years =
@@ -200,6 +238,10 @@ function App() {
     }
   }, [reviewData])
 
+  /*
+   * Apply the review filters at the
+   * coordinate level.
+   */
   const filteredPeaks = useMemo(() => {
     if (!reviewData) {
       return []
@@ -276,6 +318,10 @@ function App() {
       [filteredPeaks],
     )
 
+  /*
+   * Convert the currently visible peaks
+   * into study-level summaries.
+   */
   const studies =
     useMemo<StudySummary[]>(() => {
       const studyMap =
@@ -414,20 +460,89 @@ function App() {
     }, [filteredPeaks])
 
   const numberOfVisibleStudies =
-    useMemo(
-      () =>
-        new Set(
-          filteredPeaks.map(
-            (peak) =>
-              peak.studyId,
-          ),
-        ).size,
-      [filteredPeaks],
-    )
+    studies.length
 
   const visibleStudies =
     studies.slice(0, 4)
 
+  /*
+   * Search within studies that already
+   * match the current review filters.
+   */
+  const searchedStudies =
+    useMemo(() => {
+      const query =
+        studySearch
+          .trim()
+          .toLowerCase()
+
+      if (!query) {
+        return studies
+      }
+
+      return studies.filter(
+        (study) => {
+          const searchableValues = [
+            study.authors,
+            study.title,
+            study.journal,
+            study.pmid,
+            study.year?.toString() ?? '',
+            study.peakSources.join(' '),
+          ]
+
+          return searchableValues.some(
+            (value) =>
+              value
+                .toLowerCase()
+                .includes(
+                  query,
+                ),
+          )
+        },
+      )
+    }, [
+      studies,
+      studySearch,
+    ])
+
+  /*
+   * When a study is selected from the brain,
+   * bring its card into view in the browser.
+   */
+  useEffect(() => {
+    if (
+      !studyBrowserOpen ||
+      !selectedStudyId
+    ) {
+      return
+    }
+
+    const timer =
+      window.setTimeout(() => {
+        const element =
+          document.getElementById(
+            `study-browser-${selectedStudyId}`,
+          )
+
+        element?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        })
+      }, 80)
+
+    return () =>
+      window.clearTimeout(timer)
+  }, [
+    studyBrowserOpen,
+    selectedStudyId,
+    searchedStudies,
+  ])
+
+  /*
+   * If filtering removes the selected
+   * study, clear the selection.
+   */
   useEffect(() => {
     if (!selectedStudyId) {
       return
@@ -442,6 +557,7 @@ function App() {
 
     if (!stillVisible) {
       setSelectedStudyId(null)
+      setSelectedPeakId(null)
       setFocusCoordinate(null)
     }
   }, [
@@ -460,6 +576,7 @@ function App() {
       }),
     )
 
+    setSelectedPeakId(null)
     setFocusCoordinate(null)
   }
 
@@ -475,13 +592,26 @@ function App() {
       }),
     )
 
+    setSelectedPeakId(null)
     setFocusCoordinate(null)
   }
 
   function resetFilters() {
     setFilters(emptyFilters)
     setSelectedStudyId(null)
+    setSelectedPeakId(null)
     setFocusCoordinate(null)
+  }
+
+  function clearSelection() {
+    setSelectedStudyId(null)
+    setSelectedPeakId(null)
+    setFocusCoordinate(null)
+  }
+
+  function showAll() {
+    clearSelection()
+    setStudyBrowserOpen(false)
   }
 
   function selectStudy(
@@ -492,6 +622,10 @@ function App() {
       studyId
     ) {
       setSelectedStudyId(
+        null,
+      )
+
+      setSelectedPeakId(
         null,
       )
 
@@ -506,6 +640,10 @@ function App() {
       studyId,
     )
 
+    setSelectedPeakId(
+      null,
+    )
+
     setFocusCoordinate(
       null,
     )
@@ -513,6 +651,7 @@ function App() {
 
   function selectPeak(
     studyId: string,
+    peakId: string,
     coordinate:
       [number, number, number],
   ) {
@@ -520,11 +659,45 @@ function App() {
       studyId,
     )
 
+    setSelectedPeakId(
+      peakId,
+    )
+
     setFocusCoordinate([
       coordinate[0],
       coordinate[1],
       coordinate[2],
     ])
+  }
+
+  function handleBrainPeakClick(
+    peakId: string,
+    studyId: string,
+    coordinate:
+      [number, number, number],
+  ) {
+    setStudySearch('')
+
+    setSelectedStudyId(
+      studyId,
+    )
+
+    setSelectedPeakId(
+      peakId,
+    )
+
+    setFocusCoordinate([
+      coordinate[0],
+      coordinate[1],
+      coordinate[2],
+    ])
+
+    setStudyBrowserOpen(true)
+  }
+
+  function openStudyBrowser() {
+    setStudySearch('')
+    setStudyBrowserOpen(true)
   }
 
   return (
@@ -678,6 +851,7 @@ function App() {
                 {numberOfVisibleStudies}
               </strong>
               {' '}studies
+
             </div>
 
             <div className="segmented">
@@ -794,6 +968,10 @@ function App() {
               visiblePeakIds={
                 visiblePeakIds
               }
+
+              onPeakClick={
+                handleBrainPeakClick
+              }
             />
 
             <div className="viewer-footer">
@@ -837,10 +1015,29 @@ function App() {
               Studies
             </h2>
 
-            <p>
-              {numberOfVisibleStudies}{' '}
-              currently visible
-            </p>
+            {selectedStudyId ? (
+              <button
+                type="button"
+                className="show-all-button"
+                onClick={showAll}
+              >
+                Show all
+              </button>
+            ) : (
+              studies.length >
+                visibleStudies.length && (
+                <button
+                  type="button"
+                  className="browse-studies-button"
+                  onClick={openStudyBrowser}
+                >
+                  Browse all {studies.length}
+                  <span aria-hidden="true">
+                    →
+                  </span>
+                </button>
+              )
+            )}
           </div>
 
           {visibleStudies.map(
@@ -859,6 +1056,10 @@ function App() {
                   study.studyId
                 }
 
+                selectedPeakId={
+                  selectedPeakId
+                }
+
                 onSelect={() =>
                   selectStudy(
                     study.studyId,
@@ -866,10 +1067,12 @@ function App() {
                 }
 
                 onPeakSelect={(
+                  peakId,
                   coordinate,
                 ) =>
                   selectPeak(
                     study.studyId,
+                    peakId,
                     coordinate,
                   )
                 }
@@ -877,21 +1080,12 @@ function App() {
             ),
           )}
 
-          {studies.length === 0 && (
-            <div className="no-results">
-              No studies match these filters.
-            </div>
-          )}
-
-          {studies.length >
-            visibleStudies.length && (
-            <button className="view-all-button">
-              Browse all{' '}
-              {studies.length}{' '}
-              studies
-            </button>
-          )}
-        </aside>
+  {studies.length === 0 && (
+    <div className="no-results">
+      No studies match these filters.
+    </div>
+  )}
+</aside>
       </main>
 
       <div className="selection-bar">
@@ -918,6 +1112,152 @@ function App() {
           </button>
         </div>
       </div>
+
+      {studyBrowserOpen && (
+        <>
+          <div
+            className="study-browser-backdrop"
+            onClick={() =>
+              setStudyBrowserOpen(
+                false,
+              )
+            }
+          />
+
+          <aside
+            className="study-browser-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Browse studies"
+          >
+            <div className="study-browser-header">
+              <div>
+                <div className="study-browser-eyebrow">
+                  CURRENT FILTERS
+                </div>
+
+                <h2>
+                  Browse studies
+                </h2>
+
+                <p>
+                  {studies.length}{' '}
+                  {studies.length === 1
+                    ? 'study'
+                    : 'studies'}{' '}
+                  available
+                </p>
+              </div>
+
+              <div className="study-browser-header-actions">
+                {selectedStudyId && (
+                  <button
+                    type="button"
+                    className="show-all-button"
+                    onClick={showAll}
+                  >
+                    Show all
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  className="study-browser-close"
+                  aria-label="Close study browser"
+                  onClick={() =>
+                    setStudyBrowserOpen(
+                      false,
+                    )
+                  }
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            <div className="study-browser-search">
+              <input
+                autoFocus
+                type="search"
+                value={studySearch}
+                placeholder="Search author, title, journal, year, PMID…"
+
+                onChange={(event) =>
+                  setStudySearch(
+                    event.target.value,
+                  )
+                }
+              />
+            </div>
+
+            <div className="study-browser-result-count">
+              {searchedStudies.length}{' '}
+              {searchedStudies.length === 1
+                ? 'study'
+                : 'studies'}
+            </div>
+
+            <div className="study-browser-list">
+              {searchedStudies.map(
+                (study) => (
+                  <div
+                    key={study.studyId}
+                    id={`study-browser-${study.studyId}`}
+                    className="study-browser-card-wrap"
+                  >
+                    <StudyCard
+                      study={
+                        study
+                      }
+
+                      selected={
+                        selectedStudyId ===
+                        study.studyId
+                      }
+
+                      selectedPeakId={
+                        selectedPeakId
+                      }
+
+                      onSelect={() =>
+                        selectStudy(
+                          study.studyId,
+                        )
+                      }
+
+                      onPeakSelect={(
+                        peakId,
+                        coordinate,
+                      ) =>
+                        selectPeak(
+                          study.studyId,
+                          peakId,
+                          coordinate,
+                        )
+                      }
+                    />
+                  </div>
+                ),
+              )}
+
+              {searchedStudies.length ===
+                0 && (
+                <div className="study-browser-empty">
+                  <strong>
+                    No matching studies
+                  </strong>
+
+                  <span>
+                    Try a different author,
+                    title, journal, year, or
+                    PMID.
+                  </span>
+                </div>
+              )}
+            </div>
+          </aside>
+        </>
+      )}
     </div>
   )
 }
@@ -1281,9 +1621,11 @@ function YearRangeFilter({
 type StudyCardProps = {
   study: StudySummary
   selected: boolean
+  selectedPeakId?: string | null
   onSelect: () => void
 
   onPeakSelect: (
+    peakId: string,
     coordinate:
       [number, number, number],
   ) => void
@@ -1292,6 +1634,7 @@ type StudyCardProps = {
 function StudyCard({
   study,
   selected,
+  selectedPeakId = null,
   onSelect,
   onPeakSelect,
 }: StudyCardProps) {
@@ -1464,10 +1807,16 @@ function StudyCard({
 
                     type="button"
 
-                    className="study-peak-button"
+                    className={
+                      selectedPeakId ===
+                      peak.id
+                        ? 'study-peak-button selected-peak'
+                        : 'study-peak-button'
+                    }
 
                     onClick={() =>
                       onPeakSelect(
+                        peak.id,
                         [
                           peak.x,
                           peak.y,

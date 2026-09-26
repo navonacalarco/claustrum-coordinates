@@ -18,6 +18,12 @@ type BrainViewerProps = {
     coords: [number, number, number],
   ) => void
 
+  onPeakClick?: (
+    peakId: string,
+    studyId: string,
+    coordinate: [number, number, number],
+  ) => void
+
   selectedStudyId?: string | null
 
   focusCoordinate?: [
@@ -41,8 +47,14 @@ type Peak = {
   zMni: number
 }
 
+type UserLocation = {
+  coords: [number, number, number]
+  time: number
+}
+
 export default function BrainViewer({
   onLocationChange,
+  onPeakClick,
   selectedStudyId = null,
   focusCoordinate = null,
   viewMode = 'multi',
@@ -59,6 +71,18 @@ export default function BrainViewer({
 
   const onLocationChangeRef =
     useRef(onLocationChange)
+
+  const onPeakClickRef =
+    useRef(onPeakClick)
+
+  const visiblePeakIdsRef =
+    useRef(visiblePeakIds)
+
+  const panModeRef =
+    useRef(false)
+
+  const lastUserLocationRef =
+    useRef<UserLocation | null>(null)
 
   const peaksRef =
     useRef<Peak[]>([])
@@ -82,6 +106,21 @@ export default function BrainViewer({
     onLocationChangeRef.current =
       onLocationChange
   }, [onLocationChange])
+
+  useEffect(() => {
+    onPeakClickRef.current =
+      onPeakClick
+  }, [onPeakClick])
+
+  useEffect(() => {
+    visiblePeakIdsRef.current =
+      visiblePeakIds
+  }, [visiblePeakIds])
+
+  useEffect(() => {
+    panModeRef.current =
+      panMode
+  }, [panMode])
 
   useEffect(() => {
     if (
@@ -120,6 +159,14 @@ export default function BrainViewer({
       | ResizeObserver
       | null = null
 
+    let canvasMouseDownHandler:
+      | ((event: MouseEvent) => void)
+      | null = null
+
+    let canvasClickHandler:
+      | ((event: MouseEvent) => void)
+      | null = null
+
     async function initializeViewer() {
       if (
         !canvasRef.current ||
@@ -138,12 +185,8 @@ export default function BrainViewer({
         {
           url:
             '/imaging/mni_icbm152_t1_tal_nlin_asym_09c.nii.gz',
-
-          colormap:
-            'gray',
-
-          opacity:
-            1,
+          colormap: 'gray',
+          opacity: 1,
         },
       ])
 
@@ -152,9 +195,7 @@ export default function BrainViewer({
           '/data/peaks-mni.json',
         )
 
-      if (
-        !peakResponse.ok
-      ) {
+      if (!peakResponse.ok) {
         throw new Error(
           'Could not load literature peak coordinates',
         )
@@ -163,12 +204,10 @@ export default function BrainViewer({
       const reviewData =
         await peakResponse.json()
 
-      const peaks:
-        Peak[] =
+      const peaks: Peak[] =
         reviewData.peaks
 
-      peaksRef.current =
-        peaks
+      peaksRef.current = peaks
 
       nv.addColormap(
         'SelectedStudy',
@@ -181,9 +220,7 @@ export default function BrainViewer({
         },
       )
 
-      nv.setMeshThicknessOn2D(
-        4,
-      )
+      nv.setMeshThicknessOn2D(4)
 
       nv.setSliceType(
         SLICE_TYPE.MULTIPLANAR,
@@ -196,57 +233,179 @@ export default function BrainViewer({
       nv.opts.multiplanarShowRender =
         SHOW_RENDER.ALWAYS
 
-      nv.opts.multiplanarEqualSize =
-        true
+      nv.opts.multiplanarEqualSize = true
 
       nv.onLocationChange = (
         location: any,
       ) => {
         if (
           !location?.mm ||
-          location.mm.length <
-            3
+          location.mm.length < 3
         ) {
           return
         }
 
         const coords:
           [number, number, number] = [
-            Number(
-              location.mm[0],
-            ),
-
-            Number(
-              location.mm[1],
-            ),
-
-            Number(
-              location.mm[2],
-            ),
+            Number(location.mm[0]),
+            Number(location.mm[1]),
+            Number(location.mm[2]),
           ]
+
+        // Remember only locations produced by
+        // actual viewer interaction. Programmatic
+        // study navigation does not write here.
+        lastUserLocationRef.current = {
+          coords,
+          time: performance.now(),
+        }
 
         onLocationChangeRef.current?.(
           coords,
         )
       }
 
+      /*
+       * Peak clicking uses the browser's native canvas
+       * click event as the trigger. NiiVue still supplies
+       * the MNI location through onLocationChange above.
+       * This is more reliable than depending on the
+       * NiiVue mouse-up callback ordering.
+       */
+      let mouseDownX = 0
+      let mouseDownY = 0
+
+      canvasMouseDownHandler = (
+        event: MouseEvent,
+      ) => {
+        mouseDownX = event.clientX
+        mouseDownY = event.clientY
+      }
+
+      canvasClickHandler = (
+        event: MouseEvent,
+      ) => {
+        if (panModeRef.current) {
+          return
+        }
+
+        const dragDistance =
+          Math.hypot(
+            event.clientX - mouseDownX,
+            event.clientY - mouseDownY,
+          )
+
+        if (dragDistance > 5) {
+          return
+        }
+
+        window.requestAnimationFrame(
+          () => {
+            const lastLocation =
+              lastUserLocationRef.current
+
+            if (!lastLocation) {
+              return
+            }
+
+            // A fresh location change tells us the click
+            // occurred in a 2D slice rather than simply
+            // reusing an old crosshair location from a
+            // click in the 3D render.
+            if (
+              performance.now() -
+                lastLocation.time >
+              400
+            ) {
+              return
+            }
+
+            const visibleIds =
+              visiblePeakIdsRef.current
+
+            const visibleSet =
+              visibleIds
+                ? new Set(visibleIds)
+                : null
+
+            let nearestPeak:
+              | Peak
+              | null = null
+
+            let nearestDistance =
+              Number.POSITIVE_INFINITY
+
+            for (
+              const peak of peaksRef.current
+            ) {
+              if (
+                visibleSet &&
+                !visibleSet.has(peak.id)
+              ) {
+                continue
+              }
+
+              const distance =
+                Math.hypot(
+                  peak.xMni -
+                    lastLocation.coords[0],
+                  peak.yMni -
+                    lastLocation.coords[1],
+                  peak.zMni -
+                    lastLocation.coords[2],
+                )
+
+              if (
+                distance < nearestDistance
+              ) {
+                nearestDistance = distance
+                nearestPeak = peak
+              }
+            }
+
+            if (
+              !nearestPeak ||
+              nearestDistance > 8
+            ) {
+              return
+            }
+
+            onPeakClickRef.current?.(
+              nearestPeak.id,
+              nearestPeak.studyId,
+              [
+                nearestPeak.xMni,
+                nearestPeak.yMni,
+                nearestPeak.zMni,
+              ],
+            )
+          },
+        )
+      }
+
+      canvasRef.current.addEventListener(
+        'mousedown',
+        canvasMouseDownHandler,
+      )
+
+      canvasRef.current.addEventListener(
+        'click',
+        canvasClickHandler,
+      )
+
       nv.resizeListener()
       nv.drawScene()
 
       resizeObserver =
-        new ResizeObserver(
-          () => {
-            nv.resizeListener()
-          },
-        )
+        new ResizeObserver(() => {
+          nv.resizeListener()
+        })
 
       resizeObserver.observe(
         containerRef.current,
       )
 
-      setViewerReady(
-        true,
-      )
+      setViewerReady(true)
     }
 
     initializeViewer().catch(
@@ -261,14 +420,29 @@ export default function BrainViewer({
     return () => {
       resizeObserver?.disconnect()
 
-      nvRef.current =
-        null
+      if (
+        canvasRef.current &&
+        canvasMouseDownHandler
+      ) {
+        canvasRef.current.removeEventListener(
+          'mousedown',
+          canvasMouseDownHandler,
+        )
+      }
 
-      baseMeshRef.current =
-        null
+      if (
+        canvasRef.current &&
+        canvasClickHandler
+      ) {
+        canvasRef.current.removeEventListener(
+          'click',
+          canvasClickHandler,
+        )
+      }
 
-      highlightMeshRef.current =
-        null
+      nvRef.current = null
+      baseMeshRef.current = null
+      highlightMeshRef.current = null
     }
   }, [])
 
@@ -277,26 +451,28 @@ export default function BrainViewer({
    * the filters change.
    */
   useEffect(() => {
-    const nv =
-      nvRef.current
+    const nv = nvRef.current
 
-    if (
-      !nv ||
-      !viewerReady
-    ) {
+    if (!nv || !viewerReady) {
       return
     }
 
     if (
-      baseMeshRef.current
+      baseMeshRef.current &&
+      nv.meshes.includes(
+        baseMeshRef.current,
+      )
     ) {
       nv.removeMesh(
         baseMeshRef.current,
       )
-
-      baseMeshRef.current =
-        null
     }
+
+    baseMeshRef.current = null
+
+    // loadConnectome() replaces the current connectome mesh list.
+    // If a blue selection was present, its stored reference is now stale.
+    highlightMeshRef.current = null
 
     const visibleSet =
       visiblePeakIds
@@ -316,8 +492,7 @@ export default function BrainViewer({
         : peaksRef.current
 
     if (
-      visiblePeaks.length ===
-      0
+      visiblePeaks.length === 0
     ) {
       nv.drawScene()
       return
@@ -388,8 +563,7 @@ export default function BrainViewer({
 
     baseMeshRef.current =
       nv.meshes[
-        nv.meshes.length -
-          1
+        nv.meshes.length - 1
       ]
 
     nv.drawScene()
@@ -402,13 +576,9 @@ export default function BrainViewer({
    * Toggle pan interaction.
    */
   useEffect(() => {
-    const nv =
-      nvRef.current
+    const nv = nvRef.current
 
-    if (
-      !nv ||
-      !viewerReady
-    ) {
+    if (!nv || !viewerReady) {
       return
     }
 
@@ -433,19 +603,14 @@ export default function BrainViewer({
    * individual views.
    */
   useEffect(() => {
-    const nv =
-      nvRef.current
+    const nv = nvRef.current
 
-    if (
-      !nv ||
-      !viewerReady
-    ) {
+    if (!nv || !viewerReady) {
       return
     }
 
     if (
-      viewMode ===
-      'multi'
+      viewMode === 'multi'
     ) {
       nv.setSliceType(
         SLICE_TYPE.MULTIPLANAR,
@@ -463,8 +628,7 @@ export default function BrainViewer({
     }
 
     if (
-      viewMode ===
-      'coronal'
+      viewMode === 'coronal'
     ) {
       nv.setSliceType(
         SLICE_TYPE.CORONAL,
@@ -472,8 +636,7 @@ export default function BrainViewer({
     }
 
     if (
-      viewMode ===
-      'sagittal'
+      viewMode === 'sagittal'
     ) {
       nv.setSliceType(
         SLICE_TYPE.SAGITTAL,
@@ -481,8 +644,7 @@ export default function BrainViewer({
     }
 
     if (
-      viewMode ===
-      'axial'
+      viewMode === 'axial'
     ) {
       nv.setSliceType(
         SLICE_TYPE.AXIAL,
@@ -490,8 +652,7 @@ export default function BrainViewer({
     }
 
     if (
-      viewMode ===
-      'render'
+      viewMode === 'render'
     ) {
       nv.setSliceType(
         SLICE_TYPE.RENDER,
@@ -510,30 +671,121 @@ export default function BrainViewer({
    * crosshair to study/peak.
    */
   useEffect(() => {
-    const nv =
-      nvRef.current
+    const nv = nvRef.current
 
-    if (
-      !nv ||
-      !viewerReady
-    ) {
+    if (!nv || !viewerReady) {
       return
     }
 
     if (
-      highlightMeshRef.current
+      highlightMeshRef.current &&
+      nv.meshes.includes(
+        highlightMeshRef.current,
+      )
     ) {
       nv.removeMesh(
         highlightMeshRef.current,
       )
-
-      highlightMeshRef.current =
-        null
     }
 
-    if (
-      !selectedStudyId
-    ) {
+    highlightMeshRef.current = null
+
+    if (!selectedStudyId) {
+      const visibleSet =
+        visiblePeakIds
+          ? new Set(
+              visiblePeakIds,
+            )
+          : null
+
+      const visiblePeaks =
+        visibleSet
+          ? peaksRef.current.filter(
+              (peak) =>
+                visibleSet.has(
+                  peak.id,
+                ),
+            )
+          : peaksRef.current
+
+      if (
+        visiblePeaks.length === 0
+      ) {
+        baseMeshRef.current = null
+        nv.drawScene()
+        return
+      }
+
+      // Selecting a study uses loadConnectome(), which replaces the
+      // red connectome. Re-create the red layer when the selection clears.
+      nv.loadConnectome({
+        name:
+          'Reported literature coordinates',
+
+        nodeColormap:
+          'red',
+
+        nodeColormapNegative:
+          'red',
+
+        nodeMinColor:
+          0,
+
+        nodeMaxColor:
+          1,
+
+        nodeScale:
+          3,
+
+        edgeColormap:
+          'red',
+
+        edgeColormapNegative:
+          'red',
+
+        edgeMin:
+          0,
+
+        edgeMax:
+          1,
+
+        edgeScale:
+          0,
+
+        showLegend:
+          false,
+
+        nodes:
+          visiblePeaks.map(
+            (peak) => ({
+              name:
+                `${peak.authors} (${peak.year})`,
+
+              x:
+                peak.xMni,
+
+              y:
+                peak.yMni,
+
+              z:
+                peak.zMni,
+
+              colorValue:
+                1,
+
+              sizeValue:
+                1,
+            }),
+          ),
+
+        edges: [],
+      })
+
+      baseMeshRef.current =
+        nv.meshes[
+          nv.meshes.length - 1
+        ]
+
       nv.drawScene()
       return
     }
@@ -569,8 +821,7 @@ export default function BrainViewer({
       )
 
     if (
-      selectedPeaks.length ===
-      0
+      selectedPeaks.length === 0
     ) {
       nv.drawScene()
       return
@@ -639,18 +890,18 @@ export default function BrainViewer({
       edges: [],
     })
 
+    // loadConnectome() replaced the red connectome, so its ref is stale.
+    baseMeshRef.current = null
+
     highlightMeshRef.current =
       nv.meshes[
-        nv.meshes.length -
-          1
+        nv.meshes.length - 1
       ]
 
     let target:
       [number, number, number]
 
-    if (
-      focusCoordinate
-    ) {
+    if (focusCoordinate) {
       target =
         focusCoordinate
     } else {
@@ -718,13 +969,9 @@ export default function BrainViewer({
   function applyZoom(
     nextZoom: number,
   ) {
-    const nv =
-      nvRef.current
+    const nv = nvRef.current
 
-    if (
-      !nv ||
-      !viewerReady
-    ) {
+    if (!nv || !viewerReady) {
       return
     }
 
@@ -777,13 +1024,9 @@ export default function BrainViewer({
   }
 
   function resetZoom() {
-    const nv =
-      nvRef.current
+    const nv = nvRef.current
 
-    if (
-      !nv ||
-      !viewerReady
-    ) {
+    if (!nv || !viewerReady) {
       return
     }
 
@@ -803,9 +1046,7 @@ export default function BrainViewer({
 
   return (
     <div
-      ref={
-        containerRef
-      }
+      ref={containerRef}
 
       className={
         panMode
@@ -814,19 +1055,14 @@ export default function BrainViewer({
       }
     >
       <canvas
-        ref={
-          canvasRef
-        }
-
+        ref={canvasRef}
         className="brain-canvas"
       />
 
       <div className="zoom-controls">
         <button
           type="button"
-          onClick={
-            zoomOut
-          }
+          onClick={zoomOut}
           title="Zoom out"
           aria-label="Zoom out"
         >
@@ -836,9 +1072,7 @@ export default function BrainViewer({
         <button
           type="button"
           className="zoom-reset"
-          onClick={
-            resetZoom
-          }
+          onClick={resetZoom}
           title="Reset pan and zoom"
         >
           Reset
@@ -846,9 +1080,7 @@ export default function BrainViewer({
 
         <button
           type="button"
-          onClick={
-            zoomIn
-          }
+          onClick={zoomIn}
           title="Zoom in"
           aria-label="Zoom in"
         >
