@@ -7,6 +7,9 @@ import FiltersPanel, {
 } from './components/FiltersPanel'
 import { type StudyPeak, type StudySummary } from './components/StudyCard'
 import StudiesPanel from './components/StudiesPanel'
+import RegionSelector, {
+  type RegionBounds,
+} from './components/RegionSelector'
 
 type ViewMode =
   | 'multi'
@@ -40,6 +43,8 @@ type Peak = {
   xMni: number
   yMni: number
   zMni: number
+
+  [key: string]: unknown
 }
 
 type ReviewData = {
@@ -79,6 +84,9 @@ function App() {
 
   const [filters, setFilters] =
     useState<FilterState>(emptyFilters)
+
+  const [regionBounds, setRegionBounds] =
+    useState<RegionBounds | null>(null)
 
   useEffect(() => {
     fetch('/data/peaks-mni.json')
@@ -244,13 +252,37 @@ function App() {
     activeYearMax,
   ])
 
+  /*
+   * Spatial selection is intentionally layered
+   * on top of the review filters.
+   */
+  const displayedPeaks =
+    useMemo(() => {
+      if (!regionBounds) {
+        return filteredPeaks
+      }
+
+      return filteredPeaks.filter(
+        (peak) =>
+          peak.xMni >= regionBounds.xMin &&
+          peak.xMni <= regionBounds.xMax &&
+          peak.yMni >= regionBounds.yMin &&
+          peak.yMni <= regionBounds.yMax &&
+          peak.zMni >= regionBounds.zMin &&
+          peak.zMni <= regionBounds.zMax,
+      )
+    }, [
+      filteredPeaks,
+      regionBounds,
+    ])
+
   const visiblePeakIds =
     useMemo(
       () =>
-        filteredPeaks.map(
+        displayedPeaks.map(
           (peak) => peak.id,
         ),
-      [filteredPeaks],
+      [displayedPeaks],
     )
 
   /*
@@ -266,7 +298,7 @@ function App() {
         >()
 
       for (
-        const peak of filteredPeaks
+        const peak of displayedPeaks
       ) {
         const studyPeak:
           StudyPeak = {
@@ -392,7 +424,7 @@ function App() {
           )
         },
       )
-    }, [filteredPeaks])
+    }, [displayedPeaks])
 
   const healthyControlsOnly =
     filters.population.length === 1 &&
@@ -407,7 +439,8 @@ function App() {
     filters.patientGroup.length > 0 ||
     filters.hemisphere.length > 0 ||
     activeYearMin !== yearBounds.min ||
-    activeYearMax !== yearBounds.max
+    activeYearMax !== yearBounds.max ||
+    regionBounds !== null
 
   /*
    * If filtering removes the selected
@@ -419,7 +452,7 @@ function App() {
     }
 
     const stillVisible =
-      filteredPeaks.some(
+      displayedPeaks.some(
         (peak) =>
           peak.studyId ===
           selectedStudyId,
@@ -431,7 +464,7 @@ function App() {
       setFocusCoordinate(null)
     }
   }, [
-    filteredPeaks,
+    displayedPeaks,
     selectedStudyId,
   ])
 
@@ -574,6 +607,36 @@ function App() {
     ])
   }
 
+  function applyRegion(
+    bounds: RegionBounds,
+  ) {
+    setRegionBounds(bounds)
+    setSelectedStudyId(null)
+    setSelectedPeakId(null)
+    setFocusCoordinate(null)
+  }
+
+  function clearRegion() {
+    setRegionBounds(null)
+    setSelectedStudyId(null)
+    setSelectedPeakId(null)
+    setFocusCoordinate(null)
+  }
+
+  function downloadRegionCsv() {
+    if (
+      !regionBounds ||
+      displayedPeaks.length === 0
+    ) {
+      return
+    }
+
+    downloadPeaksCsv(
+      displayedPeaks,
+      'claustrum-coordinates-region.csv',
+    )
+  }
+
   return (
     <div className="app">
       <header className="site-header">
@@ -680,9 +743,20 @@ function App() {
                 </span>
               </div>
 
-              <button className="button small viewer-region-button">
-                Select region
-              </button>
+              <RegionSelector
+                bounds={regionBounds}
+                numberOfCoordinates={
+                  displayedPeaks.length
+                }
+                numberOfStudies={
+                  studies.length
+                }
+                onApply={applyRegion}
+                onClear={clearRegion}
+                onDownload={
+                  downloadRegionCsv
+                }
+              />
             </div>
           </div>
         </section>
@@ -690,7 +764,7 @@ function App() {
         <StudiesPanel
           studies={studies}
           filtered={hasActiveFilters}
-          numberOfCoordinates={filteredPeaks.length}
+          numberOfCoordinates={displayedPeaks.length}
           selectedStudyId={selectedStudyId}
           selectedPeakId={selectedPeakId}
           onShowAll={showAll}
@@ -770,6 +844,154 @@ function cleanSampleSize(
       /^n\s*=\s*/i,
       '',
     )
+}
+
+function downloadPeaksCsv(
+  peaks: Peak[],
+  filename: string,
+) {
+  if (peaks.length === 0) {
+    return
+  }
+
+  const availableColumns =
+    Array.from(
+      new Set(
+        peaks.flatMap(
+          (peak) =>
+            Object.keys(peak),
+        ),
+      ),
+    )
+
+  const preferredColumns = [
+    'authors',
+    'year',
+    'title',
+    'journal',
+    'pmid',
+    'doi',
+    'studyId',
+    'id',
+    'peakSource',
+    'mapType',
+    'coordinateType',
+    'hemisphere',
+    'xMni',
+    'yMni',
+    'zMni',
+    'xOriginal',
+    'yOriginal',
+    'zOriginal',
+    'originalSpace',
+    'transformation',
+    'originalAnatomicalLabel',
+    'otherLabelsInCluster',
+    'contrast',
+    'groupsInContrast',
+    'nInContrast',
+    'direction',
+    'centralAim',
+    'population',
+    'patientGroup',
+    'fieldStrength',
+    'modalities',
+    'software',
+    'labellingMethod',
+    'searchSpace',
+    'smoothingFwhm',
+    'correctionMethod',
+    'sourceInPaper',
+    'notes',
+  ]
+
+  const columns = [
+    ...preferredColumns.filter(
+      (column) =>
+        availableColumns.includes(
+          column,
+        ),
+    ),
+    ...availableColumns.filter(
+      (column) =>
+        !preferredColumns.includes(
+          column,
+        ),
+    ),
+  ]
+
+  const rows = [
+    columns
+      .map(csvEscape)
+      .join(','),
+    ...peaks.map(
+      (peak) =>
+        columns
+          .map(
+            (column) =>
+              csvEscape(
+                peak[column],
+              ),
+          )
+          .join(','),
+    ),
+  ]
+
+  const blob =
+    new Blob(
+      [
+        '\ufeff',
+        rows.join('\n'),
+      ],
+      {
+        type:
+          'text/csv;charset=utf-8',
+      },
+    )
+
+  const url =
+    URL.createObjectURL(blob)
+
+  const link =
+    document.createElement('a')
+
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+
+  URL.revokeObjectURL(url)
+}
+
+function csvEscape(
+  value: unknown,
+) {
+  if (
+    value === null ||
+    value === undefined
+  ) {
+    return ''
+  }
+
+  const text =
+    typeof value === 'object'
+      ? JSON.stringify(value)
+      : String(value)
+
+  if (
+    text.includes(',') ||
+    text.includes('"') ||
+    text.includes('\n') ||
+    text.includes('\r')
+  ) {
+    return `"${text.replace(
+      /"/g,
+      '""',
+    )}"`
+  }
+
+  return text
 }
 
 function isHealthyControlsValue(
