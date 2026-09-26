@@ -1,0 +1,55 @@
+/* =================================================
+   Region drawing status — keep instructions out of anatomy
+   ================================================= */
+
+.brain-viewer-header {
+  position: relative;
+}
+
+.region-header-hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 4px 8px;
+
+  border: 1px solid rgba(75, 190, 108, 0.25);
+  border-radius: 999px;
+
+  background: rgba(55, 146, 82, 0.10);
+  color: #bce9c8;
+
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+
+  font-size: 9.5px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.region-header-hint::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+  background: #4bc66e;
+}
+
+@media (max-width: 1120px) {
+  .region-header-hint {
+    display: none;
+  }
+}
+
+/* The old over-brain hint is no longer rendered. */
+.region-draw-hint {
+  display: none;
+}

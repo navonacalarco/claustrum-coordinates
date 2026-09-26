@@ -1,0 +1,107 @@
+/* =================================================
+   Direct region resize handles
+   ================================================= */
+
+/* Keep the full overlay transparent to pointer input.
+   Only the small handles capture interaction. */
+.region-box-overlay {
+  pointer-events: none;
+}
+
+.region-box-rect {
+  overflow: visible;
+}
+
+/* Handles are shown only while the region editor is active. */
+.region-box-overlay.editing .region-box-handle {
+  pointer-events: auto;
+}
+
+.region-box-handle {
+  position: absolute;
+  z-index: 4;
+
+  width: 10px;
+  height: 10px;
+  padding: 0;
+
+  border: 1.5px solid rgba(230, 255, 237, 0.96);
+  border-radius: 50%;
+
+  background: #30c969;
+
+  box-shadow:
+    0 1px 5px rgba(0, 0, 0, 0.42);
+
+  touch-action: none;
+}
+
+.region-box-handle:hover {
+  width: 12px;
+  height: 12px;
+  background: #45dd7d;
+}
+
+/* Corners */
+.region-box-handle.handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+  transform: translate(-50%, -50%);
+}
+
+.region-box-handle.handle-ne {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+  transform: translate(50%, -50%);
+}
+
+.region-box-handle.handle-se {
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+  transform: translate(50%, 50%);
+}
+
+.region-box-handle.handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+  transform: translate(-50%, 50%);
+}
+
+/* Edge midpoints */
+.region-box-handle.handle-n {
+  top: 0;
+  left: 50%;
+  cursor: ns-resize;
+  transform: translate(-50%, -50%);
+}
+
+.region-box-handle.handle-s {
+  bottom: 0;
+  left: 50%;
+  cursor: ns-resize;
+  transform: translate(-50%, 50%);
+}
+
+.region-box-handle.handle-e {
+  top: 50%;
+  right: 0;
+  cursor: ew-resize;
+  transform: translate(50%, -50%);
+}
+
+.region-box-handle.handle-w {
+  top: 50%;
+  left: 0;
+  cursor: ew-resize;
+  transform: translate(-50%, -50%);
+}
+
+/* During handle editing, keep the selected cuboid visually distinct. */
+.region-box-overlay.editing .region-box-rect {
+  border-color: rgba(61, 220, 118, 1);
+  background: rgba(48, 201, 105, 0.17);
+}

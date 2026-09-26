@@ -1,0 +1,120 @@
+/* =================================================
+   Permanent study browser — replaces fly-out drawer
+   ================================================= */
+
+/* Search and sorting now live in the right Studies panel. */
+.studies-search {
+  flex-shrink: 0;
+  margin-bottom: 7px;
+}
+
+.studies-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 10px;
+
+  border: 1px solid var(--line);
+  border-radius: 8px;
+
+  outline: none;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+  font-size: 11px;
+}
+
+.studies-search input::placeholder {
+  color: #999fa8;
+}
+
+.studies-search input:focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 2px rgba(89, 104, 217, 0.10);
+}
+
+.studies-toolbar {
+  position: relative;
+  z-index: 4;
+
+  display: flex;
+  flex-shrink: 0;
+  min-height: 27px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  margin-bottom: 8px;
+}
+
+.studies-search-status {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* Keep Sort compact enough for the narrow sidebar. */
+.studies .study-sort-trigger {
+  padding: 5px 6px;
+  font-size: 10px;
+}
+
+.studies .study-sort-menu {
+  width: 138px;
+}
+
+.studies .study-sort-option {
+  padding: 7px 8px;
+  font-size: 10.5px;
+}
+
+/* Make the permanent study list typographically as quiet as
+   the filter controls on the left. These selectors are more
+   specific than earlier study-card rules, so they win without
+   changing expanded-detail typography. */
+.studies-list .study-card {
+  padding: 10px 11px;
+}
+
+.studies-list .study-card-top strong,
+.studies-list .study-year,
+.studies-list .pubmed-link,
+.studies-list .study-modality {
+  font-size: 12px;
+}
+
+.studies-list .study-card-top strong {
+  font-weight: 700;
+}
+
+.studies-list .study-year,
+.studies-list .pubmed-link,
+.studies-list .study-modality {
+  font-weight: 400;
+}
+
+.studies-list .study-modality {
+  line-height: 1.3;
+}
+
+/* Preserve the fuller typography inside an expanded study. */
+.studies-list .study-expanded-title,
+.studies-list .study-journal {
+  font-size: 0.78rem;
+}
+
+.studies-panel-card-wrap {
+  scroll-margin-block: 12px;
+}
+
+/* The old drawer is no longer rendered by App.tsx.
+   Keep these hidden defensively in case stale markup survives
+   during hot reload. */
+.study-browser-backdrop,
+.study-browser-drawer {
+  display: none;
+}
+
