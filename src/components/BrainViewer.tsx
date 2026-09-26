@@ -1,9 +1,27 @@
-import { useEffect, useRef, useState } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import RegionBoxOverlay, {
+  type LiveRegionRect,
+} from './RegionBoxOverlay'
+import {
+  projectRegionBounds,
+  projectRegionCuboid3D,
+  regionCenter,
+  updateBoundsFromDrag,
+  type RegionBounds,
+  type RegionCuboidProjection,
+  type RegionOverlayRect,
+} from './regionSelection'
 import {
   Niivue,
   SLICE_TYPE,
   MULTIPLANAR_TYPE,
   SHOW_RENDER,
+  DRAG_MODE,
+  type MouseEventConfig,
 } from '@niivue/niivue'
 
 type ViewMode =
@@ -38,6 +56,14 @@ type BrainViewerProps = {
     viewMode: ViewMode,
   ) => void
 
+  regionDrawing?: boolean
+
+  regionBounds?: RegionBounds | null
+
+  onRegionBoundsChange?: (
+    bounds: RegionBounds,
+  ) => void
+
   visiblePeakIds?: string[]
 }
 
@@ -63,6 +89,9 @@ export default function BrainViewer({
   focusCoordinate = null,
   viewMode = 'multi',
   onViewModeChange,
+  regionDrawing = false,
+  regionBounds = null,
+  onRegionBoundsChange,
   visiblePeakIds,
 }: BrainViewerProps) {
   const canvasRef =
@@ -79,6 +108,17 @@ export default function BrainViewer({
 
   const onPeakClickRef =
     useRef(onPeakClick)
+
+  const onRegionBoundsChangeRef =
+    useRef(onRegionBoundsChange)
+
+  const regionDrawingRef =
+    useRef(regionDrawing)
+
+  const regionBoundsRef =
+    useRef<RegionBounds | null>(
+      regionBounds,
+    )
 
   const visiblePeakIdsRef =
     useRef(visiblePeakIds)
@@ -98,6 +138,14 @@ export default function BrainViewer({
   const highlightMeshRef =
     useRef<any>(null)
 
+  const savedMouseEventConfigRef =
+    useRef<
+      MouseEventConfig | undefined
+    >(undefined)
+
+  const hasSavedMouseEventConfigRef =
+    useRef(false)
+
   const [viewerReady, setViewerReady] =
     useState(false)
 
@@ -112,6 +160,38 @@ export default function BrainViewer({
     setCrosshairsVisible,
   ] = useState(true)
 
+  const [
+    regionOverlayRects,
+    setRegionOverlayRects,
+  ] = useState<
+    RegionOverlayRect[]
+  >([])
+
+  const [
+    regionCuboid3D,
+    setRegionCuboid3D,
+  ] = useState<
+    RegionCuboidProjection | null
+  >(null)
+
+  const [
+    renderRevision,
+    setRenderRevision,
+  ] = useState(0)
+
+  const [
+    regionDragPreview,
+    setRegionDragPreview,
+  ] = useState<
+    LiveRegionRect | null
+  >(null)
+
+  const regionDragStartRef =
+    useRef<{
+      x: number
+      y: number
+    } | null>(null)
+
   useEffect(() => {
     onLocationChangeRef.current =
       onLocationChange
@@ -123,6 +203,21 @@ export default function BrainViewer({
   }, [onPeakClick])
 
   useEffect(() => {
+    onRegionBoundsChangeRef.current =
+      onRegionBoundsChange
+  }, [onRegionBoundsChange])
+
+  useEffect(() => {
+    regionDrawingRef.current =
+      regionDrawing
+  }, [regionDrawing])
+
+  useEffect(() => {
+    regionBoundsRef.current =
+      regionBounds
+  }, [regionBounds])
+
+  useEffect(() => {
     visiblePeakIdsRef.current =
       visiblePeakIds
   }, [visiblePeakIds])
@@ -131,6 +226,34 @@ export default function BrainViewer({
     panModeRef.current =
       panMode
   }, [panMode])
+
+  function refreshRegionOverlays(
+    nv: Niivue,
+    bounds: RegionBounds | null,
+  ) {
+    const canvas =
+      canvasRef.current
+
+    if (!canvas) {
+      return
+    }
+
+    setRegionOverlayRects(
+      projectRegionBounds(
+        nv,
+        bounds,
+        canvas,
+      ),
+    )
+
+    setRegionCuboid3D(
+      projectRegionCuboid3D(
+        nv,
+        bounds,
+        canvas,
+      ),
+    )
+  }
 
   useEffect(() => {
     if (
@@ -176,6 +299,10 @@ export default function BrainViewer({
 
     let canvasClickHandler:
       | ((event: MouseEvent) => void)
+      | null = null
+
+    let overlayMouseUpHandler:
+      | (() => void)
       | null = null
 
     async function initializeViewer() {
@@ -246,6 +373,22 @@ export default function BrainViewer({
 
       nv.opts.multiplanarEqualSize = true
 
+      nv.onAzimuthElevationChange =
+        () => {
+          setRenderRevision(
+            (current) =>
+              current + 1,
+          )
+        }
+
+      nv.onZoom3DChange =
+        () => {
+          setRenderRevision(
+            (current) =>
+              current + 1,
+          )
+        }
+
       nv.onLocationChange = (
         location: any,
       ) => {
@@ -276,6 +419,86 @@ export default function BrainViewer({
         )
       }
 
+      nv.onDragRelease = (
+        params: any,
+      ) => {
+        if (
+          !regionDrawingRef.current ||
+          !params?.mmStart ||
+          !params?.mmEnd
+        ) {
+          return
+        }
+
+        const orientation =
+          params.axCorSag
+
+        if (
+          orientation !==
+            SLICE_TYPE.AXIAL &&
+          orientation !==
+            SLICE_TYPE.CORONAL &&
+          orientation !==
+            SLICE_TYPE.SAGITTAL
+        ) {
+          return
+        }
+
+        const baseVolume =
+          nv.volumes[0]
+
+        const minExtent =
+          baseVolume
+            ?.extentsMinOrtho ??
+          nv.extentsMin
+
+        const maxExtent =
+          baseVolume
+            ?.extentsMaxOrtho ??
+          nv.extentsMax
+
+        if (
+          !minExtent ||
+          !maxExtent
+        ) {
+          return
+        }
+
+        const next =
+          updateBoundsFromDrag(
+            params,
+            regionBoundsRef.current,
+            minExtent,
+            maxExtent,
+          )
+
+        if (!next) {
+          return
+        }
+
+        regionBoundsRef.current =
+          next
+
+        onRegionBoundsChangeRef.current?.(
+          next,
+        )
+
+        const center =
+          regionCenter(next)
+
+        nv.scene.crosshairPos =
+          nv.mm2frac(
+            center,
+          )
+
+        onLocationChangeRef.current?.(
+          center,
+        )
+
+        // The regionBounds prop update rebuilds
+        // the persistent green cuboid in the effect below.
+      }
+
       /*
        * Peak clicking uses the browser's native canvas
        * click event as the trigger. NiiVue still supplies
@@ -296,7 +519,10 @@ export default function BrainViewer({
       canvasClickHandler = (
         event: MouseEvent,
       ) => {
-        if (panModeRef.current) {
+        if (
+          panModeRef.current ||
+          regionDrawingRef.current
+        ) {
           return
         }
 
@@ -404,12 +630,50 @@ export default function BrainViewer({
         canvasClickHandler,
       )
 
+      overlayMouseUpHandler =
+        () => {
+          window.requestAnimationFrame(
+            () => {
+              if (
+                !canvasRef.current
+              ) {
+                return
+              }
+
+              refreshRegionOverlays(
+                nv,
+                regionBoundsRef.current,
+              )
+            },
+          )
+        }
+
+      canvasRef.current.addEventListener(
+        'mouseup',
+        overlayMouseUpHandler,
+      )
+
       nv.resizeListener()
       nv.drawScene()
 
       resizeObserver =
         new ResizeObserver(() => {
           nv.resizeListener()
+
+          window.requestAnimationFrame(
+            () => {
+              if (
+                !canvasRef.current
+              ) {
+                return
+              }
+
+              refreshRegionOverlays(
+                nv,
+                regionBoundsRef.current,
+              )
+            },
+          )
         })
 
       resizeObserver.observe(
@@ -448,6 +712,16 @@ export default function BrainViewer({
         canvasRef.current.removeEventListener(
           'click',
           canvasClickHandler,
+        )
+      }
+
+      if (
+        canvasRef.current &&
+        overlayMouseUpHandler
+      ) {
+        canvasRef.current.removeEventListener(
+          'mouseup',
+          overlayMouseUpHandler,
         )
       }
 
@@ -584,7 +858,11 @@ export default function BrainViewer({
   ])
 
   /*
-   * Toggle pan interaction.
+   * Region drawing temporarily owns the drag gesture.
+   *
+   * NiiVue deliberately previews roiSelection as a circle.
+   * We want a rectangular cuboid, so drawing uses
+   * callbackOnly and maps an ordinary left click-drag to it.
    */
   useEffect(() => {
     const nv = nvRef.current
@@ -593,19 +871,221 @@ export default function BrainViewer({
       return
     }
 
-    if (panMode) {
+    if (regionDrawing) {
+      if (
+        !hasSavedMouseEventConfigRef.current
+      ) {
+        savedMouseEventConfigRef.current =
+          nv.getMouseEventConfig()
+
+        hasSavedMouseEventConfigRef.current =
+          true
+      }
+
+      nv.setMouseEventConfig({
+        leftButton: {
+          primary:
+            DRAG_MODE.callbackOnly,
+          withShift:
+            DRAG_MODE.callbackOnly,
+          withCtrl:
+            DRAG_MODE.callbackOnly,
+        },
+        rightButton:
+          DRAG_MODE.callbackOnly,
+        centerButton:
+          DRAG_MODE.callbackOnly,
+      })
+
       nv.setDragMode(
-        'pan',
+        DRAG_MODE.callbackOnly,
       )
     } else {
-      nv.setDragMode(
-        'contrast',
-      )
+      if (
+        hasSavedMouseEventConfigRef.current
+      ) {
+        /*
+         * Restore the exact mouse mapping that was in
+         * place before region drawing. Undefined means
+         * NiiVue's normal built-in defaults.
+         */
+        nv.opts.mouseEventConfig =
+          savedMouseEventConfigRef.current
+
+        ;(nv as any)
+          .clearActiveDragMode?.()
+
+        hasSavedMouseEventConfigRef.current =
+          false
+      }
+
+      if (panMode) {
+        nv.setDragMode(
+          'pan',
+        )
+      } else {
+        nv.setDragMode(
+          'contrast',
+        )
+      }
     }
 
     nv.drawScene()
   }, [
+    regionDrawing,
     panMode,
+    viewerReady,
+  ])
+
+  /*
+   * The live drag rectangle is ordinary React/CSS.
+   * It is independent of NiiVue's transient selection box.
+   */
+  useEffect(() => {
+    const canvas =
+      canvasRef.current
+
+    const container =
+      containerRef.current
+
+    if (
+      !canvas ||
+      !container ||
+      !viewerReady ||
+      !regionDrawing
+    ) {
+      setRegionDragPreview(
+        null,
+      )
+      regionDragStartRef.current =
+        null
+      return
+    }
+
+    const getPoint = (
+      event: MouseEvent,
+    ) => {
+      const rect =
+        container.getBoundingClientRect()
+
+      return {
+        x:
+          event.clientX -
+          rect.left,
+        y:
+          event.clientY -
+          rect.top,
+      }
+    }
+
+    const handleMouseDown = (
+      event: MouseEvent,
+    ) => {
+      if (event.button !== 0) {
+        return
+      }
+
+      const point =
+        getPoint(event)
+
+      regionDragStartRef.current =
+        point
+
+      setRegionDragPreview({
+        left: point.x,
+        top: point.y,
+        width: 0,
+        height: 0,
+      })
+    }
+
+    const handleMouseMove = (
+      event: MouseEvent,
+    ) => {
+      const start =
+        regionDragStartRef.current
+
+      if (!start) {
+        return
+      }
+
+      const point =
+        getPoint(event)
+
+      setRegionDragPreview({
+        left:
+          Math.min(
+            start.x,
+            point.x,
+          ),
+        top:
+          Math.min(
+            start.y,
+            point.y,
+          ),
+        width:
+          Math.abs(
+            point.x -
+            start.x,
+          ),
+        height:
+          Math.abs(
+            point.y -
+            start.y,
+          ),
+      })
+    }
+
+    const finishDrag = () => {
+      regionDragStartRef.current =
+        null
+
+      /*
+       * Leave the rectangle on screen for one frame while
+       * React/NiiVue commits the persistent MNI mask.
+       */
+      window.setTimeout(
+        () =>
+          setRegionDragPreview(
+            null,
+          ),
+        40,
+      )
+    }
+
+    canvas.addEventListener(
+      'mousedown',
+      handleMouseDown,
+    )
+
+    window.addEventListener(
+      'mousemove',
+      handleMouseMove,
+    )
+
+    window.addEventListener(
+      'mouseup',
+      finishDrag,
+    )
+
+    return () => {
+      canvas.removeEventListener(
+        'mousedown',
+        handleMouseDown,
+      )
+
+      window.removeEventListener(
+        'mousemove',
+        handleMouseMove,
+      )
+
+      window.removeEventListener(
+        'mouseup',
+        finishDrag,
+      )
+    }
+  }, [
+    regionDrawing,
     viewerReady,
   ])
 
@@ -674,6 +1154,46 @@ export default function BrainViewer({
     nv.drawScene()
   }, [
     viewMode,
+    viewerReady,
+  ])
+
+  /*
+   * Project the same RegionBounds into both the three
+   * orthogonal 2D tiles and the passive 3D render overlay.
+   */
+  useEffect(() => {
+    const nv =
+      nvRef.current
+
+    if (
+      !nv ||
+      !canvasRef.current ||
+      !viewerReady
+    ) {
+      setRegionOverlayRects([])
+      setRegionCuboid3D(null)
+      return
+    }
+
+    const frame =
+      window.requestAnimationFrame(
+        () => {
+          refreshRegionOverlays(
+            nv,
+            regionBounds,
+          )
+        },
+      )
+
+    return () =>
+      window.cancelAnimationFrame(
+        frame,
+      )
+  }, [
+    regionBounds,
+    viewMode,
+    zoom,
+    renderRevision,
     viewerReady,
   ])
 
@@ -1081,6 +1601,56 @@ export default function BrainViewer({
     nv.drawScene()
   }
 
+  function updateRegionFromOverlay(
+    nextBounds: RegionBounds,
+  ) {
+    regionBoundsRef.current =
+      nextBounds
+
+    /*
+     * Each 2D projection is drawn on the orthogonal slice
+     * that passes through the cuboid centre. When a handle
+     * changes the cuboid centre, keep NiiVue's three slices
+     * centred on that same point. Otherwise the projection
+     * can fall off the currently displayed slice and vanish
+     * from one or both of the other views.
+     */
+    const nv =
+      nvRef.current
+
+    const canvas =
+      canvasRef.current
+
+    if (nv) {
+      const center =
+        regionCenter(nextBounds)
+
+      nv.scene.crosshairPos =
+        nv.mm2frac(center)
+
+      onLocationChangeRef.current?.(
+        center,
+      )
+
+      nv.drawScene()
+
+      if (canvas) {
+        window.requestAnimationFrame(
+          () => {
+            refreshRegionOverlays(
+              nv,
+              nextBounds,
+            )
+          },
+        )
+      }
+    }
+
+    onRegionBoundsChangeRef.current?.(
+      nextBounds,
+    )
+  }
+
   return (
     <div className="brain-viewer-shell">
       <div className="brain-viewer-header">
@@ -1148,6 +1718,14 @@ export default function BrainViewer({
                 ? 'active'
                 : ''
             }
+            disabled={
+              regionDrawing
+            }
+            title={
+              regionDrawing
+                ? 'Finish region drawing before switching to 3D'
+                : undefined
+            }
             onClick={() =>
               onViewModeChange?.('render')
             }
@@ -1155,6 +1733,14 @@ export default function BrainViewer({
             3D
           </button>
         </div>
+
+        {regionDrawing && (
+          <div className="region-header-hint">
+            {regionBounds
+              ? 'Edit region'
+              : 'Draw region'}
+          </div>
+        )}
 
         <div className="zoom-controls brain-header-tools">
           <button
@@ -1193,6 +1779,9 @@ export default function BrainViewer({
                 ? 'pan-button active'
                 : 'pan-button'
             }
+            disabled={
+              regionDrawing
+            }
             onClick={() =>
               setPanMode(
                 (current) =>
@@ -1200,9 +1789,11 @@ export default function BrainViewer({
               )
             }
             title={
-              panMode
-                ? 'Turn pan mode off'
-                : 'Turn pan mode on'
+              regionDrawing
+                ? 'Pan is disabled while drawing a region'
+                : panMode
+                  ? 'Turn pan mode off'
+                  : 'Turn pan mode on'
             }
           >
             Pan
@@ -1234,12 +1825,29 @@ export default function BrainViewer({
 
       <div
         ref={containerRef}
-        className={
+        className={[
+          'brain-viewer',
           panMode
-            ? 'brain-viewer pan-active'
-            : 'brain-viewer'
-        }
+            ? 'pan-active'
+            : '',
+          regionDrawing
+            ? 'region-drawing-active'
+            : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
       >
+        <RegionBoxOverlay
+          drawing={regionDrawing}
+          bounds={regionBounds}
+          rects={regionOverlayRects}
+          cuboid3D={regionCuboid3D}
+          liveRect={regionDragPreview}
+          onBoundsChange={
+            updateRegionFromOverlay
+          }
+        />
+
         <canvas
           ref={canvasRef}
           className="brain-canvas"

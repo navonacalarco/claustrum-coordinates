@@ -1,12 +1,25 @@
 
-- move filtered selection found to 'filters' sidebar, not top
-- why is 'Studies' on bottom and side - one or the other
+- take out mni label on coordinate
 - jump to coordinate if enter MNI
-- remove points / study-weighted density
-- maybe select studies with multiple coordiantes?
+- add back points / study-weighted density?
 - make 3d view more transparent
-- overlay bigbrain segmentation
-- add left and right labels (l/r, s/i, etc)
-- remove redundant 'current selection'
-- make clear 'download all data', 'download selection' csv
-- don't need the study name for tooltip
+- study name seems to be a tooltip when card expanded
+- add  bigbrain overlay
+- search "authors, diagnosis, journal"
+- defaults in mni search
+- Dropdowns stay open - multi-selects and the sort menu don't close on an outside click or Escape.
+- show putamen, insula, amygdala? from FSL?
+
+about
+- how to cite - systematic review, and - website itself has zenodo
+- as reported in literature - not endorsement (mention pnas paper)
+- MNI152 2009c asymmetric template
+- report issue on github
+- maintainer navona.calarco@mail.utoronto.ca
+- invlude view count, from countries...
+- say that studies at present include until submission. will explore updates crawling pubmed with AI. if you would like your paper added, email. 
+
+
+x -50,20
+y -20,20
+z -2, 20

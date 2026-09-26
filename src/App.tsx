@@ -88,6 +88,14 @@ function App() {
   const [regionBounds, setRegionBounds] =
     useState<RegionBounds | null>(null)
 
+  const [
+    draftRegionBounds,
+    setDraftRegionBounds,
+  ] = useState<RegionBounds | null>(null)
+
+  const [regionDrawing, setRegionDrawing] =
+    useState(false)
+
   useEffect(() => {
     fetch('/data/peaks-mni.json')
       .then((response) => {
@@ -251,6 +259,11 @@ function App() {
     activeYearMin,
     activeYearMax,
   ])
+
+  const regionDisplayBounds =
+    regionDrawing
+      ? draftRegionBounds
+      : regionBounds
 
   /*
    * Spatial selection is intentionally layered
@@ -607,17 +620,60 @@ function App() {
     ])
   }
 
-  function applyRegion(
-    bounds: RegionBounds,
-  ) {
-    setRegionBounds(bounds)
+  function startRegionDrawing() {
+    setDraftRegionBounds(
+      regionBounds
+        ? { ...regionBounds }
+        : null,
+    )
+
+    setRegionDrawing(true)
+
+    // Region drawing is easiest to understand
+    // with all three orthogonal views visible.
+    setViewMode('multi')
+
     setSelectedStudyId(null)
     setSelectedPeakId(null)
     setFocusCoordinate(null)
   }
 
+  function updateDraftRegion(
+    bounds: RegionBounds,
+  ) {
+    setDraftRegionBounds(bounds)
+  }
+
+  function applyDrawnRegion() {
+    if (!draftRegionBounds) {
+      return
+    }
+
+    setRegionBounds({
+      ...draftRegionBounds,
+    })
+
+    setRegionDrawing(false)
+
+    setSelectedStudyId(null)
+    setSelectedPeakId(null)
+    setFocusCoordinate(null)
+  }
+
+  function cancelRegionDrawing() {
+    setDraftRegionBounds(
+      regionBounds
+        ? { ...regionBounds }
+        : null,
+    )
+
+    setRegionDrawing(false)
+  }
+
   function clearRegion() {
     setRegionBounds(null)
+    setDraftRegionBounds(null)
+    setRegionDrawing(false)
     setSelectedStudyId(null)
     setSelectedPeakId(null)
     setFocusCoordinate(null)
@@ -706,6 +762,18 @@ function App() {
                 setViewMode
               }
 
+              regionDrawing={
+                regionDrawing
+              }
+
+              regionBounds={
+                regionDisplayBounds
+              }
+
+              onRegionBoundsChange={
+                updateDraftRegion
+              }
+
               visiblePeakIds={
                 visiblePeakIds
               }
@@ -745,13 +813,30 @@ function App() {
 
               <RegionSelector
                 bounds={regionBounds}
+                draftBounds={
+                  draftRegionBounds
+                }
+                drawing={
+                  regionDrawing
+                }
                 numberOfCoordinates={
                   displayedPeaks.length
                 }
                 numberOfStudies={
                   studies.length
                 }
-                onApply={applyRegion}
+                onStartDrawing={
+                  startRegionDrawing
+                }
+                onDraftChange={
+                  updateDraftRegion
+                }
+                onApplyDrawing={
+                  applyDrawnRegion
+                }
+                onCancelDrawing={
+                  cancelRegionDrawing
+                }
                 onClear={clearRegion}
                 onDownload={
                   downloadRegionCsv

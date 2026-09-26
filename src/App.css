@@ -2449,5 +2449,396 @@ h1 {
   }
 }
 
+/* =================================================
+   Interactive drawn MNI region
+   ================================================= */
+
+/* During region drawing, the NiiVue ROI drag uses a
+   green translucent selection preview. The persistent
+   cuboid itself is rendered as a translucent green
+   volume overlay by BrainViewer.tsx. */
+.brain-viewer.region-drawing-active {
+  cursor: crosshair;
+}
+
+.brain-viewer.region-drawing-active .brain-canvas {
+  cursor: crosshair;
+}
+
+.region-draw-hint {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  z-index: 5;
+
+  max-width: min(420px, calc(100% - 40px));
+  padding: 6px 10px;
+
+  border: 1px solid rgba(79, 190, 112, 0.36);
+  border-radius: 7px;
+
+  background: rgba(12, 20, 15, 0.86);
+  color: #c9efd3;
+
+  pointer-events: none;
+  transform: translateX(-50%);
+
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.region-drawing-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  min-width: 0;
+}
+
+.region-drawing-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #b8eac6;
+  font-size: 10px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.region-drawing-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+
+  border-radius: 2px;
+  background: rgba(70, 190, 104, 0.72);
+  box-shadow:
+    0 0 0 1px rgba(116, 225, 144, 0.22);
+}
+
+.region-footer-apply {
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.region-footer-apply:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+.brain-viewer-header .pan-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.region-drawing-controls .region-text-button {
+  color: #c5cbd3;
+}
+
+.region-drawing-controls .region-text-button:hover {
+  color: white;
+}
+
+/* Keep the numeric fine-tuning popover aligned above
+   the contextual controls while drawing. */
+.region-drawing-controls + .region-popover {
+  right: 0;
+}
+
+@media (max-width: 900px) {
+  .region-drawing-status {
+    display: none;
+  }
+
+  .region-draw-hint {
+    top: 8px;
+    max-width: calc(100% - 24px);
+  }
+}
+
+.brain-viewer-header .view-mode-bar button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+/* Corrected interactive region drawing */
+
+.brain-viewer.region-drawing-active .brain-canvas {
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.region-draw-hint {
+  line-height: 1.25;
+}
+
+/* =================================================
+   Visible region drawing — live rectangle + persistent mask
+   ================================================= */
+
+.brain-viewer {
+  position: relative;
+}
+
+.region-drag-preview {
+  position: absolute;
+  z-index: 12;
+  pointer-events: none;
+
+  border: 1.5px solid rgba(47, 208, 104, 0.95);
+  border-radius: 2px;
+
+  background: rgba(47, 208, 104, 0.18);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.brain-viewer.region-drawing-active .brain-canvas {
+  cursor: crosshair;
+}
+
+/* =================================================
+   Refactored spatial selection overlay
+   React owns the persistent green box; NiiVue only
+   supplies MNI ↔ canvas coordinate conversion.
+   ================================================= */
+
+.region-box-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.region-box-rect,
+.region-box-live {
+  position: absolute;
+  pointer-events: none;
+
+  border: 1.5px solid rgba(48, 201, 105, 0.96);
+  border-radius: 2px;
+
+  background: rgba(48, 201, 105, 0.16);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.055);
+}
+
+.region-box-live {
+  z-index: 2;
+  border-color: rgba(68, 225, 125, 1);
+  background: rgba(48, 201, 105, 0.21);
+}
+
+.region-draw-hint {
+  z-index: 12;
+}
+
+.brain-viewer.region-drawing-active .brain-canvas {
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+/* =================================================
+   Region drawing status — keep instructions out of anatomy
+   ================================================= */
+
+.brain-viewer-header {
+  position: relative;
+}
+
+.region-header-hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 4px 8px;
+
+  border: 1px solid rgba(75, 190, 108, 0.25);
+  border-radius: 999px;
+
+  background: rgba(55, 146, 82, 0.10);
+  color: #bce9c8;
+
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+
+  font-size: 9.5px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.region-header-hint::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+  background: #4bc66e;
+}
+
+@media (max-width: 1120px) {
+  .region-header-hint {
+    display: none;
+  }
+}
+
+/* The old over-brain hint is no longer rendered. */
+.region-draw-hint {
+  display: none;
+}
+
+/* =================================================
+   Direct region resize handles
+   ================================================= */
+
+/* Keep the full overlay transparent to pointer input.
+   Only the small handles capture interaction. */
+.region-box-overlay {
+  pointer-events: none;
+}
+
+.region-box-rect {
+  overflow: visible;
+}
+
+/* Handles are shown only while the region editor is active. */
+.region-box-overlay.editing .region-box-handle {
+  pointer-events: auto;
+}
+
+.region-box-handle {
+  position: absolute;
+  z-index: 4;
+
+  width: 10px;
+  height: 10px;
+  padding: 0;
+
+  border: 1.5px solid rgba(230, 255, 237, 0.96);
+  border-radius: 50%;
+
+  background: #30c969;
+
+  box-shadow:
+    0 1px 5px rgba(0, 0, 0, 0.42);
+
+  touch-action: none;
+}
+
+.region-box-handle:hover {
+  width: 12px;
+  height: 12px;
+  background: #45dd7d;
+}
+
+/* Corners */
+.region-box-handle.handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+  transform: translate(-50%, -50%);
+}
+
+.region-box-handle.handle-ne {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+  transform: translate(50%, -50%);
+}
+
+.region-box-handle.handle-se {
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+  transform: translate(50%, 50%);
+}
+
+.region-box-handle.handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+  transform: translate(-50%, 50%);
+}
+
+/* Edge midpoints */
+.region-box-handle.handle-n {
+  top: 0;
+  left: 50%;
+  cursor: ns-resize;
+  transform: translate(-50%, -50%);
+}
+
+.region-box-handle.handle-s {
+  bottom: 0;
+  left: 50%;
+  cursor: ns-resize;
+  transform: translate(-50%, 50%);
+}
+
+.region-box-handle.handle-e {
+  top: 50%;
+  right: 0;
+  cursor: ew-resize;
+  transform: translate(50%, -50%);
+}
+
+.region-box-handle.handle-w {
+  top: 50%;
+  left: 0;
+  cursor: ew-resize;
+  transform: translate(-50%, -50%);
+}
+
+/* During handle editing, keep the selected cuboid visually distinct. */
+.region-box-overlay.editing .region-box-rect {
+  border-color: rgba(61, 220, 118, 1);
+  background: rgba(48, 201, 105, 0.17);
+}
+
+/* =================================================
+   Passive 3D region cuboid
+   ================================================= */
+
+.region-cuboid-3d {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+
+  overflow: visible;
+  pointer-events: none;
+}
+
+.region-cuboid-face {
+  fill: rgba(48, 201, 105, 0.075);
+  stroke: none;
+}
+
+.region-cuboid-edge {
+  stroke: rgba(75, 224, 128, 0.92);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Keep the 2D handles above the passive 3D SVG. */
+.region-box-rect {
+  z-index: 5;
+}
 
 
