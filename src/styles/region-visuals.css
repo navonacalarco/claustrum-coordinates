@@ -1,0 +1,184 @@
+.region-box-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.region-box-rect,
+.region-box-live
+{
+  position: absolute;
+  pointer-events: none;
+  border: 1.5px solid rgba(48, 201, 105, 0.96);
+  border-radius: 2px;
+  background: rgba(48, 201, 105, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.055);
+}
+
+.region-box-live {
+  z-index: 2;
+  border-color: rgba(68, 225, 125, 1);
+  background: rgba(48, 201, 105, 0.21);
+}
+
+.brain-viewer.region-drawing-active .brain-canvas {
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.brain-viewer-header {
+  position: relative;
+}
+
+.region-header-hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border: 1px solid rgba(75, 190, 108, 0.25);
+  border-radius: 999px;
+  background: rgba(55, 146, 82, 0.10);
+  color: #bce9c8;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  font-size: 9.5px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.region-header-hint::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #4bc66e;
+}
+
+@media (max-width: 1120px) {
+  .region-header-hint {
+    display: none;
+  }
+}
+
+.region-box-overlay {
+  pointer-events: none;
+}
+
+.region-box-rect {
+  overflow: visible;
+}
+
+.region-box-overlay.editing .region-box-handle {
+  pointer-events: auto;
+}
+
+.region-box-handle {
+  position: absolute;
+  z-index: 4;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 1.5px solid rgba(230, 255, 237, 0.96);
+  border-radius: 50%;
+  background: #30c969;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.42);
+  touch-action: none;
+}
+
+.region-box-handle:hover {
+  width: 12px;
+  height: 12px;
+  background: #45dd7d;
+}
+
+.region-box-handle.handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+  transform: translate(-50%, -50%);
+}
+
+.region-box-handle.handle-ne {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+  transform: translate(50%, -50%);
+}
+
+.region-box-handle.handle-se {
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+  transform: translate(50%, 50%);
+}
+
+.region-box-handle.handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+  transform: translate(-50%, 50%);
+}
+
+.region-box-handle.handle-n {
+  top: 0;
+  left: 50%;
+  cursor: ns-resize;
+  transform: translate(-50%, -50%);
+}
+
+.region-box-handle.handle-s {
+  bottom: 0;
+  left: 50%;
+  cursor: ns-resize;
+  transform: translate(-50%, 50%);
+}
+
+.region-box-handle.handle-e {
+  top: 50%;
+  right: 0;
+  cursor: ew-resize;
+  transform: translate(50%, -50%);
+}
+
+.region-box-handle.handle-w {
+  top: 50%;
+  left: 0;
+  cursor: ew-resize;
+  transform: translate(-50%, -50%);
+}
+
+.region-box-overlay.editing .region-box-rect {
+  border-color: rgba(61, 220, 118, 1);
+  background: rgba(48, 201, 105, 0.17);
+}
+
+.region-cuboid-3d {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.region-cuboid-face {
+  fill: rgba(48, 201, 105, 0.075);
+  stroke: none;
+}
+
+.region-cuboid-edge {
+  stroke: rgba(75, 224, 128, 0.92);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.region-box-rect {
+  z-index: 5;
+}
