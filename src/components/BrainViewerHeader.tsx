@@ -1,15 +1,10 @@
 import type {
-  RegionBounds,
-} from './regionSelection'
-import type {
   ViewMode,
 } from './brainViewerTypes'
 
 type BrainViewerHeaderProps = {
   viewMode: ViewMode
   regionDrawing: boolean
-  regionBounds: RegionBounds | null
-
   panMode: boolean
   crosshairsVisible: boolean
 
@@ -27,7 +22,6 @@ type BrainViewerHeaderProps = {
 function BrainViewerHeader({
   viewMode,
   regionDrawing,
-  regionBounds,
   panMode,
   crosshairsVisible,
   onViewModeChange,
@@ -99,13 +93,6 @@ function BrainViewerHeader({
         />
       </div>
 
-      {regionDrawing && (
-        <div className="region-header-hint">
-          {regionBounds
-            ? 'Edit region'
-            : 'Draw region'}
-        </div>
-      )}
 
       <div className="zoom-controls brain-header-tools">
         <button

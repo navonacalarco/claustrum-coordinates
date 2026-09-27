@@ -247,7 +247,7 @@ function loadPeakLayer(
   const colormap =
     selected
       ? 'SelectedStudy'
-      : 'red'
+      : 'LiteraturePeaks'
 
   nv.loadConnectome({
     name:
@@ -267,7 +267,7 @@ function loadPeakLayer(
     nodeScale:
       selected
         ? 5
-        : 3,
+        : 4,
 
     edgeColormap:
       colormap,

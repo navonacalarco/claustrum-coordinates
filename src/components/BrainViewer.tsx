@@ -228,7 +228,7 @@ export default function BrainViewer({
       textHeight: 0.035,
       colorbarHeight: 0,
       isRadiologicalConvention: false,
-      meshXRay: 0.1,
+      meshXRay: 0.25,
     })
 
     nvRef.current = nv
@@ -290,6 +290,17 @@ export default function BrainViewer({
         reviewData.peaks
 
       peaksRef.current = peaks
+
+      nv.addColormap(
+        'LiteraturePeaks',
+        {
+          R: [255, 255],
+          G: [36, 36],
+          B: [28, 28],
+          A: [255, 255],
+          I: [0, 255],
+        },
+      )
 
       nv.addColormap(
         'SelectedStudy',
@@ -895,7 +906,6 @@ export default function BrainViewer({
       <BrainViewerHeader
         viewMode={viewMode}
         regionDrawing={regionDrawing}
-        regionBounds={regionBounds}
         panMode={panMode}
         crosshairsVisible={
           crosshairsVisible

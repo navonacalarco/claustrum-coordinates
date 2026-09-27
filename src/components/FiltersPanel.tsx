@@ -1,5 +1,9 @@
+import {
+  useEffect,
+  useRef,
+} from 'react'
+
 export type FilterState = {
-  centralAim: string[]
   peakSource: string[]
   population: string[]
   patientGroup: string[]
@@ -9,14 +13,12 @@ export type FilterState = {
 }
 
 export type TextFilterKey =
-  | 'centralAim'
   | 'peakSource'
   | 'population'
   | 'patientGroup'
   | 'hemisphere'
 
 type FilterOptions = {
-  centralAim: string[]
   peakSource: string[]
   population: string[]
   patientGroup: string[]
@@ -71,19 +73,6 @@ function FiltersPanel({
           Reset
         </button>
       </div>
-
-      <MultiSelectFilter
-        label="Central aim"
-        value={filters.centralAim}
-        allLabel="All aims"
-        options={filterOptions.centralAim}
-        onChange={(value) =>
-          onFilterChange(
-            'centralAim',
-            value,
-          )
-        }
-      />
 
       <MultiSelectFilter
         label="Peak source / modality"
@@ -172,6 +161,72 @@ function MultiSelectFilter({
   disabledText = 'Not applicable',
   onChange,
 }: MultiSelectFilterProps) {
+  const detailsRef =
+    useRef<HTMLDetailsElement | null>(
+      null,
+    )
+
+  useEffect(() => {
+    function handlePointerDown(
+      event: PointerEvent,
+    ) {
+      const details =
+        detailsRef.current
+
+      if (
+        !details?.open ||
+        !(event.target instanceof Node) ||
+        details.contains(event.target)
+      ) {
+        return
+      }
+
+      details.open = false
+    }
+
+    function handleKeyDown(
+      event: KeyboardEvent,
+    ) {
+      const details =
+        detailsRef.current
+
+      if (
+        event.key !== 'Escape' ||
+        !details?.open
+      ) {
+        return
+      }
+
+      details.open = false
+
+      details
+        .querySelector('summary')
+        ?.focus()
+    }
+
+    document.addEventListener(
+      'pointerdown',
+      handlePointerDown,
+    )
+
+    document.addEventListener(
+      'keydown',
+      handleKeyDown,
+    )
+
+    return () => {
+      document.removeEventListener(
+        'pointerdown',
+        handlePointerDown,
+      )
+
+      document.removeEventListener(
+        'keydown',
+        handleKeyDown,
+      )
+    }
+  }, [])
+
   function toggleOption(
     option: string,
   ) {
@@ -215,7 +270,10 @@ function MultiSelectFilter({
           {disabledText}
         </div>
       ) : (
-        <details className="multi-select">
+        <details
+          ref={detailsRef}
+          className="multi-select"
+        >
           <summary>
             <span>
               {summary}

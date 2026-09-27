@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import BrainViewer from './components/BrainViewer'
 import CoordinateNavigator from './components/CoordinateNavigator'
+import DownloadMenu from './components/DownloadMenu'
 import FiltersPanel, {
   type FilterState,
   type TextFilterKey,
@@ -55,7 +56,6 @@ type ReviewData = {
 }
 
 const emptyFilters: FilterState = {
-  centralAim: [],
   peakSource: [],
   population: [],
   patientGroup: [],
@@ -165,11 +165,6 @@ function App() {
       reviewData?.peaks ?? []
 
     return {
-      centralAim: uniqueText(
-        peaks.map(
-          (peak) => peak.centralAim,
-        ),
-      ),
 
       peakSource: uniqueText(
         peaks.map(
@@ -208,14 +203,6 @@ function App() {
 
     return reviewData.peaks.filter(
       (peak) => {
-        if (
-          filters.centralAim.length > 0 &&
-          !filters.centralAim.includes(
-            peak.centralAim,
-          )
-        ) {
-          return false
-        }
 
         if (
           filters.peakSource.length > 0 &&
@@ -366,6 +353,11 @@ function App() {
           )
 
           addUnique(
+            existing.patientGroups,
+            peak.patientGroup,
+          )
+
+          addUnique(
             existing.sampleSizes,
             cleanSampleSize(
               peak.nInContrast,
@@ -407,6 +399,15 @@ function App() {
               )
                 ? [
                     peak.peakSource,
+                  ]
+                : [],
+
+            patientGroups:
+              usable(
+                peak.patientGroup,
+              )
+                ? [
+                    peak.patientGroup,
                   ]
                 : [],
 
@@ -459,7 +460,6 @@ function App() {
     )
 
   const hasActiveFilters =
-    filters.centralAim.length > 0 ||
     filters.peakSource.length > 0 ||
     filters.population.length > 0 ||
     filters.patientGroup.length > 0 ||
@@ -550,10 +550,6 @@ function App() {
     setSelectedStudyId(null)
     setSelectedPeakId(null)
     setFocusCoordinate(null)
-  }
-
-  function showAll() {
-    clearSelection()
   }
 
   function selectStudy(
@@ -710,9 +706,22 @@ function App() {
     setFocusCoordinate(null)
   }
 
-  function downloadRegionCsv() {
+  function downloadAllData() {
     if (
-      !regionBounds ||
+      !reviewData ||
+      reviewData.peaks.length === 0
+    ) {
+      return
+    }
+
+    downloadPeaksCsv(
+      reviewData.peaks,
+      'claustrum-coordinates.csv',
+    )
+  }
+
+  function downloadCurrentSelection() {
+    if (
       displayedPeaks.length === 0
     ) {
       return
@@ -720,14 +729,14 @@ function App() {
 
     downloadPeaksCsv(
       displayedPeaks,
-      'claustrum-coordinates-region.csv',
+      'claustrum-coordinates-selection.csv',
     )
   }
 
   return (
     <div className="app">
       <header className="site-header">
-        <div>
+        <div className="site-brand">
           <div className="eyebrow">
             SYSTEMATIC REVIEW COMPANION
           </div>
@@ -736,10 +745,8 @@ function App() {
             Claustrum Coordinates
           </h1>
 
-          <p>
-            Reported locations from
-            the human neuroimaging
-            literature
+          <p className="site-subtitle">
+            Reported locations from the human neuroimaging literature
           </p>
         </div>
 
@@ -748,9 +755,18 @@ function App() {
             About
           </button>
 
-          <button className="button primary">
-            Download data
-          </button>
+          <DownloadMenu
+            showCurrentSelection={
+              hasActiveFilters &&
+              displayedPeaks.length > 0
+            }
+            onDownloadAll={
+              downloadAllData
+            }
+            onDownloadCurrent={
+              downloadCurrentSelection
+            }
+          />
         </div>
       </header>
 
@@ -834,12 +850,6 @@ function App() {
                 drawing={
                   regionDrawing
                 }
-                numberOfCoordinates={
-                  displayedPeaks.length
-                }
-                numberOfStudies={
-                  studies.length
-                }
                 onStartDrawing={
                   startRegionDrawing
                 }
@@ -853,9 +863,6 @@ function App() {
                   cancelRegionDrawing
                 }
                 onClear={clearRegion}
-                onDownload={
-                  downloadRegionCsv
-                }
               />
             </div>
           </div>
@@ -867,7 +874,7 @@ function App() {
           numberOfCoordinates={displayedPeaks.length}
           selectedStudyId={selectedStudyId}
           selectedPeakId={selectedPeakId}
-          onShowAll={showAll}
+          onShowAll={clearSelection}
           onStudySelect={selectStudy}
           onPeakSelect={selectPeak}
         />

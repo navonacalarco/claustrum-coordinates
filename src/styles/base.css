@@ -27,33 +27,56 @@ button {
 .site-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 40px;
-  padding: 34px 42px 30px;
+  align-items: center;
+  gap: 32px;
+  padding: 24px 42px 22px;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
 
+.site-brand {
+  min-width: 0;
+}
+
 .eyebrow {
-  margin-bottom: 8px;
+  margin: 0 0 6px;
   color: var(--accent);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  line-height: 1.2;
+  letter-spacing: 0.13em;
 }
 
 h1 {
   margin: 0;
-  font-size: 34px;
-  line-height: 1.1;
-  letter-spacing: -0.035em;
+  font-size: 32px;
   font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.site-subtitle {
+  margin: 8px 0 0;
+  color: #4f555d;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
 }
 
 .header-actions {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 9px;
   flex-shrink: 0;
+}
+
+.header-actions .button {
+  min-height: 40px;
+  padding: 9px 14px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .button {
@@ -256,8 +279,14 @@ h1 {
 
 @media (max-width: 760px) {
   .site-header {
+    align-items: flex-start;
     flex-direction: column;
-    padding: 25px 20px;
+    gap: 16px;
+    padding: 22px 20px;
+  }
+
+  .header-actions {
+    width: 100%;
   }
 
   .workspace {

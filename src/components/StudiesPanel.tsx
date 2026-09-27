@@ -1,5 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
-import StudyCard, { type StudySummary } from './StudyCard'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import StudyCard, {
+  type StudySummary,
+} from './StudyCard'
 
 type SortKey =
   | 'year'
@@ -46,11 +53,24 @@ function StudiesPanel({
   const [sortKey, setSortKey] =
     useState<SortKey>('year')
 
-  const [sortDirection, setSortDirection] =
-    useState<SortDirection>('asc')
+  const [
+    sortDirection,
+    setSortDirection,
+  ] =
+    useState<SortDirection>(
+      'asc',
+    )
 
-  const [sortMenuOpen, setSortMenuOpen] =
+  const [
+    sortMenuOpen,
+    setSortMenuOpen,
+  ] =
     useState(false)
+
+  const sortMenuRef =
+    useRef<HTMLDivElement | null>(
+      null,
+    )
 
   const matchingStudies =
     useMemo(() => {
@@ -72,6 +92,7 @@ function StudiesPanel({
             study.pmid,
             study.year?.toString() ?? '',
             study.peakSources.join(' '),
+            study.patientGroups.join(' '),
           ]
 
           return searchableValues.some(
@@ -98,7 +119,9 @@ function StudiesPanel({
               (a.year ?? 9999) -
               (b.year ?? 9999)
 
-            if (comparison === 0) {
+            if (
+              comparison === 0
+            ) {
               comparison =
                 a.authors.localeCompare(
                   b.authors,
@@ -106,7 +129,9 @@ function StudiesPanel({
             }
           }
 
-          if (sortKey === 'author') {
+          if (
+            sortKey === 'author'
+          ) {
             comparison =
               authorSortName(
                 a.authors,
@@ -116,7 +141,9 @@ function StudiesPanel({
                 ),
               )
 
-            if (comparison === 0) {
+            if (
+              comparison === 0
+            ) {
               comparison =
                 (a.year ?? 9999) -
                 (b.year ?? 9999)
@@ -131,7 +158,9 @@ function StudiesPanel({
               a.numberOfCoordinates -
               b.numberOfCoordinates
 
-            if (comparison === 0) {
+            if (
+              comparison === 0
+            ) {
               comparison =
                 a.authors.localeCompare(
                   b.authors,
@@ -139,10 +168,12 @@ function StudiesPanel({
             }
           }
 
-          return sortDirection ===
-            'asc'
-            ? comparison
-            : -comparison
+          return (
+            sortDirection ===
+              'asc'
+              ? comparison
+              : -comparison
+          )
         },
       )
     }, [
@@ -190,29 +221,91 @@ function StudiesPanel({
     }
 
     const timer =
-      window.setTimeout(() => {
-        const element =
-          document.getElementById(
-            `studies-panel-${selectedStudyId}`,
-          )
+      window.setTimeout(
+        () => {
+          const element =
+            document.getElementById(
+              `studies-panel-${selectedStudyId}`,
+            )
 
-        element?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-        })
-      }, 80)
+          element?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+          })
+        },
+        80,
+      )
 
     return () =>
-      window.clearTimeout(timer)
+      window.clearTimeout(
+        timer,
+      )
   }, [
     selectedStudyId,
     displayedStudies,
   ])
 
+  /*
+   * Sort behaves like a conventional menu:
+   * click elsewhere or press Escape to dismiss it.
+   */
+  useEffect(() => {
+    if (!sortMenuOpen) {
+      return
+    }
+
+    function handlePointerDown(
+      event: PointerEvent,
+    ) {
+      if (
+        event.target instanceof Node &&
+        !sortMenuRef.current?.contains(
+          event.target,
+        )
+      ) {
+        setSortMenuOpen(false)
+      }
+    }
+
+    function handleKeyDown(
+      event: KeyboardEvent,
+    ) {
+      if (
+        event.key === 'Escape'
+      ) {
+        setSortMenuOpen(false)
+      }
+    }
+
+    document.addEventListener(
+      'pointerdown',
+      handlePointerDown,
+    )
+
+    document.addEventListener(
+      'keydown',
+      handleKeyDown,
+    )
+
+    return () => {
+      document.removeEventListener(
+        'pointerdown',
+        handlePointerDown,
+      )
+
+      document.removeEventListener(
+        'keydown',
+        handleKeyDown,
+      )
+    }
+  }, [sortMenuOpen])
+
   function chooseSort(
     nextKey: SortKey,
   ) {
-    if (nextKey === sortKey) {
+    if (
+      nextKey === sortKey
+    ) {
       setSortDirection(
         (current) =>
           current === 'asc'
@@ -223,7 +316,8 @@ function StudiesPanel({
       setSortKey(nextKey)
 
       setSortDirection(
-        nextKey === 'coordinates'
+        nextKey ===
+          'coordinates'
           ? 'desc'
           : 'asc',
       )
@@ -269,7 +363,7 @@ function StudiesPanel({
             className="show-all-button"
             onClick={onShowAll}
           >
-            Show all
+            Clear selection
           </button>
         )}
       </div>
@@ -278,8 +372,8 @@ function StudiesPanel({
         <input
           type="search"
           value={search}
-          placeholder="Search studies…"
-          aria-label="Search studies by author, title, journal, year, or PMID"
+          placeholder="Search authors, diagnosis, journal"
+          aria-label="Search authors, diagnosis, journal, title, year, or PMID"
           onChange={(event) =>
             setSearch(
               event.target.value,
@@ -294,12 +388,17 @@ function StudiesPanel({
             `${displayedStudies.length} matching`}
         </div>
 
-        <div className="study-sort">
+        <div
+          ref={sortMenuRef}
+          className="study-sort"
+        >
           <button
             type="button"
             className="study-sort-trigger"
             aria-haspopup="menu"
-            aria-expanded={sortMenuOpen}
+            aria-expanded={
+              sortMenuOpen
+            }
             onClick={() =>
               setSortMenuOpen(
                 (current) =>
@@ -312,7 +411,8 @@ function StudiesPanel({
               className="study-sort-direction"
               aria-hidden="true"
             >
-              {sortDirection === 'asc'
+              {sortDirection ===
+                'asc'
                 ? '↑'
                 : '↓'}
             </span>
@@ -327,24 +427,36 @@ function StudiesPanel({
                 label="Year"
                 sortKey="year"
                 activeKey={sortKey}
-                direction={sortDirection}
-                onChoose={chooseSort}
+                direction={
+                  sortDirection
+                }
+                onChoose={
+                  chooseSort
+                }
               />
 
               <SortOption
                 label="Author"
                 sortKey="author"
                 activeKey={sortKey}
-                direction={sortDirection}
-                onChoose={chooseSort}
+                direction={
+                  sortDirection
+                }
+                onChoose={
+                  chooseSort
+                }
               />
 
               <SortOption
                 label="Coordinates"
                 sortKey="coordinates"
                 activeKey={sortKey}
-                direction={sortDirection}
-                onChoose={chooseSort}
+                direction={
+                  sortDirection
+                }
+                onChoose={
+                  chooseSort
+                }
               />
             </div>
           )}
@@ -388,7 +500,8 @@ function StudiesPanel({
           ),
         )}
 
-        {displayedStudies.length === 0 && (
+        {displayedStudies.length ===
+          0 && (
           <div className="no-results">
             No studies match this search.
           </div>
@@ -437,7 +550,8 @@ function SortOption({
 
       {active && (
         <span aria-hidden="true">
-          {direction === 'asc'
+          {direction ===
+            'asc'
             ? '↑'
             : '↓'}
         </span>
@@ -449,12 +563,15 @@ function SortOption({
 function sortLabel(
   sortKey: SortKey,
 ) {
-  if (sortKey === 'author') {
+  if (
+    sortKey === 'author'
+  ) {
     return 'Author'
   }
 
   if (
-    sortKey === 'coordinates'
+    sortKey ===
+    'coordinates'
   ) {
     return 'Coordinates'
   }

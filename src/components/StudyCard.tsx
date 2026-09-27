@@ -17,6 +17,7 @@ export type StudySummary = {
   journal: string
   pmid: string
   peakSources: string[]
+  patientGroups: string[]
   sampleSizes: string[]
   numberOfCoordinates: number
   peaks: StudyPeak[]
@@ -26,7 +27,6 @@ type StudyCardProps = {
   study: StudySummary
   selected: boolean
   selectedPeakId?: string | null
-  showTitleTooltip?: boolean
   onSelect: () => void
 
   onPeakSelect: (
@@ -39,7 +39,6 @@ function StudyCard({
   study,
   selected,
   selectedPeakId = null,
-  showTitleTooltip = true,
   onSelect,
   onPeakSelect,
 }: StudyCardProps) {
@@ -53,15 +52,20 @@ function StudyCard({
       ? '1 coordinate'
       : `${study.numberOfCoordinates} coordinates`
 
-  const sampleSize = sampleSizeLabel(study)
+  const sampleSize =
+    sampleSizeLabel(study)
 
-  const contrasts = Array.from(
-    new Set(
-      study.peaks
-        .map((peak) => peak.contrast)
-        .filter(usable),
-    ),
-  )
+  const contrasts =
+    Array.from(
+      new Set(
+        study.peaks
+          .map(
+            (peak) =>
+              peak.contrast,
+          )
+          .filter(usable),
+      ),
+    )
 
   return (
     <div
@@ -70,16 +74,13 @@ function StudyCard({
           ? 'study-card selected'
           : 'study-card'
       }
-      title={
-        showTitleTooltip
-          ? study.title
-          : undefined
-      }
       onClick={onSelect}
     >
       <div className="study-card-top">
         <strong>
-          {abbreviatedAuthors(study.authors)}
+          {abbreviatedAuthors(
+            study.authors,
+          )}
         </strong>
 
         <span className="study-year">
@@ -87,27 +88,37 @@ function StudyCard({
         </span>
       </div>
 
-      {usable(study.pmid) && (
-        <a
-          className="pubmed-link"
-          href={`https://pubmed.ncbi.nlm.nih.gov/${encodeURIComponent(
-            study.pmid,
-          )}/`}
-          target="_blank"
-          rel="noreferrer"
-          onClick={(event) =>
-            event.stopPropagation()
-          }
-        >
-          PMID {study.pmid}
-        </a>
-      )}
+      <div className="study-card-meta">
+        <span>
+          {source}
+        </span>
 
-      <div className="study-modality">
-        {source}
-        {' · '}
-        {coordinateLabel}
+        <span aria-hidden="true">
+          ·
+        </span>
+
+        <span>
+          {coordinateLabel}
+        </span>
       </div>
+
+      {usable(study.pmid) && (
+        <div className="study-card-pmid-row">
+          <a
+            className="pubmed-link"
+            href={`https://pubmed.ncbi.nlm.nih.gov/${encodeURIComponent(
+              study.pmid,
+            )}/`}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+            PMID {study.pmid}
+          </a>
+        </div>
+      )}
 
       {selected && (
         <div
@@ -126,25 +137,34 @@ function StudyCard({
             </div>
           )}
 
-          {sampleSize && (
-            <div className="study-detail-row">
-              <span className="study-detail-label">
-                Sample
-              </span>
+          {(
+            sampleSize ||
+            contrasts.length > 0
+          ) && (
+            <div className="study-expanded-meta">
+              {sampleSize && (
+                <div className="study-detail-row">
+                  <span className="study-detail-label">
+                    Sample
+                  </span>
 
-              <span>{sampleSize}</span>
-            </div>
-          )}
+                  <span>
+                    {sampleSize}
+                  </span>
+                </div>
+              )}
 
-          {contrasts.length > 0 && (
-            <div className="study-detail-row">
-              <span className="study-detail-label">
-                Contrast
-              </span>
+              {contrasts.length > 0 && (
+                <div className="study-detail-row">
+                  <span className="study-detail-label">
+                    Contrast
+                  </span>
 
-              <span>
-                {contrasts.join('; ')}
-              </span>
+                  <span>
+                    {contrasts.join('; ')}
+                  </span>
+                </div>
+              )}
             </div>
           )}
 
@@ -188,13 +208,17 @@ function StudyCard({
 
                     <span className="study-peak-content">
                       <span className="study-peak-coordinate">
-                        (
-                        {formatCoordinate(peak.x)}
+                        {formatCoordinate(
+                          peak.x,
+                        )}
                         ,{' '}
-                        {formatCoordinate(peak.y)}
+                        {formatCoordinate(
+                          peak.y,
+                        )}
                         ,{' '}
-                        {formatCoordinate(peak.z)}
-                        )
+                        {formatCoordinate(
+                          peak.z,
+                        )}
                       </span>
 
                       {peakMeta && (
@@ -221,9 +245,10 @@ function usable(
     return false
   }
 
-  const cleaned = value
-    .trim()
-    .toUpperCase()
+  const cleaned =
+    value
+      .trim()
+      .toUpperCase()
 
   return (
     cleaned !== '' &&
@@ -232,7 +257,9 @@ function usable(
   )
 }
 
-function abbreviatedAuthors(authors: string) {
+function abbreviatedAuthors(
+  authors: string,
+) {
   if (!authors) {
     return 'Unknown authors'
   }
@@ -245,16 +272,18 @@ function abbreviatedAuthors(authors: string) {
     return authors
   }
 
-  const firstAuthor = authors
-    .split(';')[0]
-    .trim()
+  const firstAuthor =
+    authors
+      .split(';')[0]
+      .trim()
 
   if (!firstAuthor) {
     return authors
   }
 
-  const surname = firstAuthor
-    .split(/\s+/)[0]
+  const surname =
+    firstAuthor
+      .split(/\s+/)[0]
 
   return `${surname} et al.`
 }
@@ -262,19 +291,27 @@ function abbreviatedAuthors(authors: string) {
 function sampleSizeLabel(
   study: StudySummary,
 ) {
-  if (study.sampleSizes.length === 0) {
+  if (
+    study.sampleSizes.length === 0
+  ) {
     return null
   }
 
-  if (study.sampleSizes.length === 1) {
+  if (
+    study.sampleSizes.length === 1
+  ) {
     return `n = ${study.sampleSizes[0]}`
   }
 
   return `n = ${study.sampleSizes.join(', ')}`
 }
 
-function formatCoordinate(value: number) {
-  if (Number.isInteger(value)) {
+function formatCoordinate(
+  value: number,
+) {
+  if (
+    Number.isInteger(value)
+  ) {
     return String(value)
   }
 

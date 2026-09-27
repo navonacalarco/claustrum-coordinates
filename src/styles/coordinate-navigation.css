@@ -1,33 +1,42 @@
 .coordinate-navigator {
-  gap: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   min-width: 0;
+  padding: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 9px;
+  background: #1d2228;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 
 .coordinate-axis {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  padding-left: 5px;
 }
 
 .coordinate-axis-label {
   min-width: 8px;
-  color: #9299a3;
+  color: #8f969f;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 650;
   line-height: 1;
   text-transform: lowercase;
 }
 
 .coordinate-input {
-  width: 64px;
+  width: 62px;
   height: 28px;
   box-sizing: border-box;
-  padding: 0 6px;
-  border: 1px solid #31353d;
+  padding: 0 7px;
+  border: 1px solid #343a43;
   border-radius: 6px;
   outline: none;
-  background: #111419;
-  color: #d7dbe2;
+  background: #13171c;
+  color: #d8dce3;
   font: inherit;
   font-size: 11px;
   font-variant-numeric: tabular-nums;
@@ -41,44 +50,43 @@
 }
 
 .coordinate-input:hover {
-  border-color: #444a55;
-  background: #14181e;
+  border-color: #464d58;
+  background: #151a20;
 }
 
 .coordinate-input:focus {
   border-color: rgba(108, 119, 238, 0.82);
   box-shadow:
     0 0 0 2px rgba(89, 104, 217, 0.14);
-  background: #15191f;
+  background: #151a20;
 }
 
 .coordinate-go-button {
   height: 28px;
-  padding: 0 9px;
-  border: 1px solid #3a404a;
+  margin-left: 2px;
+  padding: 0 10px;
+  border: 0;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.045);
-  color: #cbd0d8;
+  background: rgba(255, 255, 255, 0.08);
+  color: #d6dae1;
   font-size: 10px;
   font-weight: 650;
   line-height: 1;
   cursor: pointer;
   transition:
-    border-color 0.15s ease,
     background 0.15s ease,
     color 0.15s ease;
 }
 
 .coordinate-go-button:hover:not(:disabled) {
-  border-color: #515866;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.13);
   color: #ffffff;
 }
 
 .coordinate-go-button:focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 2px rgba(89, 104, 217, 0.18);
+    0 0 0 2px rgba(89, 104, 217, 0.22);
 }
 
 .coordinate-go-button:disabled {
@@ -88,11 +96,10 @@
 
 @media (max-width: 900px) {
   .coordinate-navigator {
-    width: 100%;
-    justify-content: center;
+    max-width: 100%;
   }
 
   .coordinate-input {
-    width: 60px;
+    width: 58px;
   }
 }

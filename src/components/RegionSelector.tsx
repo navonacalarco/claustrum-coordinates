@@ -3,21 +3,18 @@ import {
   useState,
 } from 'react'
 
-import type {
+export type {
   RegionBounds,
 } from './regionSelection'
 
-export type {
-  RegionBounds,
+import {
+  type RegionBounds,
 } from './regionSelection'
 
 type RegionSelectorProps = {
   bounds: RegionBounds | null
   draftBounds: RegionBounds | null
   drawing: boolean
-
-  numberOfCoordinates: number
-  numberOfStudies: number
 
   onStartDrawing: () => void
 
@@ -28,7 +25,6 @@ type RegionSelectorProps = {
   onApplyDrawing: () => void
   onCancelDrawing: () => void
   onClear: () => void
-  onDownload: () => void
 }
 
 type DraftBounds = {
@@ -40,7 +36,8 @@ type DraftBounds = {
   zMax: string
 }
 
-const emptyDraft: DraftBounds = {
+const emptyDraft:
+  DraftBounds = {
   xMin: '',
   xMax: '',
   yMin: '',
@@ -53,14 +50,11 @@ function RegionSelector({
   bounds,
   draftBounds,
   drawing,
-  numberOfCoordinates,
-  numberOfStudies,
   onStartDrawing,
   onDraftChange,
   onApplyDrawing,
   onCancelDrawing,
   onClear,
-  onDownload,
 }: RegionSelectorProps) {
   const [open, setOpen] =
     useState(false)
@@ -148,7 +142,9 @@ function RegionSelector({
       <div className="region-selector">
         <div className="region-drawing-controls">
           <span className="region-drawing-status">
-            Draw region
+            {bounds
+              ? 'Edit box'
+              : 'Draw box'}
           </span>
 
           <button
@@ -158,7 +154,7 @@ function RegionSelector({
               setOpen(true)
             }
           >
-            Coordinates
+            Enter bounds
           </button>
 
           <button
@@ -190,7 +186,6 @@ function RegionSelector({
             draft={draft}
             error={error}
             actionLabel="Update box"
-            helperText="Draw on the brain, redraw in another view to refine the cuboid, or fine-tune the MNI bounds here."
             onDraftChange={
               updateDraft
             }
@@ -216,22 +211,10 @@ function RegionSelector({
             onStartDrawing
           }
         >
-          Select region
+          Set spatial filter
         </button>
       ) : (
         <div className="region-active">
-          <span className="region-active-count">
-            {numberOfCoordinates}{' '}
-            {numberOfCoordinates === 1
-              ? 'coordinate'
-              : 'coordinates'}
-            {' · '}
-            {numberOfStudies}{' '}
-            {numberOfStudies === 1
-              ? 'study'
-              : 'studies'}
-          </span>
-
           <button
             type="button"
             className="region-text-button"
@@ -239,20 +222,8 @@ function RegionSelector({
               onStartDrawing
             }
           >
-            Edit
+            Edit box
           </button>
-
-          {numberOfCoordinates > 0 && (
-            <button
-              type="button"
-              className="region-download-button"
-              onClick={
-                onDownload
-              }
-            >
-              Download CSV
-            </button>
-          )}
 
           <button
             type="button"
@@ -273,8 +244,6 @@ type RegionPopoverProps = {
   draft: DraftBounds
   error: string
   actionLabel: string
-  helperText: string
-
   onDraftChange: (
     key: keyof DraftBounds,
     value: string,
@@ -288,7 +257,6 @@ function RegionPopover({
   draft,
   error,
   actionLabel,
-  helperText,
   onDraftChange,
   onClose,
   onApply,
@@ -297,30 +265,18 @@ function RegionPopover({
     <div
       className="region-popover"
       role="dialog"
-      aria-label="Edit MNI region"
+      aria-label="Edit spatial bounds"
     >
-      <div className="region-popover-header">
-        <div>
-          <strong>
-            MNI region
-          </strong>
-
-          <span>
-            {helperText}
-          </span>
-        </div>
-
-        <button
-          type="button"
-          className="region-popover-close"
-          aria-label="Close region coordinates"
-          onClick={
-            onClose
-          }
-        >
-          ×
-        </button>
-      </div>
+      <button
+        type="button"
+        className="region-popover-close region-popover-close-minimal"
+        aria-label="Close bounds"
+        onClick={
+          onClose
+        }
+      >
+        ×
+      </button>
 
       <div className="region-axis-row">
         <span className="region-axis-label">
@@ -529,7 +485,8 @@ function parseDraft(
     }
   }
 
-  const bounds: RegionBounds = {
+  const bounds:
+    RegionBounds = {
     xMin:
       Number(draft.xMin),
     xMax:
@@ -549,7 +506,9 @@ function parseDraft(
       bounds,
     ).some(
       (value) =>
-        !Number.isFinite(value),
+        !Number.isFinite(
+          value,
+        ),
     )
   ) {
     return {

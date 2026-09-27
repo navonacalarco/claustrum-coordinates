@@ -303,3 +303,9 @@
     justify-self: center;
   }
 }
+
+.brain-canvas:focus,
+.brain-canvas:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

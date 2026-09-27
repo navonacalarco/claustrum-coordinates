@@ -94,3 +94,181 @@
 .studies-panel-card-wrap {
   scroll-margin-block: 12px;
 }
+
+
+/* Minimal editorial study-card treatment */
+.studies-list .study-card {
+  margin-bottom: 8px;
+  padding: 11px 12px;
+  border-radius: 9px;
+}
+
+.studies-list .study-card.selected {
+  border-color: rgba(89, 104, 217, 0.34);
+  background: #ffffff;
+  box-shadow: 0 0 0 1px rgba(89, 104, 217, 0.05);
+}
+
+.studies-list .study-card-top {
+  gap: 10px;
+}
+
+.studies-list .study-card-top strong,
+.studies-list .study-year {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.studies-list .study-card-top strong {
+  color: var(--text);
+  font-weight: 650;
+}
+
+.studies-list .study-year {
+  color: #59606a;
+  font-weight: 400;
+}
+
+.study-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 4px;
+  color: #656c75;
+  font-size: 10.5px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.studies-list .pubmed-link {
+  margin: 0;
+  color: var(--accent);
+  font-size: inherit;
+  font-weight: 500;
+}
+
+.studies-list .study-expanded {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eceef1;
+}
+
+.studies-list .study-expanded-title {
+  margin: 0;
+  color: #30343a;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.studies-list .study-journal {
+  margin: 4px 0 0;
+  color: #737a84;
+  font-size: 10.5px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.study-expanded-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 9px;
+}
+
+.studies-list .study-detail-row {
+  display: flex;
+  grid-template-columns: none;
+  gap: 7px;
+  margin: 0;
+  color: #555d66;
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+.studies-list .study-detail-label {
+  min-width: 46px;
+  color: #90969e;
+  font-weight: 500;
+}
+
+.studies-list .study-peaks-heading {
+  margin: 10px 0 4px;
+  color: #7c838c;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.studies-list .study-peak-list {
+  gap: 2px;
+}
+
+.studies-list .study-peak-button {
+  gap: 7px;
+  padding: 5px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+}
+
+.studies-list .study-peak-button:hover {
+  border-color: transparent;
+  background: #f5f6f8;
+}
+
+.studies-list .study-peak-button.selected-peak {
+  border-color: transparent;
+  background: var(--accent-soft);
+  box-shadow: none;
+}
+
+.studies-list .study-peak-number {
+  display: inline-block;
+  width: 13px;
+  height: auto;
+  margin-top: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #9aa0a8;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.studies-list .study-peak-content {
+  gap: 1px;
+}
+
+.studies-list .study-peak-coordinate {
+  color: #424850;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.studies-list .study-peak-meta {
+  margin: 0;
+  color: #8a9098;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.studies-list .study-peak-button.selected-peak .study-peak-coordinate {
+  color: var(--accent);
+}
+
+.study-card-pmid-row {
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.studies-list .study-card-pmid-row .pubmed-link {
+  font-size: 10.5px;
+  font-weight: 500;
+}
+

@@ -14,16 +14,8 @@
   min-width: 0;
 }
 
-.region-active-count {
-  color: #aeb4be;
-  font-size: 10px;
-  font-weight: 500;
-  white-space: nowrap;
-}
 
-.region-text-button,
-.region-download-button
-{
+.region-text-button {
   padding: 5px 7px;
   border-radius: 6px;
   cursor: pointer;
@@ -45,15 +37,6 @@
   color: white;
 }
 
-.region-download-button {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.08);
-  color: #eef0f3;
-}
-
-.region-download-button:hover {
-  background: rgba(255, 255, 255, 0.13);
-}
 
 .region-popover {
   position: absolute;
@@ -240,10 +223,6 @@
 }
 
 @media (max-width: 900px) {
-  .region-active-count {
-    display: none;
-  }
-
   .region-popover {
     right: 0;
     width: min(315px, calc(100vw - 40px));
@@ -334,3 +313,18 @@
 .brain-viewer.region-drawing-active .brain-canvas {
   cursor: crosshair;
 }
+
+.region-popover {
+  padding-top: 12px;
+}
+
+.region-popover-close-minimal {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.region-popover .region-axis-row:first-of-type {
+  margin-top: 10px;
+}
+
