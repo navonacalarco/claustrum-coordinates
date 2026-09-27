@@ -47,6 +47,7 @@ export default function BrainViewer({
   onPeakClick,
   selectedStudyId = null,
   focusCoordinate = null,
+  navigationRequest = null,
   viewMode = 'multi',
   onViewModeChange,
   regionDrawing = false,
@@ -748,6 +749,97 @@ export default function BrainViewer({
     onLocationChangeRef,
   })
 
+  /*
+   * Coordinate navigation is intentionally independent
+   * of study selection. Entering a coordinate moves the
+   * crosshair/slices but does not clear or alter the
+   * currently selected literature study.
+   *
+   * The requested point is clamped to the loaded template
+   * extents. Arbitrary decimal coordinates are otherwise
+   * preserved; the 0.5 mm step belongs to the UI control,
+   * not to the underlying coordinate model.
+   */
+  useEffect(() => {
+    const nv =
+      nvRef.current
+
+    if (
+      !nv ||
+      !viewerReady ||
+      !navigationRequest
+    ) {
+      return
+    }
+
+    const baseVolume =
+      nv.volumes[0]
+
+    const minExtent =
+      baseVolume
+        ?.extentsMinOrtho ??
+      nv.extentsMin
+
+    const maxExtent =
+      baseVolume
+        ?.extentsMaxOrtho ??
+      nv.extentsMax
+
+    if (
+      !minExtent ||
+      !maxExtent
+    ) {
+      return
+    }
+
+    const requested =
+      navigationRequest
+        .coordinate
+
+    const target:
+      [number, number, number] = [
+        clamp(
+          requested[0],
+          Number(
+            minExtent[0],
+          ),
+          Number(
+            maxExtent[0],
+          ),
+        ),
+        clamp(
+          requested[1],
+          Number(
+            minExtent[1],
+          ),
+          Number(
+            maxExtent[1],
+          ),
+        ),
+        clamp(
+          requested[2],
+          Number(
+            minExtent[2],
+          ),
+          Number(
+            maxExtent[2],
+          ),
+        ),
+      ]
+
+    nv.scene.crosshairPos =
+      nv.mm2frac(target)
+
+    nv.drawScene()
+
+    onLocationChangeRef.current?.(
+      target,
+    )
+  }, [
+    navigationRequest,
+    viewerReady,
+  ])
+
   function updateRegionFromOverlay(
     nextBounds: RegionBounds,
   ) {
@@ -851,5 +943,19 @@ export default function BrainViewer({
         />
       </div>
     </div>
+  )
+}
+
+function clamp(
+  value: number,
+  min: number,
+  max: number,
+) {
+  return Math.min(
+    max,
+    Math.max(
+      min,
+      value,
+    ),
   )
 }

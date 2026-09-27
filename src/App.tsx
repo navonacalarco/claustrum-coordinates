@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import BrainViewer from './components/BrainViewer'
+import CoordinateNavigator from './components/CoordinateNavigator'
 import FiltersPanel, {
   type FilterState,
   type TextFilterKey,
@@ -66,6 +67,18 @@ const emptyFilters: FilterState = {
 function App() {
   const [coords, setCoords] =
     useState<[number, number, number]>([0, 0, 0])
+
+  const [
+    coordinateNavigationRequest,
+    setCoordinateNavigationRequest,
+  ] = useState<{
+    coordinate: [
+      number,
+      number,
+      number,
+    ]
+    requestId: number
+  } | null>(null)
 
   const [reviewData, setReviewData] =
     useState<ReviewData | null>(null)
@@ -620,6 +633,24 @@ function App() {
     ])
   }
 
+  function navigateToCoordinate(
+    coordinate:
+      [number, number, number],
+  ) {
+    setCoordinateNavigationRequest(
+      (current) => ({
+        coordinate: [
+          coordinate[0],
+          coordinate[1],
+          coordinate[2],
+        ],
+        requestId:
+          (current?.requestId ??
+            0) + 1,
+      }),
+    )
+  }
+
   function startRegionDrawing() {
     setDraftRegionBounds(
       regionBounds
@@ -754,6 +785,10 @@ function App() {
                 focusCoordinate
               }
 
+              navigationRequest={
+                coordinateNavigationRequest
+              }
+
               viewMode={
                 viewMode
               }
@@ -784,32 +819,12 @@ function App() {
             />
 
             <div className="viewer-footer">
-              <div className="coordinate-readout">
-                <span className="coordinate-label">
-                  MNI
-                </span>
-
-                <span className="coord-pill">
-                  x{' '}
-                  {coords[0].toFixed(
-                    1,
-                  )}
-                </span>
-
-                <span className="coord-pill">
-                  y{' '}
-                  {coords[1].toFixed(
-                    1,
-                  )}
-                </span>
-
-                <span className="coord-pill">
-                  z{' '}
-                  {coords[2].toFixed(
-                    1,
-                  )}
-                </span>
-              </div>
+              <CoordinateNavigator
+                coords={coords}
+                onNavigate={
+                  navigateToCoordinate
+                }
+              />
 
               <RegionSelector
                 bounds={regionBounds}

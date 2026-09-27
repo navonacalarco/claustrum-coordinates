@@ -24,6 +24,15 @@ export type UserLocation = {
   time: number
 }
 
+export type CoordinateNavigationRequest = {
+  coordinate: [
+    number,
+    number,
+    number,
+  ]
+  requestId: number
+}
+
 export type BrainViewerProps = {
   onLocationChange?: (
     coords: [number, number, number],
@@ -42,6 +51,9 @@ export type BrainViewerProps = {
     number,
     number,
   ] | null
+
+  navigationRequest?:
+    CoordinateNavigationRequest | null
 
   viewMode?: ViewMode
 
