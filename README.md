@@ -1,32 +1,32 @@
-# React + TypeScript + Vite
+## About this repository
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This repository contains the source code for [Claustrum Coordinates](https://navonacalarco.github.io/claustrum-coordinates/), an interactive web resource for exploring stereotaxic coordinates reported across the human claustrum MRI literature. 
 
-Currently, two official plugins are available:
+![Claustrum Coordinates interface](public/interface.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Built with
 
-## React Compiler
+The site is built with **React**, **TypeScript**, **Vite**, and **NiiVue**, and is deployed with **GitHub Pages**. Development was supported by AI-assisted coding tools, including **ChatGPT** and **Claude**.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Contributions
 
-## Expanding the Oxlint configuration
+Contributions to the codebase, including new features and interface improvements, are welcome via pull request. To work locally:
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+git clone https://github.com/navonacalarco/claustrum-coordinates.git
+cd claustrum-coordinates
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Issues and corrections
+
+Found an incorrect coordinate or a relevant study that may be missing? [Open an issue here.](https://github.com/navonacalarco/claustrum-coordinates/issues)
+
+## Citation
+
+If you use the web resource, please cite [Zenodo citation / DOI forthcoming]. For the accompanying systematic review, please cite [**Calarco et al., forthcoming.**]
+
+## License
+
+The website source code is released under the **MIT License**.
