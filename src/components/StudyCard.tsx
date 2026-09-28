@@ -3,6 +3,11 @@ export type StudyPeak = {
   x: number
   y: number
   z: number
+  xOriginal: number | null
+  yOriginal: number | null
+  zOriginal: number | null
+  originalSpace: string
+  transformation: string
   contrast: string
   groupsInContrast: string
   coordinateType: string
@@ -207,19 +212,83 @@ function StudyCard({
                     </span>
 
                     <span className="study-peak-content">
-                      <span className="study-peak-coordinate">
-                        {formatCoordinate(
-                          peak.x,
-                        )}
-                        ,{' '}
-                        {formatCoordinate(
-                          peak.y,
-                        )}
-                        ,{' '}
-                        {formatCoordinate(
-                          peak.z,
-                        )}
-                      </span>
+                      {isTransformedPeak(
+                        peak,
+                      ) ? (
+                        <>
+                          <span className="study-peak-coordinate-row">
+                            <span className="study-coordinate-label">
+                              Reported
+                            </span>
+
+                            <span className="study-peak-coordinate">
+                              {formatCoordinate(
+                                peak.xOriginal as number,
+                              )}
+                              ,{' '}
+                              {formatCoordinate(
+                                peak.yOriginal as number,
+                              )}
+                              ,{' '}
+                              {formatCoordinate(
+                                peak.zOriginal as number,
+                              )}
+                              {' · '}
+                              {displaySpace(
+                                peak.originalSpace,
+                              )}
+                            </span>
+                          </span>
+
+                          <span className="study-peak-coordinate-row">
+                            <span className="study-coordinate-label">
+                              Displayed
+                            </span>
+
+                            <span className="study-peak-coordinate">
+                              {formatCoordinate(
+                                peak.x,
+                              )}
+                              ,{' '}
+                              {formatCoordinate(
+                                peak.y,
+                              )}
+                              ,{' '}
+                              {formatCoordinate(
+                                peak.z,
+                              )}
+                              {' · MNI'}
+                            </span>
+                          </span>
+                        </>
+                      ) : (
+                        <span className="study-peak-coordinate">
+                          {formatCoordinate(
+                            reportedCoordinate(
+                              peak.xOriginal,
+                              peak.x,
+                            ),
+                          )}
+                          ,{' '}
+                          {formatCoordinate(
+                            reportedCoordinate(
+                              peak.yOriginal,
+                              peak.y,
+                            ),
+                          )}
+                          ,{' '}
+                          {formatCoordinate(
+                            reportedCoordinate(
+                              peak.zOriginal,
+                              peak.z,
+                            ),
+                          )}
+                          {' · '}
+                          {displaySpace(
+                            peak.originalSpace,
+                          )}
+                        </span>
+                      )}
 
                       {peakMeta && (
                         <span className="study-peak-meta">
@@ -304,6 +373,72 @@ function sampleSizeLabel(
   }
 
   return `n = ${study.sampleSizes.join(', ')}`
+}
+
+function reportedCoordinate(
+  original: number | null,
+  displayed: number,
+) {
+  return original ??
+    displayed
+}
+
+function normalizedSpace(
+  value: string,
+) {
+  return value
+    .trim()
+    .toLowerCase()
+}
+
+function displaySpace(
+  value: string,
+) {
+  const normalized =
+    normalizedSpace(value)
+
+  if (
+    normalized.includes(
+      'tal',
+    )
+  ) {
+    return 'Talairach'
+  }
+
+  if (
+    normalized.includes(
+      'mni',
+    )
+  ) {
+    return 'MNI'
+  }
+
+  return value || 'MNI'
+}
+
+function isTransformedPeak(
+  peak: StudyPeak,
+) {
+  const hasOriginalCoordinates =
+    peak.xOriginal !== null &&
+    peak.yOriginal !== null &&
+    peak.zOriginal !== null
+
+  if (!hasOriginalCoordinates) {
+    return false
+  }
+
+  const normalized =
+    normalizedSpace(
+      peak.originalSpace,
+    )
+
+  return (
+    normalized !== '' &&
+    !normalized.includes(
+      'mni',
+    )
+  )
 }
 
 function formatCoordinate(

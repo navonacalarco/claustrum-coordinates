@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import BrainViewer from './components/BrainViewer'
+import AboutModal from './components/AboutModal'
 import CoordinateNavigator from './components/CoordinateNavigator'
 import DownloadMenu from './components/DownloadMenu'
 import FiltersPanel, {
@@ -37,6 +38,12 @@ type Peak = {
   coordinateType: string
   originalAnatomicalLabel: string
 
+  xOriginal: number | null
+  yOriginal: number | null
+  zOriginal: number | null
+  originalSpace: string
+  transformation: string
+
   centralAim: string
   population: string
   patientGroup: string
@@ -60,6 +67,7 @@ const emptyFilters: FilterState = {
   population: [],
   patientGroup: [],
   hemisphere: [],
+  originalSpace: [],
   publicationYearMin: null,
   publicationYearMax: null,
 }
@@ -107,6 +115,9 @@ function App() {
   ] = useState<RegionBounds | null>(null)
 
   const [regionDrawing, setRegionDrawing] =
+    useState(false)
+
+  const [aboutOpen, setAboutOpen] =
     useState(false)
 
   useEffect(() => {
@@ -189,6 +200,15 @@ function App() {
           (peak) => peak.hemisphere,
         ),
       ),
+
+      originalSpace: uniqueText(
+        peaks.map(
+          (peak) =>
+            canonicalOriginalSpace(
+              peak.originalSpace,
+            ),
+        ),
+      ),
     }
   }, [reviewData])
 
@@ -235,6 +255,17 @@ function App() {
           filters.hemisphere.length > 0 &&
           !filters.hemisphere.includes(
             peak.hemisphere,
+          )
+        ) {
+          return false
+        }
+
+        if (
+          filters.originalSpace.length > 0 &&
+          !filters.originalSpace.includes(
+            canonicalOriginalSpace(
+              peak.originalSpace,
+            ),
           )
         ) {
           return false
@@ -320,6 +351,29 @@ function App() {
           x: peak.xMni,
           y: peak.yMni,
           z: peak.zMni,
+
+          xOriginal:
+            numericOrNull(
+              peak.xOriginal,
+            ),
+
+          yOriginal:
+            numericOrNull(
+              peak.yOriginal,
+            ),
+
+          zOriginal:
+            numericOrNull(
+              peak.zOriginal,
+            ),
+
+          originalSpace:
+            canonicalOriginalSpace(
+              peak.originalSpace,
+            ),
+
+          transformation:
+            peak.transformation,
 
           contrast:
             peak.contrast,
@@ -464,6 +518,7 @@ function App() {
     filters.population.length > 0 ||
     filters.patientGroup.length > 0 ||
     filters.hemisphere.length > 0 ||
+    filters.originalSpace.length > 0 ||
     activeYearMin !== yearBounds.min ||
     activeYearMax !== yearBounds.max ||
     regionBounds !== null
@@ -746,12 +801,18 @@ function App() {
           </h1>
 
           <p className="site-subtitle">
-            Reported locations from the human neuroimaging literature
+            A comprehensive map of reported claustrum locations across the human MRI literature.
           </p>
         </div>
 
         <div className="header-actions">
-          <button className="button secondary">
+          <button
+            type="button"
+            className="button secondary"
+            onClick={() =>
+              setAboutOpen(true)
+            }
+          >
             About
           </button>
 
@@ -879,6 +940,21 @@ function App() {
           onPeakSelect={selectPeak}
         />
       </main>
+
+      <AboutModal
+        open={aboutOpen}
+        numberOfCoordinates={
+          reviewData?.numberOfCoordinates ??
+          null
+        }
+        numberOfStudies={
+          reviewData?.numberOfStudies ??
+          null
+        }
+        onClose={() =>
+          setAboutOpen(false)
+        }
+      />
     </div>
   )
 }
@@ -1099,6 +1175,54 @@ function csvEscape(
   }
 
   return text
+}
+
+function numericOrNull(
+  value: unknown,
+) {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ''
+  ) {
+    return null
+  }
+
+  const number =
+    Number(value)
+
+  return Number.isFinite(
+    number,
+  )
+    ? number
+    : null
+}
+
+function canonicalOriginalSpace(
+  value: string,
+) {
+  const normalized =
+    value
+      .trim()
+      .toLowerCase()
+
+  if (
+    normalized.includes(
+      'tal',
+    )
+  ) {
+    return 'Talairach'
+  }
+
+  if (
+    normalized.includes(
+      'mni',
+    )
+  ) {
+    return 'MNI'
+  }
+
+  return value.trim()
 }
 
 function isHealthyControlsValue(

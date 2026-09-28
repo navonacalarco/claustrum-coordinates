@@ -272,3 +272,21 @@
   font-weight: 500;
 }
 
+.study-peak-coordinate-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.study-coordinate-label {
+  min-width: 48px;
+  color: #9aa0a8;
+  font-size: 9.5px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.study-peak-coordinate-row + .study-peak-coordinate-row {
+  margin-top: 1px;
+}
+

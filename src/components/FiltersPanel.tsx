@@ -8,6 +8,7 @@ export type FilterState = {
   population: string[]
   patientGroup: string[]
   hemisphere: string[]
+  originalSpace: string[]
   publicationYearMin: number | null
   publicationYearMax: number | null
 }
@@ -17,12 +18,14 @@ export type TextFilterKey =
   | 'population'
   | 'patientGroup'
   | 'hemisphere'
+  | 'originalSpace'
 
 type FilterOptions = {
   peakSource: string[]
   population: string[]
   patientGroup: string[]
   hemisphere: string[]
+  originalSpace: string[]
 }
 
 type FiltersPanelProps = {
@@ -123,6 +126,19 @@ function FiltersPanel({
         onChange={(value) =>
           onFilterChange(
             'hemisphere',
+            value,
+          )
+        }
+      />
+
+      <MultiSelectFilter
+        label="Original space"
+        value={filters.originalSpace}
+        allLabel="MNI + Talairach"
+        options={filterOptions.originalSpace}
+        onChange={(value) =>
+          onFilterChange(
+            'originalSpace',
             value,
           )
         }

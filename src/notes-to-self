@@ -1,29 +1,11 @@
 
-- take out mni label on coordinate
 
-- jump to coordinate if enter MNI
 
 - add back points / study-weighted density?
-- make 3d view more transparent
-- study name seems to be a tooltip when card expanded
 - add  bigbrain overlay
-- search "authors, diagnosis, journal"
-- defaults in mni search
-- Dropdowns stay open - multi-selects and the sort menu don't close on an outside click or Escape.
+- add Mauri overlay
+- change to MNI b?
 - show putamen, insula, amygdala? from FSL?
-- instead of 'select region', spatial filter region?
+- add filter for mni vs. talirach
+- have study cards include original talirach coordinate if given
 
-about
-- how to cite - systematic review, and - website itself has zenodo
-- as reported in literature - not endorsement (mention pnas paper)
-- MNI152 2009c asymmetric template
-- report issue on github
-- maintainer navona.calarco@mail.utoronto.ca
-- invlude view count, from countries...
-- say that studies at present include until submission. will explore updates crawling pubmed with AI. if you would like your paper added, email. 
-- MIT with the data CC BY 4.0
-- MAYbe the citation .cff thing
-
-x -50,20
-y -20,20
-z -2, 20
