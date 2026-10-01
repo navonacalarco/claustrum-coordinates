@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { NVImage, type Niivue } from '@niivue/niivue'
-import { atlasCatalog, type AtlasDefinition } from './atlasCatalog'
+import { atlasCatalog, atlasStructures, type AtlasDefinition } from './atlasCatalog'
 import '../styles/atlas-overlay.css'
 
 type Props = { viewer: Niivue | null }
@@ -11,6 +11,11 @@ export default function AtlasOverlayControl({ viewer }: Props) {
 
   function close() {
     if (detailsRef.current) detailsRef.current.open = false
+  }
+
+  function closeAndFocus() {
+    close()
+    detailsRef.current?.querySelector('summary')?.focus()
   }
 
   useEffect(() => {
@@ -29,32 +34,48 @@ export default function AtlasOverlayControl({ viewer }: Props) {
       onKeyDown={(event) => {
         if (event.key === 'Escape') {
           event.stopPropagation()
-          close()
-          detailsRef.current?.querySelector('summary')?.focus()
+          closeAndFocus()
         }
       }}>
       <summary className={`atlas-trigger${selected.length ? ' active' : ''}`}>
-        Show atlas
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
+          <path d="m10 3 7 4-7 4-7-4 7-4ZM3 10l7 4 7-4M3 13l7 4 7-4" />
+        </svg>
+        Overlays
         {selected.length > 0 && <span className="atlas-count" aria-label={`${selected.length} selected`}>{selected.length}</span>}
-        <span className="atlas-chevron" aria-hidden="true">⌃</span>
+        <svg className="atlas-chevron" width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m2 8 4-4 4 4" /></svg>
       </summary>
-      <div className="atlas-panel" role="group" aria-label="Atlas overlays">
+      <div className="atlas-panel" role="group" aria-label="Overlays">
         <div className="atlas-panel-heading">
-          <strong>Atlas overlays</strong>
-          <button type="button" className="atlas-close" aria-label="Close atlas picker"
-            onClick={() => { close(); detailsRef.current?.querySelector('summary')?.focus() }}>×</button>
+          <strong>Overlays</strong>
+          <button type="button" className="atlas-close" aria-label="Close overlays" onClick={closeAndFocus}>×</button>
         </div>
-        <p className="atlas-hint">Select one or more to compare.</p>
-        {atlasCatalog.map((atlas) => (
-          <AtlasRow key={atlas.id} atlas={atlas} viewer={viewer}
-            visible={selected.includes(atlas.id)}
-            onVisibilityChange={(visible) => setSelected((current) => visible
-              ? [...current.filter((id) => id !== atlas.id), atlas.id]
-              : current.filter((id) => id !== atlas.id))} />
+        {!viewer && <p className="atlas-status" role="status">Waiting for brain viewer…</p>}
+        {atlasStructures.map((structure) => (
+          <section className="atlas-group" key={structure} aria-label={structure}>
+            <h3>{structure}</h3>
+            {atlasCatalog.filter((atlas) => atlas.structure === structure).map((atlas) => (
+              <AtlasRow key={atlas.id} atlas={atlas} viewer={viewer}
+                visible={selected.includes(atlas.id)}
+                onVisibilityChange={(visible) => setSelected((current) => visible
+                  ? [...current.filter((id) => id !== atlas.id), atlas.id]
+                  : current.filter((id) => id !== atlas.id))} />
+            ))}
+          </section>
         ))}
       </div>
     </details>
   )
+}
+
+function registerColor(viewer: Niivue, id: string, color: string) {
+  const [r, g, b] = [1, 3, 5].map((offset) => parseInt(color.slice(offset, offset + 2), 16))
+  const colormap = `Atlas-${id}`
+  viewer.addColormap(colormap, {
+    R: [r, r, r], G: [g, g, g], B: [b, b, b],
+    A: [0, 255, 255], I: [0, 1, 255],
+  })
+  return colormap
 }
 
 function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
@@ -63,13 +84,17 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
   visible: boolean
   onVisibilityChange: (visible: boolean) => void
 }) {
+  const infoId = useId()
+  const [infoOpen, setInfoOpen] = useState(false)
   const [requested, setRequested] = useState(false)
   const [attempt, setAttempt] = useState(0)
   const [image, setImage] = useState<NVImage | null>(null)
   const [opacity, setOpacity] = useState(50)
+  const [color, setColor] = useState(atlas.color)
   const [error, setError] = useState('')
+  const fullName = `${atlas.structure} (${atlas.label})`
 
-  // Load only on first selection, then retain the image for instant toggling.
+  // Load once on first selection; colour and opacity changes never reload the file.
   useEffect(() => {
     if (!viewer || !requested) return
     const nv = viewer
@@ -79,15 +104,10 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
     setError('')
 
     async function load() {
-      const [r, g, b] = atlas.rgb
-      const colormap = `Atlas-${atlas.id}`
-      nv.addColormap(colormap, {
-        R: [r, r, r], G: [g, g, g], B: [b, b, b],
-        A: [0, 255, 255], I: [0, 1, 255],
-      })
+      const colormap = registerColor(nv, atlas.id, atlas.color)
       const loaded = await NVImage.loadFromUrl({
         url: `${import.meta.env.BASE_URL}imaging/${atlas.filename}`,
-        name: `${atlas.label} segmentation`,
+        name: `${atlas.structure} (${atlas.label}) segmentation`,
         colormap, opacity: 0, cal_min: 0, cal_max: 1,
         colorbarVisible: false,
       })
@@ -99,8 +119,8 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
 
     void load().catch((cause: unknown) => {
       if (cancelled) return
-      console.error(`Could not load ${atlas.label} atlas:`, cause)
-      setError(`Could not load ${atlas.label}. Please retry.`)
+      console.error(`Could not load ${atlas.structure} (${atlas.label}):`, cause)
+      setError('Could not load overlay.')
     })
 
     return () => {
@@ -108,6 +128,11 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
       if (addedImage && nv.volumes.includes(addedImage)) nv.removeVolume(addedImage)
     }
   }, [viewer, requested, attempt, atlas])
+
+  useEffect(() => {
+    if (!viewer || !image || !viewer.volumes.includes(image)) return
+    viewer.setColormap(image.id, registerColor(viewer, atlas.id, color))
+  }, [viewer, image, color, atlas.id])
 
   useEffect(() => {
     if (!viewer || !image) return
@@ -118,27 +143,42 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
   const ready = !!viewer && !!image && viewer.volumes.includes(image)
 
   return (
-    <section className="atlas-row">
-      <label className="atlas-toggle">
-        <input type="checkbox" checked={visible} disabled={!viewer}
-          onChange={(event) => {
-            if (event.target.checked) setRequested(true)
-            onVisibilityChange(event.target.checked)
-          }} />
-        <span className="atlas-swatch" style={{ backgroundColor: atlas.color }} aria-hidden="true" />
-        <strong>{atlas.label}</strong>
-      </label>
-      <a className="atlas-citation" href={atlas.citationUrl} target="_blank" rel="noreferrer">{atlas.description}</a>
-      {!viewer ? <p className="atlas-status" role="status">Waiting for brain viewer…</p>
-        : error ? <div className="atlas-error" role="alert">{error} <button type="button" onClick={() => setAttempt((value) => value + 1)}>Retry</button></div>
-        : requested && !ready ? <p className="atlas-status" role="status">Loading {atlas.label}…</p> : null}
+    <div className={`atlas-row${visible ? ' is-selected' : ''}`}>
+      <div className="atlas-row-heading">
+        <label className="atlas-toggle">
+          <input type="checkbox" checked={visible} disabled={!viewer}
+            aria-label={`Show ${fullName}`} style={{ accentColor: color }}
+            onChange={(event) => {
+              if (event.target.checked) setRequested(true)
+              onVisibilityChange(event.target.checked)
+            }} />
+          <span>{atlas.label}</span>
+        </label>
+        <button type="button" className="atlas-info-button" aria-label={`About ${fullName}`}
+          title={`About ${fullName}`} aria-expanded={infoOpen} aria-controls={infoId}
+          onClick={() => setInfoOpen((open) => !open)}>i</button>
+        <input type="color" className="atlas-color" value={color}
+          aria-label={`${fullName} colour`} title={`Change ${fullName} colour`}
+          onChange={(event) => setColor(event.target.value)} />
+      </div>
       <label className="atlas-opacity">
-        <span className="atlas-opacity-heading"><span>{atlas.label} opacity</span><span>{opacity}%</span></span>
+        <span>Opacity</span>
         <input type="range" min="0" max="100" step="1" value={opacity}
-          disabled={!ready || !visible} aria-valuetext={`${opacity}%`}
-          style={{ accentColor: atlas.color }}
+          disabled={!visible} aria-label={`${fullName} opacity`} aria-valuetext={`${opacity}%`}
+          style={{ accentColor: color }}
           onChange={(event) => setOpacity(Number(event.target.value))} />
+        <span className="atlas-opacity-value">{opacity}%</span>
       </label>
-    </section>
+      {viewer && error ? <div className="atlas-error" role="alert">{error} <button type="button" onClick={() => setAttempt((value) => value + 1)}>Retry</button></div>
+        : viewer && requested && !ready ? <p className="atlas-status" role="status">Loading…</p> : null}
+      <div id={infoId} className="atlas-provenance" hidden={!infoOpen}>
+        <p>{atlas.provenance}</p>
+        <span className="atlas-resolution">Overlay voxel size: {atlas.resolution}</span>
+        <div className="atlas-source-links">
+          {atlas.links.map((link) => <a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} <span aria-hidden="true">↗</span></a>)}
+          <a href={`${import.meta.env.BASE_URL}imaging/${atlas.filename}`} download={atlas.filename}>Download this overlay (.nii.gz) <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+    </div>
   )
 }

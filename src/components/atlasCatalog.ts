@@ -1,50 +1,80 @@
-// Add future atlases here; each receives its own visibility and opacity controls.
-export const atlasCatalog = [
+export type AtlasStructure = 'Claustrum' | 'Insula' | 'Putamen' | 'Amygdala'
+
+export type AtlasDefinition = {
+  id: string
+  structure: AtlasStructure
+  label: string
+  filename: string
+  color: string
+  resolution: string
+  provenance: string
+  links: { label: string; url: string }[]
+}
+
+export const atlasStructures: AtlasStructure[] = ['Claustrum', 'Insula', 'Putamen', 'Amygdala']
+
+// Add future labels here. Each has independent visibility, colour and opacity.
+export const atlasCatalog: AtlasDefinition[] = [
   {
     id: 'bigbrain',
-    label: 'BigBrain',
-    description: 'Calarco et al. · Histology atlas · 0.5 mm',
-    citationUrl: 'https://doi.org/10.1073/pnas.2604111123',
+    structure: 'Claustrum',
+    label: 'Calarco',
     filename: 'claustrum_BigBrainCalarco_ICBM2009symXiao_0p5mm.nii.gz',
-    color: '#2dd4bf',
-    rgb: [45, 212, 191],
+    color: '#facc15',
+    resolution: '0.5 mm',
+    provenance: 'BigBrain histology segmentation from Calarco et al., transformed to ICBM2009 symmetric space using the Xiao registration. This overlay is resampled to 0.5 mm.',
+    links: [
+      { label: 'Calarco et al. · PNAS, 2026', url: 'https://doi.org/10.1073/pnas.2604111123' },
+      { label: 'Xiao registration paper', url: 'https://doi.org/10.1038/s41597-019-0217-0' },
+    ],
   },
   {
     id: 'mauri',
+    structure: 'Claustrum',
     label: 'Mauri',
-    description: 'Automatic template segmentation · 0.35 mm',
-    citationUrl: 'https://github.com/chiara-mauri/claustrum_segmentation',
     filename: 'claustrum_Mauri_MNI2009b_sym_0p35mm.nii.gz',
-    color: '#c4a0ff',
-    rgb: [196, 160, 255],
-  },
-  {
-    id: 'amygdala',
-    label: 'Amygdala',
-    description: 'Xiao et al. · ICBM2009 symmetric · 0.5 mm',
-    citationUrl: 'https://doi.org/10.1038/s41597-019-0217-0',
-    filename: 'amygdala_Xiao_ICBM2009sym_0p5mm.nii.gz',
-    color: '#fbbf24',
-    rgb: [251, 191, 36],
-  },
-  {
-    id: 'putamen',
-    label: 'Putamen',
-    description: 'Xiao et al. · ICBM2009 symmetric · 0.5 mm',
-    citationUrl: 'https://doi.org/10.1038/s41597-019-0217-0',
-    filename: 'putamen_Xiao_ICBM2009sym_0p5mm.nii.gz',
-    color: '#60a5fa',
-    rgb: [96, 165, 250],
+    color: '#4ade80',
+    resolution: '0.35 mm',
+    provenance: 'Automatic segmentation of the ICBM2009b symmetric template using Mauri et al.’s method. Left and right outputs were combined on a shared 0.35 mm grid.',
+    links: [
+      { label: 'Code & model', url: 'https://github.com/chiara-mauri/claustrum_segmentation' },
+      { label: 'Mauri et al. · Human Brain Mapping, 2025', url: 'https://doi.org/10.1002/hbm.70303' },
+    ],
   },
   {
     id: 'insula',
-    label: 'Insula',
-    description: 'Allen AHRAv2 · ICBM2009 symmetric · 0.5 mm',
-    citationUrl: 'https://alleninstitute.github.io/CCF-MAP/descriptions/human_ccf.html',
+    structure: 'Insula',
+    label: 'Allen AHRAv2',
     filename: 'insula_Allen_AHRAv2_ICBM2009sym_0p5mm.nii.gz',
     color: '#f472b6',
-    rgb: [244, 114, 182],
+    resolution: '0.5 mm',
+    provenance: 'Insula label extracted from the Allen Human Reference Atlas 3D, version 2 (AHRAv2), in ICBM2009b symmetric space.',
+    links: [
+      { label: 'Allen atlas & source data', url: 'https://alleninstitute.github.io/CCF-MAP/descriptions/human_ccf.html' },
+    ],
   },
-] as const
-
-export type AtlasDefinition = typeof atlasCatalog[number]
+  {
+    id: 'putamen',
+    structure: 'Putamen',
+    label: 'Xiao',
+    filename: 'putamen_Xiao_ICBM2009sym_0p5mm.nii.gz',
+    color: '#60a5fa',
+    resolution: '0.5 mm',
+    provenance: 'Putamen label extracted from Xiao et al.’s subcortical segmentation of the ICBM2009b symmetric template.',
+    links: [
+      { label: 'Xiao et al. · Scientific Data, 2019', url: 'https://doi.org/10.1038/s41597-019-0217-0' },
+    ],
+  },
+  {
+    id: 'amygdala',
+    structure: 'Amygdala',
+    label: 'Xiao',
+    filename: 'amygdala_Xiao_ICBM2009sym_0p5mm.nii.gz',
+    color: '#c4a0ff',
+    resolution: '0.5 mm',
+    provenance: 'Amygdala label extracted from Xiao et al.’s subcortical segmentation of the ICBM2009b symmetric template.',
+    links: [
+      { label: 'Xiao et al. · Scientific Data, 2019', url: 'https://doi.org/10.1038/s41597-019-0217-0' },
+    ],
+  },
+]
