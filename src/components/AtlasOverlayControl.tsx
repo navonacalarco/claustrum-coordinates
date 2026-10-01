@@ -87,7 +87,7 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
       })
       const loaded = await NVImage.loadFromUrl({
         url: `${import.meta.env.BASE_URL}imaging/${atlas.filename}`,
-        name: `${atlas.label} claustrum segmentation`,
+        name: `${atlas.label} segmentation`,
         colormap, opacity: 0, cal_min: 0, cal_max: 1,
         colorbarVisible: false,
       })

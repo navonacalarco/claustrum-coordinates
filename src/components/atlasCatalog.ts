@@ -18,6 +18,24 @@ export const atlasCatalog = [
     color: '#c4a0ff',
     rgb: [196, 160, 255],
   },
+  {
+    id: 'amygdala',
+    label: 'Amygdala',
+    description: 'Xiao et al. · ICBM2009 symmetric · 0.5 mm',
+    citationUrl: 'https://doi.org/10.1038/s41597-019-0217-0',
+    filename: 'amygdala_Xiao_ICBM2009sym_0p5mm.nii.gz',
+    color: '#fbbf24',
+    rgb: [251, 191, 36],
+  },
+  {
+    id: 'putamen',
+    label: 'Putamen',
+    description: 'Xiao et al. · ICBM2009 symmetric · 0.5 mm',
+    citationUrl: 'https://doi.org/10.1038/s41597-019-0217-0',
+    filename: 'putamen_Xiao_ICBM2009sym_0p5mm.nii.gz',
+    color: '#60a5fa',
+    rgb: [96, 165, 250],
+  },
 ] as const
 
 export type AtlasDefinition = typeof atlasCatalog[number]
