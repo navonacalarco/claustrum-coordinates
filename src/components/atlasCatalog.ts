@@ -36,6 +36,15 @@ export const atlasCatalog = [
     color: '#60a5fa',
     rgb: [96, 165, 250],
   },
+  {
+    id: 'insula',
+    label: 'Insula',
+    description: 'Allen AHRAv2 · ICBM2009 symmetric · 0.5 mm',
+    citationUrl: 'https://alleninstitute.github.io/CCF-MAP/descriptions/human_ccf.html',
+    filename: 'insula_Allen_AHRAv2_ICBM2009sym_0p5mm.nii.gz',
+    color: '#f472b6',
+    rgb: [244, 114, 182],
+  },
 ] as const
 
 export type AtlasDefinition = typeof atlasCatalog[number]
