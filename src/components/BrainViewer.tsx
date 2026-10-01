@@ -10,7 +10,6 @@ import {
   SHOW_RENDER,
 } from '@niivue/niivue'
 import BrainViewerHeader from './BrainViewerHeader'
-import BigBrainOverlayControl from './BigBrainOverlayControl'
 import RegionBoxOverlay from './RegionBoxOverlay'
 import {
   projectRegionBounds,
@@ -44,6 +43,7 @@ import {
 } from './useViewerMode'
 
 export default function BrainViewer({
+  onViewerReady,
   onLocationChange,
   onPeakClick,
   selectedStudyId = null,
@@ -99,6 +99,12 @@ export default function BrainViewer({
 
   const [viewerReady, setViewerReady] =
     useState(false)
+
+  useEffect(() => {
+    if (!viewerReady) return
+    onViewerReady?.(nvRef.current)
+    return () => onViewerReady?.(null)
+  }, [viewerReady, onViewerReady])
 
   const [
     regionOverlayRects,
@@ -208,6 +214,9 @@ export default function BrainViewer({
       return
     }
 
+    let disposed = false
+    setViewerReady(false)
+
     const nv = new Niivue({
       show3Dcrosshair: true,
       crosshairWidth: 1,
@@ -262,6 +271,8 @@ export default function BrainViewer({
         canvasRef.current,
       )
 
+      if (disposed) return
+
       nv.setSliceMM(true)
 
       await nv.loadVolumes([
@@ -272,6 +283,8 @@ export default function BrainViewer({
           opacity: 1,
         },
       ])
+
+      if (disposed) return
 
       const peakResponse =
         await fetch(
@@ -286,6 +299,8 @@ export default function BrainViewer({
 
       const reviewData =
         await peakResponse.json()
+
+      if (disposed) return
 
       const peaks: Peak[] =
         reviewData.peaks
@@ -649,6 +664,7 @@ export default function BrainViewer({
     )
 
     return () => {
+      disposed = true
       resizeObserver?.disconnect()
 
       if (
@@ -905,11 +921,6 @@ export default function BrainViewer({
   return (
     <div className="brain-viewer-shell">
       <BrainViewerHeader
-        overlayControl={
-          <BigBrainOverlayControl
-            viewer={viewerReady ? nvRef.current : null}
-          />
-        }
         viewMode={viewMode}
         regionDrawing={regionDrawing}
         panMode={panMode}
@@ -975,4 +986,5 @@ function clamp(
     ),
   )
 }
+
 

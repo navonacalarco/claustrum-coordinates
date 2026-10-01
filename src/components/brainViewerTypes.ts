@@ -1,3 +1,4 @@
+import type { Niivue } from '@niivue/niivue'
 import type {
   RegionBounds,
 } from './regionSelection'
@@ -34,6 +35,7 @@ export type CoordinateNavigationRequest = {
 }
 
 export type BrainViewerProps = {
+  onViewerReady?: (viewer: Niivue | null) => void
   onLocationChange?: (
     coords: [number, number, number],
   ) => void
@@ -70,3 +72,4 @@ export type BrainViewerProps = {
 
   visiblePeakIds?: string[]
 }
+

@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { Niivue } from '@niivue/niivue'
+import AtlasOverlayControl from './components/AtlasOverlayControl'
 import './App.css'
 import BrainViewer from './components/BrainViewer'
 import AboutModal from './components/AboutModal'
@@ -73,6 +75,8 @@ const emptyFilters: FilterState = {
 }
 
 function App() {
+  const [atlasViewer, setAtlasViewer] = useState<Niivue | null>(null)
+
   const [coords, setCoords] =
     useState<[number, number, number]>([0, 0, 0])
 
@@ -850,6 +854,7 @@ function App() {
         <section className="viewer-section">
           <div className="viewer">
             <BrainViewer
+              onViewerReady={setAtlasViewer}
               onLocationChange={
                 setCoords
               }
@@ -903,28 +908,31 @@ function App() {
                 }
               />
 
-              <RegionSelector
-                bounds={regionBounds}
-                draftBounds={
-                  draftRegionBounds
-                }
-                drawing={
-                  regionDrawing
-                }
-                onStartDrawing={
-                  startRegionDrawing
-                }
-                onDraftChange={
-                  updateDraftRegion
-                }
-                onApplyDrawing={
-                  applyDrawnRegion
-                }
-                onCancelDrawing={
-                  cancelRegionDrawing
-                }
-                onClear={clearRegion}
-              />
+              <div className="viewer-footer-actions">
+                <AtlasOverlayControl viewer={atlasViewer} />
+                <RegionSelector
+                  bounds={regionBounds}
+                  draftBounds={
+                    draftRegionBounds
+                  }
+                  drawing={
+                    regionDrawing
+                  }
+                  onStartDrawing={
+                    startRegionDrawing
+                  }
+                  onDraftChange={
+                    updateDraftRegion
+                  }
+                  onApplyDrawing={
+                    applyDrawnRegion
+                  }
+                  onCancelDrawing={
+                    cancelRegionDrawing
+                  }
+                  onClear={clearRegion}
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -1241,3 +1249,4 @@ function isHealthyControlsValue(
 }
 
 export default App
+
