@@ -1,0 +1,34 @@
+.brain-viewer-header { position: relative; z-index: 20; flex-wrap: wrap; }
+.brain-header-tools { flex-wrap: wrap; }
+.bigbrain-control { position: relative; color: #e4e7ec; font-size: 12px; }
+.bigbrain-trigger {
+  display: flex; align-items: center; gap: 6px; min-height: 27px;
+  padding: 0 8px; border-radius: 6px; color: #aeb4be; cursor: pointer;
+  list-style: none; white-space: nowrap; font-size: 10px; font-weight: 600;
+}
+.bigbrain-trigger::-webkit-details-marker { display: none; }
+.bigbrain-trigger:hover, .bigbrain-control[open] > .bigbrain-trigger {
+  background: rgba(255,255,255,.08); color: #fff;
+}
+.bigbrain-trigger.active { background: rgba(45,212,191,.12); color: #5eead4; }
+.bigbrain-trigger:focus-visible { outline: 2px solid #5eead4; outline-offset: 2px; }
+.bigbrain-dot { width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; background: #2dd4bf; }
+.bigbrain-panel {
+  position: absolute; top: calc(100% + 10px); right: 0; z-index: 50;
+  width: 270px; max-width: calc(100vw - 32px); box-sizing: border-box;
+  padding: 16px; border: 1px solid #3b414a; border-radius: 10px;
+  background: #1d2229; box-shadow: 0 12px 30px rgba(0,0,0,.3);
+  text-align: left; white-space: normal;
+}
+.bigbrain-panel > strong { display: block; font-size: 12px; line-height: 1.4; }
+.bigbrain-citation { display: inline-block; margin-top: 4px; color: #aeb4be; font-size: 11px; text-decoration: none; }
+.bigbrain-citation:hover { color: #5eead4; text-decoration: underline; }
+.bigbrain-toggle { display: flex; align-items: center; gap: 8px; margin-top: 18px; cursor: pointer; }
+.bigbrain-toggle input { width: 15px; height: 15px; margin: 0; accent-color: #2dd4bf; }
+.bigbrain-opacity { display: block; margin-top: 16px; }
+.bigbrain-opacity-heading { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.bigbrain-opacity input { display: block; width: 100%; margin: 0; accent-color: #2dd4bf; cursor: pointer; }
+.bigbrain-panel input:disabled { opacity: .4; cursor: not-allowed; }
+.bigbrain-status, .bigbrain-error { margin: 12px 0 0; font-size: 11px; line-height: 1.5; }
+.bigbrain-status { color: #aeb4be; }
+.bigbrain-error { color: #fca5a5; }

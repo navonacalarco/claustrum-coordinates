@@ -10,6 +10,7 @@ import {
   SHOW_RENDER,
 } from '@niivue/niivue'
 import BrainViewerHeader from './BrainViewerHeader'
+import BigBrainOverlayControl from './BigBrainOverlayControl'
 import RegionBoxOverlay from './RegionBoxOverlay'
 import {
   projectRegionBounds,
@@ -266,7 +267,7 @@ export default function BrainViewer({
       await nv.loadVolumes([
         {
           url:
-            '/imaging/mni_icbm152_t1_tal_nlin_asym_09c.nii.gz',
+            '/imaging/mni_icbm152_t1_tal_nlin_sym_09b_hires.nii.gz',
           colormap: 'gray',
           opacity: 1,
         },
@@ -904,6 +905,11 @@ export default function BrainViewer({
   return (
     <div className="brain-viewer-shell">
       <BrainViewerHeader
+        overlayControl={
+          <BigBrainOverlayControl
+            viewer={viewerReady ? nvRef.current : null}
+          />
+        }
         viewMode={viewMode}
         regionDrawing={regionDrawing}
         panMode={panMode}
@@ -969,3 +975,4 @@ function clamp(
     ),
   )
 }
+

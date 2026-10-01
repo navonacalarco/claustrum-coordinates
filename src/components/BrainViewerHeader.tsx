@@ -1,8 +1,10 @@
+import type { ReactNode } from 'react'
 import type {
   ViewMode,
 } from './brainViewerTypes'
 
 type BrainViewerHeaderProps = {
+  overlayControl?: ReactNode
   viewMode: ViewMode
   regionDrawing: boolean
   panMode: boolean
@@ -20,6 +22,7 @@ type BrainViewerHeaderProps = {
 }
 
 function BrainViewerHeader({
+  overlayControl,
   viewMode,
   regionDrawing,
   panMode,
@@ -95,6 +98,8 @@ function BrainViewerHeader({
 
 
       <div className="zoom-controls brain-header-tools">
+        {overlayControl}
+        <span className="viewer-control-divider" />
         <button
           type="button"
           onClick={onZoomOut}
@@ -207,3 +212,4 @@ function ViewButton({
 }
 
 export default BrainViewerHeader
+

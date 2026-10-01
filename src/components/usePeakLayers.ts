@@ -310,7 +310,7 @@ function centroid(
   peaks: Peak[],
 ): [number, number, number] {
   const total =
-    peaks.reduce(
+    peaks.reduce<[number, number, number]>(
       (
         sum,
         peak,

@@ -122,7 +122,7 @@ function RegionSelector({
       )
 
     if (
-      parsed.error
+      parsed.error !== undefined
     ) {
       setError(
         parsed.error,

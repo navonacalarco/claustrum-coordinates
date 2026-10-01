@@ -349,7 +349,7 @@ function StudyBrowser({
                   selectedPeakId={
                     selectedPeakId
                   }
-                  showTitleTooltip={false}
+                  
                   onSelect={() =>
                     onStudySelect(
                       study.studyId,

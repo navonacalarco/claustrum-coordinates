@@ -312,7 +312,7 @@ function RegionBoxOverlay({
               (face) => ({
                 face,
                 depth:
-                  face.reduce(
+                  face.reduce<number>(
                     (
                       total,
                       index,
