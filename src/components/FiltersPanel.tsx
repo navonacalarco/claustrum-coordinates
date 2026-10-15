@@ -6,6 +6,7 @@ import {
 export type FilterState = {
   peakSource: string[]
   population: string[]
+  patientCategory: string[]
   patientGroup: string[]
   hemisphere: string[]
   originalSpace: string[]
@@ -16,6 +17,7 @@ export type FilterState = {
 export type TextFilterKey =
   | 'peakSource'
   | 'population'
+  | 'patientCategory'
   | 'patientGroup'
   | 'hemisphere'
   | 'originalSpace'
@@ -23,6 +25,7 @@ export type TextFilterKey =
 type FilterOptions = {
   peakSource: string[]
   population: string[]
+  patientCategory: string[]
   patientGroup: string[]
   hemisphere: string[]
   originalSpace: string[]
@@ -104,9 +107,19 @@ function FiltersPanel({
       />
 
       <MultiSelectFilter
+        label="Patient category"
+        value={filters.patientCategory}
+        allLabel="All categories"
+        options={filterOptions.patientCategory}
+        disabled={patientGroupDisabled}
+        disabledText="Not applicable to healthy-control-only studies"
+        onChange={(value) => onFilterChange('patientCategory', value)}
+      />
+
+      <MultiSelectFilter
         label="Patient group"
         value={filters.patientGroup}
-        allLabel="All groups"
+        allLabel={filters.patientCategory.length ? "All groups in selected categories" : "All groups"}
         options={filterOptions.patientGroup}
         disabled={patientGroupDisabled}
         disabledText="Not applicable to healthy-control-only studies"

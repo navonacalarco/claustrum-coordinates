@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Niivue } from '@niivue/niivue'
 import AtlasOverlayControl from './components/AtlasOverlayControl'
 import './App.css'
+import { patientCategories, matchesPatientCategory, patientGroupOptions, retainPatientGroups } from './components/patientFilters'
 import BrainViewer from './components/BrainViewer'
 import AboutModal from './components/AboutModal'
 import CoordinateNavigator from './components/CoordinateNavigator'
@@ -48,6 +49,7 @@ type Peak = {
 
   centralAim: string
   population: string
+  patientCategory: string
   patientGroup: string
   hemisphere: string
 
@@ -67,6 +69,7 @@ type ReviewData = {
 const emptyFilters: FilterState = {
   peakSource: [],
   population: [],
+  patientCategory: [],
   patientGroup: [],
   hemisphere: [],
   originalSpace: [],
@@ -193,11 +196,11 @@ function App() {
         ),
       ),
 
-      patientGroup: uniqueText(
-        peaks.map(
-          (peak) => peak.patientGroup,
-        ),
+      patientCategory: uniqueText(
+        peaks.flatMap((peak) => patientCategories(peak.patientCategory)),
       ),
+
+      patientGroup: patientGroupOptions(peaks, filters.patientCategory),
 
       hemisphere: uniqueText(
         peaks.map(
@@ -214,7 +217,7 @@ function App() {
         ),
       ),
     }
-  }, [reviewData])
+  }, [reviewData, filters.patientCategory])
 
   /*
    * Apply the review filters at the
@@ -243,6 +246,10 @@ function App() {
             peak.population,
           )
         ) {
+          return false
+        }
+
+        if (!matchesPatientCategory(peak, filters.patientCategory)) {
           return false
         }
 
@@ -520,6 +527,7 @@ function App() {
   const hasActiveFilters =
     filters.peakSource.length > 0 ||
     filters.population.length > 0 ||
+    filters.patientCategory.length > 0 ||
     filters.patientGroup.length > 0 ||
     filters.hemisphere.length > 0 ||
     filters.originalSpace.length > 0 ||
@@ -571,7 +579,14 @@ function App() {
             value[0],
           )
         ) {
+          next.patientCategory = []
           next.patientGroup = []
+        }
+
+        if (key === 'patientCategory') {
+          next.patientGroup = retainPatientGroups(
+            reviewData?.peaks ?? [], value, current.patientGroup,
+          )
         }
 
         return next
@@ -1084,6 +1099,7 @@ function downloadPeaksCsv(
     'direction',
     'centralAim',
     'population',
+    'patientCategory',
     'patientGroup',
     'fieldStrength',
     'modalities',
