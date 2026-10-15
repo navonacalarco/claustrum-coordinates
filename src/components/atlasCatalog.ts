@@ -14,7 +14,7 @@ export type AtlasDefinition = {
 
 export const atlasStructures: AtlasStructure[] = ['Claustrum', 'Insula', 'Putamen', 'Amygdala']
 
-// Default colours: Darjeeling1 (karthik/wesanderson).
+// Default colours: Darjeeling1, with GrandBudapest1 coral for amygdala (karthik/wesanderson).
 // Add future labels here. Each has independent visibility, colour and opacity.
 export const atlasCatalog: AtlasDefinition[] = [
   {
@@ -77,7 +77,7 @@ export const atlasCatalog: AtlasDefinition[] = [
     label: 'Xiao',
     description: 'Subcortical atlas',
     filename: 'amygdala_Xiao_ICBM2009sym_0p5mm.nii.gz',
-    color: '#FF0000',
+    color: '#FD6467',
     resolution: '0.5 mm',
     provenance: 'Amygdala label extracted from Xiao et al.’s subcortical atlas.',
     links: [

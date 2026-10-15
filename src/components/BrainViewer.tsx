@@ -310,9 +310,9 @@ export default function BrainViewer({
       nv.addColormap(
         'LiteraturePeaks',
         {
-          R: [253, 253],
-          G: [100, 100],
-          B: [103, 103],
+          R: [255, 255],
+          G: [0, 0],
+          B: [0, 0],
           A: [255, 255],
           I: [0, 255],
         },
@@ -321,9 +321,9 @@ export default function BrainViewer({
       nv.addColormap(
         'SelectedStudy',
         {
-          R: [79, 79],
-          G: [95, 95],
-          B: [245, 245],
+          R: [59, 59],
+          G: [154, 154],
+          B: [178, 178],
           A: [255, 255],
           I: [0, 255],
         },
