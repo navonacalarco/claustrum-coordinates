@@ -22,7 +22,7 @@
 
 .studies-search input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(89, 104, 217, 0.10);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.10);
 }
 
 .studies-toolbar {
@@ -104,9 +104,9 @@
 }
 
 .studies-list .study-card.selected {
-  border-color: rgba(89, 104, 217, 0.34);
+  border-color: rgba(var(--accent-rgb), 0.34);
   background: #ffffff;
-  box-shadow: 0 0 0 1px rgba(89, 104, 217, 0.05);
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.05);
 }
 
 .studies-list .study-card-top {

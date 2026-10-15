@@ -86,7 +86,7 @@
 
 .multi-select[open] summary {
   border-color: var(--accent);
-  outline: 2px solid rgba(89, 104, 217, 0.10);
+  outline: 2px solid rgba(var(--accent-rgb), 0.10);
 }
 
 .multi-select[open] summary::after {

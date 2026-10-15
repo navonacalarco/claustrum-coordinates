@@ -57,7 +57,7 @@
 .coordinate-input:focus {
   border-color: rgba(108, 119, 238, 0.82);
   box-shadow:
-    0 0 0 2px rgba(89, 104, 217, 0.14);
+    0 0 0 2px rgba(var(--accent-rgb), 0.14);
   background: #151a20;
 }
 
@@ -86,7 +86,7 @@
 .coordinate-go-button:focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 2px rgba(89, 104, 217, 0.22);
+    0 0 0 2px rgba(var(--accent-rgb), 0.22);
 }
 
 .coordinate-go-button:disabled {

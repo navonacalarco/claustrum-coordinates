@@ -59,8 +59,8 @@
 }
 
 .study-peak-button:hover {
-  border-color: rgba(79, 95, 245, 0.22);
-  background: rgba(79, 95, 245, 0.05);
+  border-color: rgba(var(--accent-rgb), 0.22);
+  background: rgba(var(--accent-rgb), 0.05);
 }
 
 .study-peak-number {
@@ -187,7 +187,7 @@
 }
 
 .zoom-controls .pan-button.active {
-  background: #5968d9;
+  background: var(--accent);
   color: white;
 }
 
@@ -257,7 +257,7 @@
 
 .filter-group select:focus {
   border-color: var(--accent);
-  outline: 2px solid rgba(89, 104, 217, 0.12);
+  outline: 2px solid rgba(var(--accent-rgb), 0.12);
 }
 
 .no-results {
@@ -410,7 +410,7 @@
 .study-peak-button.selected-peak {
   border-color: var(--accent);
   background: var(--accent-soft);
-  box-shadow: 0 0 0 1px rgba(89, 104, 217, 0.08);
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.08);
 }
 
 .show-all-button {
@@ -574,7 +574,7 @@
 
 .about-close:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(89, 104, 217, 0.2);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
 }
 
 .about-content {

@@ -5,8 +5,10 @@
   --text: #17191c;
   --muted: #6f747c;
   --line: #dde0e4;
-  --accent: #5968d9;
-  --accent-soft: #edf0ff;
+  --accent: #3B9AB2;
+  --accent-rgb: 59, 154, 178;
+  --accent-hover: #328398;
+  --accent-soft: #EBF5F7;
   --shadow: 0 12px 30px rgba(19, 24, 35, 0.06);
 }
 
@@ -216,7 +218,7 @@ h1 {
 }
 
 .study-card:hover {
-  border-color: rgba(79, 95, 245, 0.28);
+  border-color: rgba(var(--accent-rgb), 0.28);
 }
 
 .study-card-top {
@@ -242,7 +244,7 @@ h1 {
 .pubmed-link {
   display: inline-block;
   margin-top: 3px;
-  color: #4f5ff5;
+  color: var(--accent);
   font-size: 0.95rem;
   font-weight: 400;
   text-decoration: none;
@@ -261,10 +263,10 @@ h1 {
 }
 
 .study-card.selected {
-  border-color: #4f5ff5;
-  background: rgba(79, 95, 245, 0.045);
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.045);
   box-shadow: 0 0 0 1px
-    rgba(79, 95, 245, 0.08);
+    rgba(var(--accent-rgb), 0.08);
 }
 
 @media (max-width: 1100px) {

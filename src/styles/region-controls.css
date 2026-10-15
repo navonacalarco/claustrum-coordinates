@@ -156,8 +156,8 @@
 }
 
 .region-coordinate-field input:focus {
-  border-color: #6978e6;
-  box-shadow: 0 0 0 2px rgba(89, 104, 217, 0.16);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.16);
 }
 
 .region-error {
@@ -200,12 +200,12 @@
 
 .region-apply-button {
   border: 0;
-  background: #5968d9;
+  background: var(--accent);
   color: white;
 }
 
 .region-apply-button:hover {
-  background: #6574df;
+  background: var(--accent-hover);
 }
 
 .viewer-footer {
