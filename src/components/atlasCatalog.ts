@@ -32,10 +32,10 @@ export const atlasCatalog: AtlasDefinition[] = [
     id: 'mauri',
     structure: 'Claustrum',
     label: 'Mauri',
-    filename: 'claustrum_Mauri_MNI2009b_sym_0p35mm.nii.gz',
+    filename: 'claustrum_Mauri_MNI2009b_sym_0p5mm.nii.gz',
     color: '#4ade80',
-    resolution: '0.35 mm',
-    provenance: 'Automatic segmentation of the ICBM2009b symmetric template using Mauri et al.’s method. Left and right outputs were combined on a shared 0.35 mm grid.',
+    resolution: '0.5 mm',
+    provenance: 'Automatic segmentation of the ICBM2009b symmetric template using Mauri et al.’s method. Left and right outputs were combined on a shared 0.35 mm grid, then resampled onto the 0.5 mm isotropic ICBM2009b symmetric template grid using nearest-neighbour interpolation. The displayed overlay and download both use the 0.5 mm version.',
     links: [
       { label: 'Code & model', url: 'https://github.com/chiara-mauri/claustrum_segmentation' },
       { label: 'Mauri et al. · Human Brain Mapping, 2025', url: 'https://doi.org/10.1002/hbm.70303' },
