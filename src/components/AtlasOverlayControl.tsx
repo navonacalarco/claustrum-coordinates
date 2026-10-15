@@ -47,7 +47,7 @@ export default function AtlasOverlayControl({ viewer }: Props) {
       </summary>
       <div className="atlas-panel" role="group" aria-label="Overlays">
         <div className="atlas-panel-heading">
-          <div><strong>Anatomical overlays</strong><p className="atlas-panel-subtitle">Compare segmentations on the brain.</p></div>
+          <strong>Anatomical overlays</strong>
           <button type="button" className="atlas-close" aria-label="Close overlays" onClick={closeAndFocus}>×</button>
         </div>
         {!viewer && <p className="atlas-status" role="status">Waiting for brain viewer…</p>}
@@ -158,7 +158,6 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
           aria-label={`${fullName} colour`} title={`Change ${fullName} colour`}
           onChange={(event) => setColor(event.target.value)} />
       </div>
-      <span className="atlas-voxel-badge">{atlas.resolution} isotropic</span>
       <label className="atlas-opacity">
         <span>Opacity</span>
         <input type="range" min="0" max="100" step="1" value={opacity}
@@ -182,7 +181,6 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
       </div>
       <div id={infoId} className="atlas-provenance" hidden={!infoOpen}>
         <p>{atlas.provenance}</p>
-        <span className="atlas-resolution">Overlay voxel size: {atlas.resolution}</span>
         <div className="atlas-source-links">
           {atlas.links.map((link) => <a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} <span aria-hidden="true">↗</span></a>)}
         </div>
