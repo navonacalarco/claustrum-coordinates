@@ -47,7 +47,7 @@ export default function AtlasOverlayControl({ viewer }: Props) {
       </summary>
       <div className="atlas-panel" role="group" aria-label="Overlays">
         <div className="atlas-panel-heading">
-          <strong>Overlays</strong>
+          <div><strong>Anatomical overlays</strong><p className="atlas-panel-subtitle">Compare segmentations on the brain.</p></div>
           <button type="button" className="atlas-close" aria-label="Close overlays" onClick={closeAndFocus}>×</button>
         </div>
         {!viewer && <p className="atlas-status" role="status">Waiting for brain viewer…</p>}
@@ -143,7 +143,7 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
   const ready = !!viewer && !!image && viewer.volumes.includes(image)
 
   return (
-    <div className={`atlas-row${visible ? ' is-selected' : ''}`}>
+    <div className={`atlas-row${visible ? ' is-selected' : ''}`} style={{ borderLeftColor: color }}>
       <div className="atlas-row-heading">
         <label className="atlas-toggle">
           <input type="checkbox" checked={visible} disabled={!viewer}
@@ -152,33 +152,42 @@ function AtlasRow({ atlas, viewer, visible, onVisibilityChange }: {
               if (event.target.checked) setRequested(true)
               onVisibilityChange(event.target.checked)
             }} />
-          <span>{atlas.label}</span>
+          <span className="atlas-label"><span>{atlas.label}</span><span className="atlas-description">{atlas.description}</span></span>
         </label>
-        <button type="button" className="atlas-info-button" aria-label={`About ${fullName}`}
-          title={`About ${fullName}`} aria-expanded={infoOpen} aria-controls={infoId}
-          onClick={() => setInfoOpen((open) => !open)}>i</button>
         <input type="color" className="atlas-color" value={color}
           aria-label={`${fullName} colour`} title={`Change ${fullName} colour`}
           onChange={(event) => setColor(event.target.value)} />
       </div>
+      <span className="atlas-voxel-badge">{atlas.resolution} isotropic</span>
       <label className="atlas-opacity">
         <span>Opacity</span>
         <input type="range" min="0" max="100" step="1" value={opacity}
-          disabled={!visible} aria-label={`${fullName} opacity`} aria-valuetext={`${opacity}%`}
+          disabled={!viewer || !visible} aria-label={`${fullName} opacity`} aria-valuetext={`${opacity}%`}
           style={{ accentColor: color }}
           onChange={(event) => setOpacity(Number(event.target.value))} />
         <span className="atlas-opacity-value">{opacity}%</span>
       </label>
       {viewer && error ? <div className="atlas-error" role="alert">{error} <button type="button" onClick={() => setAttempt((value) => value + 1)}>Retry</button></div>
         : viewer && requested && !ready ? <p className="atlas-status" role="status">Loading…</p> : null}
+      <div className="atlas-row-actions">
+        <button type="button" className="atlas-info-button" aria-label={`Sources and details for ${fullName}`}
+          aria-expanded={infoOpen} aria-controls={infoId}
+          onClick={() => setInfoOpen((open) => !open)}>
+          Sources &amp; details <span aria-hidden="true">{infoOpen ? '−' : '+'}</span>
+        </button>
+        <a className="atlas-download" href={`${import.meta.env.BASE_URL}imaging/${atlas.filename}`}
+          download={atlas.filename} aria-label={`Download ${fullName} segmentation (.nii.gz)`}>
+          Download <span aria-hidden="true">↓</span>
+        </a>
+      </div>
       <div id={infoId} className="atlas-provenance" hidden={!infoOpen}>
         <p>{atlas.provenance}</p>
         <span className="atlas-resolution">Overlay voxel size: {atlas.resolution}</span>
         <div className="atlas-source-links">
           {atlas.links.map((link) => <a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} <span aria-hidden="true">↗</span></a>)}
-          <a href={`${import.meta.env.BASE_URL}imaging/${atlas.filename}`} download={atlas.filename}>Download this overlay (.nii.gz) <span aria-hidden="true">↓</span></a>
         </div>
       </div>
     </div>
   )
 }
+
