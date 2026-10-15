@@ -19,10 +19,10 @@ export const atlasCatalog: AtlasDefinition[] = [
     id: 'bigbrain',
     structure: 'Claustrum',
     label: 'Calarco',
-    filename: 'claustrum_BigBrainCalarco_ICBM2009symXiao_0p5mm.nii.gz',
+    filename: 'claustrum_BigBrainCalarco_ICBM2009symXiao_0p5mm_manuallyRevised.nii.gz',
     color: '#facc15',
     resolution: '0.5 mm',
-    provenance: 'BigBrain histology segmentation from Calarco et al., transformed to ICBM2009 symmetric space using the Xiao registration. This overlay is resampled to 0.5 mm.',
+    provenance: 'BigBrain histology segmentation from Calarco et al., transformed to ICBM2009 symmetric space using the Xiao registration, resampled to 0.5 mm isotropic voxels, and manually refined in MNI space. The displayed overlay and download both use this manually refined version.',
     links: [
       { label: 'Calarco et al. · PNAS, 2026', url: 'https://doi.org/10.1073/pnas.2604111123' },
       { label: 'Xiao registration paper', url: 'https://doi.org/10.1038/s41597-019-0217-0' },
