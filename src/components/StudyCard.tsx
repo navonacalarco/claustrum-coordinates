@@ -369,10 +369,10 @@ function sampleSizeLabel(
   if (
     study.sampleSizes.length === 1
   ) {
-    return `n = ${study.sampleSizes[0]}`
+    return study.sampleSizes[0]
   }
 
-  return `n = ${study.sampleSizes.join(', ')}`
+  return study.sampleSizes.join(', ')
 }
 
 function reportedCoordinate(
