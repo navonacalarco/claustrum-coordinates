@@ -245,7 +245,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #b8eac6;
+  color: #B8D0C3;
   font-size: 10px;
   font-weight: 650;
   white-space: nowrap;
@@ -257,8 +257,8 @@
   height: 7px;
   flex: 0 0 auto;
   border-radius: 2px;
-  background: rgba(70, 190, 104, 0.72);
-  box-shadow: 0 0 0 1px rgba(116, 225, 144, 0.22);
+  background: rgba(116, 160, 137, 0.72);
+  box-shadow: 0 0 0 1px rgba(148, 184, 165, 0.22);
 }
 
 .region-footer-apply {

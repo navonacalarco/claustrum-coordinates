@@ -310,9 +310,9 @@ export default function BrainViewer({
       nv.addColormap(
         'LiteraturePeaks',
         {
-          R: [255, 255],
-          G: [36, 36],
-          B: [28, 28],
+          R: [253, 253],
+          G: [100, 100],
+          B: [103, 103],
           A: [255, 255],
           I: [0, 255],
         },
