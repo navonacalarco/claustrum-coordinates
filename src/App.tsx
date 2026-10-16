@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Niivue } from '@niivue/niivue'
 import AtlasOverlayControl from './components/AtlasOverlayControl'
 import './App.css'
-import { patientCategories, comparePatientCategories, matchesPatientCategory, matchesPatientGroup, patientGroupOptions, retainPatientGroups } from './components/patientFilters'
+import { patientCategories, comparePatientCategories, matchesPatientCategory, matchesPatientGroup, patientGroupOptions, groupsAfterCategoryChange } from './components/patientFilters'
 import BrainViewer from './components/BrainViewer'
 import AboutModal from './components/AboutModal'
 import CoordinateNavigator from './components/CoordinateNavigator'
@@ -275,7 +275,7 @@ function App() {
           return false
         }
 
-        if (!matchesPatientGroup(peak, filters.patientGroup)) {
+        if (!matchesPatientGroup(peak, filters.patientGroup, filters.patientCategory.length > 0)) {
           return false
         }
 
@@ -608,8 +608,8 @@ function App() {
         }
 
         if (key === 'patientCategory') {
-          next.patientGroup = retainPatientGroups(
-            reviewData?.peaks ?? [], value, current.patientGroup,
+          next.patientGroup = groupsAfterCategoryChange(
+            reviewData?.peaks ?? [], current.patientCategory, value, current.patientGroup,
           )
         }
 

@@ -26,8 +26,8 @@ export function patientGroups(peak: PatientRecord): string[] {
     .filter((part) => part !== '' && !['NA', 'NR'].includes(part.toUpperCase())))]
 }
 
-export function matchesPatientGroup(peak: PatientRecord, selected: string[]): boolean {
-  return selected.length === 0 || patientGroups(peak).some((group) => selected.includes(group))
+export function matchesPatientGroup(peak: PatientRecord, selected: string[], categorySelected = false): boolean {
+  return (selected.length === 0 && !categorySelected) || patientGroups(peak).some((group) => selected.includes(group))
 }
 
 export function patientGroupOptions(peaks: PatientRecord[], selected: string[]): string[] {
@@ -42,3 +42,11 @@ export function retainPatientGroups(peaks: PatientRecord[], categories: string[]
   return groups.filter((group) => available.has(group))
 }
 
+
+export function groupsAfterCategoryChange(peaks: PatientRecord[], previous: string[], next: string[], groups: string[]): string[] {
+  const added = next.filter(category => !previous.includes(category))
+  return [...new Set([
+    ...retainPatientGroups(peaks, next, groups),
+    ...patientGroupOptions(peaks, added),
+  ])]
+}

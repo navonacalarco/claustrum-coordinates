@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import {
-  comparePatientCategories, patientCategories, patientGroups,
+  comparePatientCategories, patientCategories, patientGroups, groupsAfterCategoryChange,
   patientGroupOptions, matchesPatientCategory, matchesPatientGroup, retainPatientGroups,
 } from '../src/components/patientFilters.ts'
 
@@ -45,4 +45,16 @@ test('either group in a mixed cohort matches; groups use OR within the category 
 test('changing or clearing categories removes unavailable group selections', () => {
   assert.deepEqual(retainPatientGroups(records, ['Neurological'], ['Depression', 'Cannabis use']), ['Depression'])
   assert.deepEqual(retainPatientGroups(records, [], ['Depression']), [])
+})
+
+test('new categories select all their groups while retaining existing deselections', () => {
+  assert.deepEqual(groupsAfterCategoryChange(records, [], ['Psychiatric'], []),
+    ['Bipolar disorder', 'Cannabis use', 'Depression', 'Schizophrenia spectrum', 'Stroke'])
+  assert.deepEqual(groupsAfterCategoryChange(records, ['Psychiatric'], ['Psychiatric', 'Other clinical conditions'], ['Depression']),
+    ['Depression', 'Renal disease'])
+  assert.deepEqual(groupsAfterCategoryChange(records, ['Psychiatric'], [], ['Depression']), [])
+})
+test('unchecking every group means no matches until categories are cleared', () => {
+  assert.equal(matchesPatientGroup(records[0], [], true), false)
+  assert.equal(matchesPatientGroup(records[0], [], false), true)
 })
