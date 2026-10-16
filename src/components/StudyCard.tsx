@@ -65,6 +65,8 @@ function StudyCard({
   const sampleSize =
     sampleSizeLabel(study)
 
+  const taskDomains = [...new Set(study.peaks.flatMap(peak => reviewTags(peak.taskDomain)))]
+
   const contrasts =
     Array.from(
       new Set(
@@ -149,6 +151,7 @@ function StudyCard({
 
           {(
             sampleSize ||
+            taskDomains.length > 0 ||
             contrasts.length > 0
           ) && (
             <div className="study-expanded-meta">
@@ -161,6 +164,13 @@ function StudyCard({
                   <span>
                     {sampleSize}
                   </span>
+                </div>
+              )}
+
+              {taskDomains.length > 0 && (
+                <div className="study-detail-row">
+                  <span className="study-detail-label">Task domain</span>
+                  <span>{taskDomains.join('; ')}</span>
                 </div>
               )}
 
@@ -295,11 +305,6 @@ function StudyCard({
                         </span>
                       )}
 
-                      {peak.taskDomain && (
-                        <span className="study-peak-meta">
-                          Task domain: {reviewTags(peak.taskDomain).join('; ')}
-                        </span>
-                      )}
                       {peakMeta && (
                         <span className="study-peak-meta">
                           {peakMeta}

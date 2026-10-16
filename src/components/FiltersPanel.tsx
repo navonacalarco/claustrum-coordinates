@@ -138,7 +138,7 @@ function FiltersPanel({
       <MultiSelectFilter
         label="Study design"
         value={filters.studyDesign}
-        allLabel="All study designs"
+        allLabel="All designs"
         options={filterOptions.studyDesign}
         onChange={(value) => onFilterChange('studyDesign', value)}
       />

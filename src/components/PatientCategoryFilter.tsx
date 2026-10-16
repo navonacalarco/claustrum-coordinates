@@ -53,7 +53,6 @@ export default function PatientCategoryFilter({ categories, groupsByCategory, se
           </div>
           {current && <section className="patient-category-flyout" aria-label={`Patient groups: ${current}`}>
             <div className="patient-flyout-heading"><strong>{current}</strong><button type="button" aria-label="Close patient groups" onClick={() => setActive(null)}>×</button></div>
-            <button type="button" className="multi-select-all" onClick={() => onGroupsChange(groups.filter(v => !options.includes(v)))}>All groups in this category</button>
             <div className="patient-group-options">
               {options.map(group => <label className="multi-select-option" key={group}>
                 <input type="checkbox" checked={groups.includes(group)} onChange={() => onGroupsChange(groups.includes(group) ? groups.filter(v => v !== group) : [...groups, group])} />
