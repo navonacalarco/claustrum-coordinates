@@ -137,11 +137,11 @@ function App() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/peaks-mni.json').then((response) => {
+      fetch(`${import.meta.env.BASE_URL}data/peaks-mni.json`).then((response) => {
         if (!response.ok) throw new Error('Could not load review data')
         return response.json() as Promise<ReviewData>
       }),
-      fetch('/data/peak-classifications.json').then((response) => {
+      fetch(`${import.meta.env.BASE_URL}data/peak-classifications.json`).then((response) => {
         if (!response.ok) throw new Error('Could not load review classifications')
         return response.json() as Promise<Record<string, {
           ageGroupWebsite: string
@@ -836,7 +836,7 @@ function App() {
       <header className="site-header">
         <div className="site-brand">
           <div className="eyebrow">
-            SYSTEMATIC REVIEW COMPANION
+            SYSTEMATIC REVIEW COMPANION · DRAFT — FOR REVIEW
           </div>
 
           <h1>

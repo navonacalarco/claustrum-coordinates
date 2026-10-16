@@ -289,7 +289,7 @@ export default function BrainViewer({
 
       const peakResponse =
         await fetch(
-          '/data/peaks-mni.json',
+          `${import.meta.env.BASE_URL}data/peaks-mni.json`,
         )
 
       if (!peakResponse.ok) {
