@@ -1,3 +1,4 @@
+import { loadTemplateBytes } from './templateCache'
 import {
   useEffect,
   useRef,
@@ -5,6 +6,7 @@ import {
 } from 'react'
 import {
   Niivue,
+  NVImage,
   SLICE_TYPE,
   MULTIPLANAR_TYPE,
   SHOW_RENDER,
@@ -97,6 +99,9 @@ export default function BrainViewer({
 
   const highlightMeshRef =
     useRef<any>(null)
+
+  const [loadingMessage, setLoadingMessage] = useState('Loading brain…')
+  const [loadError, setLoadError] = useState(false)
 
   const [viewerReady, setViewerReady] =
     useState(false)
@@ -216,10 +221,14 @@ export default function BrainViewer({
     }
 
     let disposed = false
+    const controller = new AbortController()
+    setLoadError(false)
+    setLoadingMessage('Preparing viewer…')
     setViewerReady(false)
 
     const nv = new Niivue({
       show3Dcrosshair: true,
+      forceDevicePixelRatio: window.matchMedia('(pointer: coarse)').matches ? 1 : 0,
       crosshairWidth: 1,
 
       backColor: [
@@ -242,6 +251,14 @@ export default function BrainViewer({
       meshXRay: 0.25,
     })
 
+    const canvas = canvasRef.current
+    const onContextLost = () => {
+      if (disposed) return
+      setViewerReady(false)
+      setLoadError(true)
+      setLoadingMessage('The phone released the graphics context. Close other tabs and reload.')
+    }
+    canvas.addEventListener('webglcontextlost', onContextLost)
     nvRef.current = nv
 
     let resizeObserver:
@@ -276,20 +293,30 @@ export default function BrainViewer({
 
       nv.setSliceMM(true)
 
-      await nv.loadVolumes([
-        {
-          url:
-            `${import.meta.env.BASE_URL}imaging/T1w_ICBM152_MNI2009bSym_0p5mm_display8bit.nii.gz`,
-          colormap: 'gray',
-          opacity: 1,
-        },
-      ])
+      let templateBytes: ArrayBuffer | null = await loadTemplateBytes(
+        `${import.meta.env.BASE_URL}imaging/T1w_ICBM152_MNI2009bSym_0p5mm_display8bit.nii.gz`,
+        controller.signal,
+        (message) => { if (!disposed) setLoadingMessage(message) },
+      )
+      if (disposed) return
+      setLoadingMessage('Preparing 0.5 mm brain…')
+      const volume = await NVImage.loadFromUrl({
+        url: templateBytes,
+        name: 'T1w_ICBM152_MNI2009bSym_0p5mm_display8bit.nii.gz',
+        colormap: 'gray',
+        opacity: 1,
+      })
+      templateBytes = null
+      if (disposed) return
+      setLoadingMessage('Rendering brain…')
+      nv.addVolume(volume)
 
       if (disposed) return
 
       const peakResponse =
         await fetch(
           `${import.meta.env.BASE_URL}data/peaks-mni.json`,
+          { signal: controller.signal },
         )
 
       if (!peakResponse.ok) {
@@ -657,6 +684,9 @@ export default function BrainViewer({
 
     initializeViewer().catch(
       (error) => {
+        if (disposed) return
+        setLoadError(true)
+        setLoadingMessage(error instanceof Error ? error.message : 'The brain could not load.')
         console.error(
           'Failed to initialize NiiVue:',
           error,
@@ -666,6 +696,9 @@ export default function BrainViewer({
 
     return () => {
       disposed = true
+      controller.abort()
+      canvas.removeEventListener('webglcontextlost', onContextLost)
+      nv.cleanup()
       resizeObserver?.disconnect()
 
       if (
@@ -940,6 +973,12 @@ export default function BrainViewer({
           toggleCrosshairs
         }
       />
+
+      {!viewerReady && (
+        <div role={loadError ? 'alert' : 'status'} style={{ padding: '12px 16px', fontSize: '13px' }}>
+          {loadError ? `Brain could not load: ${loadingMessage}` : loadingMessage}
+        </div>
+      )}
 
       <div
         ref={containerRef}
