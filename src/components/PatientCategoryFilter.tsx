@@ -13,7 +13,6 @@ type Props = {
 export default function PatientCategoryFilter({ categories, groupsByCategory, selected, groups, disabled, onCategoriesChange, onGroupsChange }: Props) {
   const ref = useRef<HTMLDetailsElement>(null)
   const [active, setActive] = useState<string | null>(null)
-  const [query, setQuery] = useState('')
   const current = active && selected.includes(active) ? active : null
   const options = current ? groupsByCategory[current] ?? [] : []
   useEffect(() => {
@@ -23,7 +22,7 @@ export default function PatientCategoryFilter({ categories, groupsByCategory, se
     document.addEventListener('pointerdown', close)
     return () => document.removeEventListener('pointerdown', close)
   }, [])
-  function activate(category: string) { setActive(category); setQuery('') }
+  function activate(category: string) { setActive(category) }
   return <div className="filter-group patient-category-filter">
     <span>Patient category</span>
     {disabled ? <div className="multi-select-disabled">Not applicable to healthy-control-only studies</div> :
@@ -54,10 +53,9 @@ export default function PatientCategoryFilter({ categories, groupsByCategory, se
           </div>
           {current && <section className="patient-category-flyout" aria-label={`Patient groups: ${current}`}>
             <div className="patient-flyout-heading"><strong>{current}</strong><button type="button" aria-label="Close patient groups" onClick={() => setActive(null)}>×</button></div>
-            <input className="patient-group-search" type="search" aria-label="Search patient groups" placeholder="Search groups…" value={query} onChange={event => setQuery(event.target.value)} />
             <button type="button" className="multi-select-all" onClick={() => onGroupsChange(groups.filter(v => !options.includes(v)))}>All groups in this category</button>
             <div className="patient-group-options">
-              {options.filter(v => v.toLowerCase().includes(query.trim().toLowerCase())).map(group => <label className="multi-select-option" key={group}>
+              {options.map(group => <label className="multi-select-option" key={group}>
                 <input type="checkbox" checked={groups.includes(group)} onChange={() => onGroupsChange(groups.includes(group) ? groups.filter(v => v !== group) : [...groups, group])} />
                 <span>{group}</span>
               </label>)}

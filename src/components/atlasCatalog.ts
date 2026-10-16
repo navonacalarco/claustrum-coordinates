@@ -23,7 +23,7 @@ export const atlasCatalog: AtlasDefinition[] = [
     label: 'Calarco',
     description: 'Claustrum atlas (BigBrain)',
     filename: 'claustrum_BigBrainCalarco_ICBM2009symXiao_0p5mm_manuallyRevised.nii.gz',
-    color: '#F2AD00',
+    color: '#00A08A',
     resolution: '0.5 mm',
     provenance: 'BigBrain histology segmentation from Calarco et al., transformed to MNI space using the Xiao registration, resampled to 0.5 mm, and manually refined.',
     links: [
@@ -37,7 +37,7 @@ export const atlasCatalog: AtlasDefinition[] = [
     label: 'Mauri',
     description: 'Claustrum automated segmentation (FreeSurfer)',
     filename: 'claustrum_Mauri_MNI2009b_sym_0p5mm.nii.gz',
-    color: '#00A08A',
+    color: '#F2AD00',
     resolution: '0.5 mm',
     provenance: 'Automatic segmentation of the ICBM2009b symmetric template using Mauri et al.’s method. Left and right outputs were combined at 0.35 mm, then resampled to 0.5 mm using nearest-neighbour interpolation.',
     links: [
