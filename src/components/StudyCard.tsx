@@ -152,15 +152,6 @@ function StudyCard({
             contrasts.length > 0
           ) && (
             <div className="study-expanded-meta">
-              {[
-                ['Age at scan', study.ageGroups.join('; ')],
-                ['Study design', study.studyDesigns.join('; ')],
-              ].map(([label, value]) => value && (
-                <div className="study-detail-row" key={label}>
-                  <span className="study-detail-label">{label}</span>
-                  <span>{value}</span>
-                </div>
-              ))}
               {sampleSize && (
                 <div className="study-detail-row">
                   <span className="study-detail-label">

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import fs from 'node:fs'
-import { reviewTags, labelOptions, matchesReviewLabels } from '../src/components/reviewFilters.ts'
+import { reviewTags, labelOptions, matchesReviewLabels, compareFilterLabels } from '../src/components/reviewFilters.ts'
 
 const empty = { ageGroup: [], studyDesign: [], taskDomain: [] }
 const classifications = JSON.parse(fs.readFileSync(new URL('../public/data/peak-classifications.json', import.meta.url)))
@@ -39,4 +39,9 @@ test('all displayed peaks have complete labels and finite MNI coordinates', () =
     assert.equal(p.originalSpace, 'MNI')
     assert.ok([p.xMni, p.yMni, p.zMni].every(Number.isFinite))
   }
+})
+
+test('generic dropdowns put Other and missing-value equivalents last', () => {
+  assert.deepEqual(['Other', 'VBM', 'NA', 'ASL', 'Not reported', 'task-fMRI'].sort(compareFilterLabels),
+    ['ASL', 'task-fMRI', 'VBM', 'Other', 'NA', 'Not reported'])
 })

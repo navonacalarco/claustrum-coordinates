@@ -2,7 +2,7 @@ import {
   useEffect,
   useRef,
 } from 'react'
-import PatientGroupFilter from './PatientGroupFilter'
+import PatientCategoryFilter from './PatientCategoryFilter'
 
 export type FilterState = {
   peakSource: string[]
@@ -30,6 +30,7 @@ export type TextFilterKey =
   | 'originalSpace'
 
 type FilterOptions = {
+  groupsByCategory: Record<string, string[]>
   peakSource: string[]
   population: string[]
   patientCategory: string[]
@@ -140,30 +141,14 @@ function FiltersPanel({
         onChange={(value) => onFilterChange('ageGroup', value)}
       />
 
-      <MultiSelectFilter
-        label="Patient category"
-        value={filters.patientCategory}
-        allLabel="All categories"
-        options={filterOptions.patientCategory}
+      <PatientCategoryFilter
+        categories={filterOptions.patientCategory}
+        groupsByCategory={filterOptions.groupsByCategory}
+        selected={filters.patientCategory}
+        groups={filters.patientGroup}
         disabled={patientGroupDisabled}
-        disabledText="Not applicable to healthy-control-only studies"
-        onChange={(value) => onFilterChange('patientCategory', value)}
-      />
-
-      <PatientGroupFilter
-        key={filters.patientCategory.join(';') + String(patientGroupDisabled)}
-        value={filters.patientGroup}
-        options={filterOptions.patientGroup}
-        disabled={patientGroupDisabled || filters.patientCategory.length === 0}
-        disabledText={patientGroupDisabled
-          ? "Not applicable to healthy-control-only studies"
-          : "Choose a patient category to explore groups"}
-        onChange={(value) =>
-          onFilterChange(
-            'patientGroup',
-            value,
-          )
-        }
+        onCategoriesChange={value => onFilterChange('patientCategory', value)}
+        onGroupsChange={value => onFilterChange('patientGroup', value)}
       />
 
       <MultiSelectFilter

@@ -46,6 +46,7 @@ export type BrainViewerProps = {
     coordinate: [number, number, number],
   ) => void
 
+  selectedPeakId?: string | null
   selectedStudyId?: string | null
 
   focusCoordinate?: [
@@ -72,4 +73,5 @@ export type BrainViewerProps = {
 
   visiblePeakIds?: string[]
 }
+
 

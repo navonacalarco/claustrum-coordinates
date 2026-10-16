@@ -33,3 +33,9 @@ export function labelOptions(values: (string | undefined)[], age = false): strin
   return [...new Set(values.flatMap(v => reviewTags(v)))].sort((a, b) =>
     order(a) - order(b) || a.localeCompare(b))
 }
+
+export function compareFilterLabels(a: string, b: string): number {
+  const rank = (value: string) => /^(na|n\/a|nr|not applicable|not reported|unknown|unclear)(\b|$)/i.test(value.trim()) ? 2
+    : /^other(\b|$)/i.test(value.trim()) ? 1 : 0
+  return rank(a) - rank(b) || a.localeCompare(b)
+}

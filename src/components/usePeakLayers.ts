@@ -84,6 +84,7 @@ export function useBasePeakLayer({
 
 type SelectedPeakLayerArgs =
   SharedPeakLayerArgs & {
+    selectedPeakId: string | null
     selectedStudyId:
       string | null
 
@@ -111,6 +112,7 @@ export function useSelectedPeakLayer({
   viewerReady,
   visiblePeakIds,
   selectedStudyId,
+  selectedPeakId,
   focusCoordinate,
   onLocationChangeRef,
 }: SelectedPeakLayerArgs) {
@@ -167,7 +169,7 @@ export function useSelectedPeakLayer({
       visiblePeaks.filter(
         (peak) =>
           peak.studyId ===
-          selectedStudyId,
+          selectedStudyId && (!selectedPeakId || peak.id === selectedPeakId),
       )
 
     if (
@@ -180,7 +182,7 @@ export function useSelectedPeakLayer({
     loadPeakLayer(
       nv,
       selectedPeaks,
-      'selected',
+      selectedPeakId ? 'base' : 'selected',
     )
 
     baseMeshRef.current = null
@@ -208,6 +210,7 @@ export function useSelectedPeakLayer({
     baseMeshRef,
     highlightMeshRef,
     selectedStudyId,
+    selectedPeakId,
     focusCoordinate,
     visiblePeakIds,
     viewerReady,
@@ -342,3 +345,4 @@ function centroid(
       peaks.length,
   ]
 }
+

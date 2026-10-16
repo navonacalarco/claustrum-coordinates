@@ -1,4 +1,4 @@
-import { labelOptions, matchesReviewLabels, reviewTags } from './components/reviewFilters'
+import { labelOptions, matchesReviewLabels, reviewTags, compareFilterLabels } from './components/reviewFilters'
 import { useEffect, useMemo, useState } from 'react'
 import type { Niivue } from '@niivue/niivue'
 import AtlasOverlayControl from './components/AtlasOverlayControl'
@@ -216,6 +216,8 @@ function App() {
       ).sort(comparePatientCategories),
 
       patientGroup: patientGroupOptions(peaks, filters.patientCategory),
+      groupsByCategory: Object.fromEntries(peaks.flatMap(p => patientCategories(p.patientCategory)).map(category =>
+        [category, patientGroupOptions(peaks, [category]).sort(compareFilterLabels)])),
       ageGroup: labelOptions(peaks.map(p => p.ageGroupWebsite), true),
       studyDesign: labelOptions(peaks.map(p => p.articleCategoryWebsite)),
       taskDomain: labelOptions(peaks.map(p => p.contrastCategoryWebsite)),
@@ -891,6 +893,7 @@ function App() {
         <section className="viewer-section">
           <div className="viewer">
             <BrainViewer
+              selectedPeakId={selectedPeakId}
               onViewerReady={setAtlasViewer}
               onLocationChange={
                 setCoords
@@ -1036,8 +1039,7 @@ function uniqueText(
       ),
     ),
   ).sort(
-    (a, b) =>
-      a.localeCompare(b),
+    compareFilterLabels,
   )
 }
 

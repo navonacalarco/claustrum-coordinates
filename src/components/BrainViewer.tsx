@@ -47,6 +47,7 @@ export default function BrainViewer({
   onLocationChange,
   onPeakClick,
   selectedStudyId = null,
+  selectedPeakId = null,
   focusCoordinate = null,
   navigationRequest = null,
   viewMode = 'multi',
@@ -773,6 +774,7 @@ export default function BrainViewer({
     viewerReady,
     visiblePeakIds,
     selectedStudyId,
+    selectedPeakId,
     focusCoordinate,
     onLocationChangeRef,
   })
@@ -986,5 +988,6 @@ function clamp(
     ),
   )
 }
+
 
 
