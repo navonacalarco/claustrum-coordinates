@@ -1,3 +1,5 @@
+import { reviewTags } from './reviewFilters'
+
 export type StudyPeak = {
   id: string
   x: number
@@ -9,6 +11,7 @@ export type StudyPeak = {
   originalSpace: string
   transformation: string
   contrast: string
+  taskDomain: string
   groupsInContrast: string
   coordinateType: string
   anatomicalLabel: string
@@ -24,6 +27,8 @@ export type StudySummary = {
   peakSources: string[]
   patientGroups: string[]
   sampleSizes: string[]
+  ageGroups: string[]
+  studyDesigns: string[]
   numberOfCoordinates: number
   peaks: StudyPeak[]
 }
@@ -147,6 +152,15 @@ function StudyCard({
             contrasts.length > 0
           ) && (
             <div className="study-expanded-meta">
+              {[
+                ['Age at scan', study.ageGroups.join('; ')],
+                ['Study design', study.studyDesigns.join('; ')],
+              ].map(([label, value]) => value && (
+                <div className="study-detail-row" key={label}>
+                  <span className="study-detail-label">{label}</span>
+                  <span>{value}</span>
+                </div>
+              ))}
               {sampleSize && (
                 <div className="study-detail-row">
                   <span className="study-detail-label">
@@ -290,6 +304,11 @@ function StudyCard({
                         </span>
                       )}
 
+                      {peak.taskDomain && (
+                        <span className="study-peak-meta">
+                          Task domain: {reviewTags(peak.taskDomain).join('; ')}
+                        </span>
+                      )}
                       {peakMeta && (
                         <span className="study-peak-meta">
                           {peakMeta}
@@ -454,3 +473,4 @@ function formatCoordinate(
 }
 
 export default StudyCard
+

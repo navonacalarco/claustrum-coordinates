@@ -1,0 +1,957 @@
+{
+  "pmid-18362056-peak-1": {
+    "ageGroupWebsite": "Adolescents",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-21875780-peak-2": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-22144968-peak-3": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Language / speech"
+  },
+  "pmid-28507895-peak-5": {
+    "ageGroupWebsite": "Children; Adolescents; Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-22732507-peak-6": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Emotion"
+  },
+  "pmid-22732507-peak-7": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Emotion"
+  },
+  "pmid-22732507-peak-8": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Emotion"
+  },
+  "pmid-22732507-peak-9": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Emotion"
+  },
+  "pmid-27349694-peak-10": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27349694-peak-11": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27349694-peak-12": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27349694-peak-13": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27349694-peak-14": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-14534252-peak-15": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-14534252-peak-16": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-14534252-peak-17": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-20203139-peak-18": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control; Sensory perception"
+  },
+  "pmid-26441569-peak-19": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Social cognition"
+  },
+  "pmid-26441569-peak-20": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Social cognition"
+  },
+  "pmid-24266644-peak-21": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24527186-peak-22": {
+    "ageGroupWebsite": "Adolescents; Adults; Older adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Motor function"
+  },
+  "pmid-25166619-peak-23": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-28079059-peak-26": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-28079059-peak-27": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-15531561-peak-28": {
+    "ageGroupWebsite": "Children; Adolescents",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Other tasks"
+  },
+  "pmid-15531561-peak-29": {
+    "ageGroupWebsite": "Children; Adolescents",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Other tasks"
+  },
+  "pmid-24944217-peak-30": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-31": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-32": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-33": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-34": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-35": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-36": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-37": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-38": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-39": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-40": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24944217-peak-41": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Pain / interoception"
+  },
+  "pmid-26564411-peak-42": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24831391-peak-43": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-20144695-peak-44": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-41519954-peak-47": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-27718507-peak-48": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27718507-peak-49": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27718507-peak-50": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27718507-peak-51": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24083408-peak-56": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-34252875-peak-66": {
+    "ageGroupWebsite": "Children; Adolescents",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-40528148-peak-67": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-25309462-peak-71": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-17968544-peak-72": {
+    "ageGroupWebsite": "Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-17968544-peak-73": {
+    "ageGroupWebsite": "Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-17566768-peak-74": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-29335882-peak-81": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-29335882-peak-82": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-29335882-peak-83": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-33503315-peak-84": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24760033-peak-85": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-16317714-peak-86": {
+    "ageGroupWebsite": "Adolescents; Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-28579788-peak-87": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-41218859-peak-88": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-40800468-peak-89": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-90": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-91": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-92": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-93": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-94": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-95": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-96": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-97": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-98": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-99": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-100": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-101": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-102": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-103": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-104": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-105": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-106": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-40800468-peak-107": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-23910949-peak-108": {
+    "ageGroupWebsite": "Adolescents",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-32243040-peak-109": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-28095312-peak-110": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Social cognition"
+  },
+  "pmid-22491891-peak-111": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-39012481-peak-112": {
+    "ageGroupWebsite": "Adolescents",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-38266332-peak-113": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24418502-peak-114": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24418502-peak-115": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-34911203-peak-116": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Methods / validation",
+    "contrastCategoryWebsite": "Emotion; Social cognition"
+  },
+  "pmid-28314184-peak-117": {
+    "ageGroupWebsite": "Children; Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-28314184-peak-118": {
+    "ageGroupWebsite": "Children; Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-28314184-peak-119": {
+    "ageGroupWebsite": "Children; Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-23806586-peak-120": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-21828200-peak-121": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Attention / cognitive control; Memory / learning"
+  },
+  "pmid-39821801-peak-122": {
+    "ageGroupWebsite": "Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-39821801-peak-123": {
+    "ageGroupWebsite": "Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25394198-peak-124": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Language / speech"
+  },
+  "pmid-29468083-peak-125": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-29468083-peak-126": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-30013923-peak-127": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-22451196-peak-128": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-22451196-peak-129": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-41235903-peak-130": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-41235903-peak-131": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-41235903-peak-132": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-41235903-peak-133": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-41235903-peak-134": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-41235903-peak-135": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-41235903-peak-136": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-41235903-peak-137": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control"
+  },
+  "pmid-41235903-peak-138": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-41235903-peak-139": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-23373763-peak-140": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-22409909-peak-141": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Motor function"
+  },
+  "pmid-26173182-peak-142": {
+    "ageGroupWebsite": "Children; Adolescents; Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Other tasks"
+  },
+  "pmid-19052227-peak-143": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Pain / interoception"
+  },
+  "pmid-23510545-peak-144": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-23510545-peak-145": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-28522971-peak-146": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-28522971-peak-147": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-28522971-peak-148": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-26226077-peak-149": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Language / speech"
+  },
+  "pmid-34110063-peak-150": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-26445229-peak-151": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Emotion; Social cognition"
+  },
+  "pmid-29581420-peak-152": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-29581420-peak-153": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-35287051-peak-154": {
+    "ageGroupWebsite": "NR",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27894900-peak-155": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control; Sensory perception"
+  },
+  "pmid-27894900-peak-156": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control; Sensory perception"
+  },
+  "pmid-21591026-peak-157": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-35523367-peak-158": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-31400532-peak-159": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control; Emotion"
+  },
+  "pmid-31400532-peak-160": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control; Emotion"
+  },
+  "pmid-31400532-peak-161": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Emotion"
+  },
+  "pmid-24397347-peak-162": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-24397347-peak-163": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-17597301-peak-164": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-17597301-peak-165": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-17597301-peak-166": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-32521476-peak-167": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Methods / validation",
+    "contrastCategoryWebsite": "Language / speech"
+  },
+  "pmid-32521476-peak-168": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Methods / validation",
+    "contrastCategoryWebsite": "Language / speech"
+  },
+  "pmid-23750128-peak-169": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Emotion"
+  },
+  "pmid-25790021-peak-170": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-19022864-peak-171": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-19022864-peak-172": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-19022864-peak-173": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-19022864-peak-174": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-19022864-peak-175": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-19022864-peak-176": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-177": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-178": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-179": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-180": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-181": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-182": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-183": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-184": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-185": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25211175-peak-186": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Pain / interoception"
+  },
+  "pmid-18691703-peak-187": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Emotion; Sensory perception"
+  },
+  "pmid-34824311-peak-188": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-30014958-peak-189": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-30014958-peak-190": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-27362339-peak-191": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Methods / validation",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-41612150-peak-192": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Language / speech"
+  },
+  "pmid-41612150-peak-193": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Language / speech"
+  },
+  "pmid-41612150-peak-194": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Language / speech; Motor function"
+  },
+  "pmid-41612150-peak-195": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Language / speech; Motor function"
+  },
+  "pmid-25865357-peak-196": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Emotion; Language / speech"
+  },
+  "pmid-29266586-peak-197": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-15721058-peak-198": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-15721058-peak-199": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-24062699-peak-200": {
+    "ageGroupWebsite": "Older adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Memory / learning"
+  },
+  "pmid-21952129-peak-201": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-36811216-peak-202": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control; Memory / learning; Emotion"
+  },
+  "pmid-36811216-peak-203": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Attention / cognitive control; Memory / learning; Emotion"
+  },
+  "pmid-25024571-peak-204": {
+    "ageGroupWebsite": "NR",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-25024571-peak-205": {
+    "ageGroupWebsite": "NR",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-23314939-peak-206": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Memory / learning; Reward / decision-making"
+  },
+  "pmid-30505720-peak-207": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-33474716-peak-208": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Emotion"
+  },
+  "pmid-33474716-peak-209": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Emotion"
+  },
+  "pmid-38797521-peak-210": {
+    "ageGroupWebsite": "Adolescents; Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27002909-peak-211": {
+    "ageGroupWebsite": "Adults; Older adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-27110113-peak-212": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-28194012-peak-213": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Reward / decision-making"
+  },
+  "pmid-28803349-peak-214": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Language / speech"
+  },
+  "pmid-28803349-peak-215": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Attention / cognitive control; Language / speech"
+  },
+  "pmid-28280514-peak-216": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-28280514-peak-217": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-28280514-peak-218": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Intervention",
+    "contrastCategoryWebsite": "Sensory perception"
+  }
+}

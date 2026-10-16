@@ -9,6 +9,9 @@ export type FilterState = {
   population: string[]
   patientCategory: string[]
   patientGroup: string[]
+  ageGroup: string[]
+  studyDesign: string[]
+  taskDomain: string[]
   hemisphere: string[]
   originalSpace: string[]
   publicationYearMin: number | null
@@ -20,6 +23,9 @@ export type TextFilterKey =
   | 'population'
   | 'patientCategory'
   | 'patientGroup'
+  | 'ageGroup'
+  | 'studyDesign'
+  | 'taskDomain'
   | 'hemisphere'
   | 'originalSpace'
 
@@ -28,6 +34,9 @@ type FilterOptions = {
   population: string[]
   patientCategory: string[]
   patientGroup: string[]
+  ageGroup: string[]
+  studyDesign: string[]
+  taskDomain: string[]
   hemisphere: string[]
   originalSpace: string[]
 }
@@ -95,6 +104,22 @@ function FiltersPanel({
       />
 
       <MultiSelectFilter
+        label="Study design"
+        value={filters.studyDesign}
+        allLabel="All study designs"
+        options={filterOptions.studyDesign}
+        onChange={(value) => onFilterChange('studyDesign', value)}
+      />
+
+      <MultiSelectFilter
+        label="Task domain"
+        value={filters.taskDomain}
+        allLabel="All domains"
+        options={filterOptions.taskDomain}
+        onChange={(value) => onFilterChange('taskDomain', value)}
+      />
+
+      <MultiSelectFilter
         label="Population"
         value={filters.population}
         allLabel="All populations"
@@ -105,6 +130,14 @@ function FiltersPanel({
             value,
           )
         }
+      />
+
+      <MultiSelectFilter
+        label="Age at scan"
+        value={filters.ageGroup}
+        allLabel="All ages"
+        options={filterOptions.ageGroup}
+        onChange={(value) => onFilterChange('ageGroup', value)}
       />
 
       <MultiSelectFilter

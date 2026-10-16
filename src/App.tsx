@@ -1,3 +1,4 @@
+import { labelOptions, matchesReviewLabels, reviewTags } from './components/reviewFilters'
 import { useEffect, useMemo, useState } from 'react'
 import type { Niivue } from '@niivue/niivue'
 import AtlasOverlayControl from './components/AtlasOverlayControl'
@@ -52,6 +53,9 @@ type Peak = {
   patientCategory: string
   patientGroup: string
   patientGroupWebsite: string
+  ageGroupWebsite: string
+  articleCategoryWebsite: string
+  contrastCategoryWebsite: string
   hemisphere: string
 
   xMni: number
@@ -72,6 +76,9 @@ const emptyFilters: FilterState = {
   population: [],
   patientCategory: [],
   patientGroup: [],
+  ageGroup: [],
+  studyDesign: [],
+  taskDomain: [],
   hemisphere: [],
   originalSpace: [],
   publicationYearMin: null,
@@ -129,17 +136,24 @@ function App() {
     useState(false)
 
   useEffect(() => {
-    fetch('/data/peaks-mni.json')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Could not load review data')
-        }
-
-        return response.json()
-      })
-      .then((data: ReviewData) => {
-        setReviewData(data)
-      })
+    Promise.all([
+      fetch('/data/peaks-mni.json').then((response) => {
+        if (!response.ok) throw new Error('Could not load review data')
+        return response.json() as Promise<ReviewData>
+      }),
+      fetch('/data/peak-classifications.json').then((response) => {
+        if (!response.ok) throw new Error('Could not load review classifications')
+        return response.json() as Promise<Record<string, {
+          ageGroupWebsite: string
+          articleCategoryWebsite: string
+          contrastCategoryWebsite: string
+        }>>
+      }),
+    ]).then(([data, classifications]) => {
+      setReviewData({ ...data, peaks: data.peaks.map(peak => ({
+        ...peak, ...classifications[peak.id],
+      })) })
+    })
       .catch((error) => {
         console.error(
           'Failed to load review data:',
@@ -202,6 +216,9 @@ function App() {
       ).sort(comparePatientCategories),
 
       patientGroup: patientGroupOptions(peaks, filters.patientCategory),
+      ageGroup: labelOptions(peaks.map(p => p.ageGroupWebsite), true),
+      studyDesign: labelOptions(peaks.map(p => p.articleCategoryWebsite)),
+      taskDomain: labelOptions(peaks.map(p => p.contrastCategoryWebsite)),
 
       hemisphere: uniqueText(
         peaks.map(
@@ -249,6 +266,8 @@ function App() {
         ) {
           return false
         }
+
+        if (!matchesReviewLabels(peak, filters)) return false
 
         if (!matchesPatientCategory(peak, filters.patientCategory)) {
           return false
@@ -384,6 +403,7 @@ function App() {
 
           contrast:
             peak.contrast,
+          taskDomain: peak.contrastCategoryWebsite,
 
           groupsInContrast:
             peak.groupsInContrast,
@@ -481,6 +501,9 @@ function App() {
                   ]
                 : [],
 
+            ageGroups: reviewTags(peak.ageGroupWebsite),
+            studyDesigns: reviewTags(peak.articleCategoryWebsite),
+
             numberOfCoordinates:
               1,
 
@@ -525,6 +548,9 @@ function App() {
     filters.population.length > 0 ||
     filters.patientCategory.length > 0 ||
     filters.patientGroup.length > 0 ||
+    filters.ageGroup.length > 0 ||
+    filters.studyDesign.length > 0 ||
+    filters.taskDomain.length > 0 ||
     filters.hemisphere.length > 0 ||
     filters.originalSpace.length > 0 ||
     activeYearMin !== yearBounds.min ||
@@ -1090,11 +1116,14 @@ function downloadPeaksCsv(
     'originalAnatomicalLabel',
     'otherLabelsInCluster',
     'contrast',
+    'contrastCategoryWebsite',
     'groupsInContrast',
     'nInContrast',
     'direction',
     'centralAim',
     'population',
+    'ageGroupWebsite',
+    'articleCategoryWebsite',
     'patientCategory',
     'patientGroupWebsite',
     'patientGroup',

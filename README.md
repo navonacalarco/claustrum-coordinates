@@ -30,3 +30,17 @@ If you use the web resource, please cite [Zenodo citation / DOI forthcoming]. Fo
 ## License
 
 The website source code is released under the **MIT License**.
+
+## Refresh review data
+
+Export Table 1 as an Excel workbook, then run:
+
+```bash
+node scripts/refresh-review-data.mjs /path/to/table-1.xlsx
+npm run build
+node --test tests/*.test.mjs
+```
+
+The importer reads second-row headers in `All studies - MRI information` and `Peak reporting`. It exports only the three website classification fields to `public/data/peak-classifications.json`, keyed by existing published peak IDs. It does not export extraction notes, participant details, or additional coordinates. Missing headers, ambiguous matches, and incomplete labels stop the import before writing.
+
+Filters allow any selected label within each dropdown and require matches across dropdowns. Age is a study-level cohort label; task domain is specific to the reported contrast. CSV downloads include all three classification fields. The viewer continues to show reported MNI coordinates; Talairach harmonization remains pending.
