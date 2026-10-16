@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Niivue } from '@niivue/niivue'
 import AtlasOverlayControl from './components/AtlasOverlayControl'
 import './App.css'
-import { patientCategories, matchesPatientCategory, patientGroupOptions, retainPatientGroups } from './components/patientFilters'
+import { patientCategories, comparePatientCategories, matchesPatientCategory, matchesPatientGroup, patientGroupOptions, retainPatientGroups } from './components/patientFilters'
 import BrainViewer from './components/BrainViewer'
 import AboutModal from './components/AboutModal'
 import CoordinateNavigator from './components/CoordinateNavigator'
@@ -51,6 +51,7 @@ type Peak = {
   population: string
   patientCategory: string
   patientGroup: string
+  patientGroupWebsite: string
   hemisphere: string
 
   xMni: number
@@ -198,7 +199,7 @@ function App() {
 
       patientCategory: uniqueText(
         peaks.flatMap((peak) => patientCategories(peak.patientCategory)),
-      ),
+      ).sort(comparePatientCategories),
 
       patientGroup: patientGroupOptions(peaks, filters.patientCategory),
 
@@ -253,12 +254,7 @@ function App() {
           return false
         }
 
-        if (
-          filters.patientGroup.length > 0 &&
-          !filters.patientGroup.includes(
-            peak.patientGroup,
-          )
-        ) {
+        if (!matchesPatientGroup(peak, filters.patientGroup)) {
           return false
         }
 
@@ -1100,6 +1096,7 @@ function downloadPeaksCsv(
     'centralAim',
     'population',
     'patientCategory',
+    'patientGroupWebsite',
     'patientGroup',
     'fieldStrength',
     'modalities',
@@ -1265,4 +1262,5 @@ function isHealthyControlsValue(
 }
 
 export default App
+
 

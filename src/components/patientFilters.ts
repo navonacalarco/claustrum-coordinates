@@ -1,6 +1,7 @@
 type PatientRecord = {
   patientCategory?: string
   patientGroup: string
+  patientGroupWebsite?: string
 }
 
 export function patientCategories(value: string = ''): string[] {
@@ -13,11 +14,26 @@ export function matchesPatientCategory(peak: PatientRecord, selected: string[]):
     patientCategories(peak.patientCategory).some((category) => selected.includes(category))
 }
 
-// Groups retain the spreadsheet wording; co-occurrence is not a diagnostic hierarchy.
+export function comparePatientCategories(a: string, b: string): number {
+  const other = 'other clinical conditions'
+  return Number(a.toLowerCase() === other) - Number(b.toLowerCase() === other) ||
+    a.localeCompare(b)
+}
+
+// Website labels are separate study-level tags, not cohort-to-coordinate assignments.
+export function patientGroups(peak: PatientRecord): string[] {
+  return [...new Set((peak.patientGroupWebsite ?? '').split(';').map((part) => part.trim())
+    .filter((part) => part !== '' && !['NA', 'NR'].includes(part.toUpperCase())))]
+}
+
+export function matchesPatientGroup(peak: PatientRecord, selected: string[]): boolean {
+  return selected.length === 0 || patientGroups(peak).some((group) => selected.includes(group))
+}
+
 export function patientGroupOptions(peaks: PatientRecord[], selected: string[]): string[] {
+  if (selected.length === 0) return []
   return [...new Set(peaks.filter((peak) => matchesPatientCategory(peak, selected))
-    .map((peak) => peak.patientGroup)
-    .filter((group) => group.trim() !== '' && !['NA', 'NR'].includes(group.trim().toUpperCase())))]
+    .flatMap(patientGroups))]
     .sort((a, b) => a.localeCompare(b))
 }
 
@@ -25,3 +41,4 @@ export function retainPatientGroups(peaks: PatientRecord[], categories: string[]
   const available = new Set(patientGroupOptions(peaks, categories))
   return groups.filter((group) => available.has(group))
 }
+

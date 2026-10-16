@@ -2,6 +2,7 @@ import {
   useEffect,
   useRef,
 } from 'react'
+import PatientGroupFilter from './PatientGroupFilter'
 
 export type FilterState = {
   peakSource: string[]
@@ -116,13 +117,14 @@ function FiltersPanel({
         onChange={(value) => onFilterChange('patientCategory', value)}
       />
 
-      <MultiSelectFilter
-        label="Patient group"
+      <PatientGroupFilter
+        key={filters.patientCategory.join(';') + String(patientGroupDisabled)}
         value={filters.patientGroup}
-        allLabel={filters.patientCategory.length ? "All groups in selected categories" : "All groups"}
         options={filterOptions.patientGroup}
-        disabled={patientGroupDisabled}
-        disabledText="Not applicable to healthy-control-only studies"
+        disabled={patientGroupDisabled || filters.patientCategory.length === 0}
+        disabledText={patientGroupDisabled
+          ? "Not applicable to healthy-control-only studies"
+          : "Choose a patient category to explore groups"}
         onChange={(value) =>
           onFilterChange(
             'patientGroup',
@@ -560,3 +562,4 @@ function friendlyFilterLabel(
 }
 
 export default FiltersPanel
+

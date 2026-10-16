@@ -48,7 +48,8 @@
       "zOriginal": 17,
       "zMni": 17,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodevelopmental and perinatal conditions"
+      "patientCategory": "Neurodevelopmental and perinatal conditions",
+      "patientGroupWebsite": "Autism"
     },
     {
       "id": "pmid-21875780-peak-2",
@@ -94,7 +95,8 @@
       "zOriginal": -2,
       "zMni": -2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Schizophrenia spectrum"
     },
     {
       "id": "pmid-22144968-peak-3",
@@ -140,7 +142,8 @@
       "zOriginal": 18,
       "zMni": 18,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-28507895-peak-5",
@@ -186,7 +189,8 @@
       "zOriginal": 6,
       "zMni": 6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Traumatic and hypoxic brain injury"
+      "patientCategory": "Traumatic and hypoxic brain injury",
+      "patientGroupWebsite": "Traumatic brain injury"
     },
     {
       "id": "pmid-22732507-peak-6",
@@ -232,7 +236,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-22732507-peak-7",
@@ -278,7 +283,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-22732507-peak-8",
@@ -324,7 +330,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-22732507-peak-9",
@@ -370,7 +377,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-27349694-peak-10",
@@ -416,7 +424,8 @@
       "zOriginal": 13,
       "zMni": 13,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-27349694-peak-11",
@@ -462,7 +471,8 @@
       "zOriginal": 7,
       "zMni": 7,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-27349694-peak-12",
@@ -508,7 +518,8 @@
       "zOriginal": 19,
       "zMni": 19,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-27349694-peak-13",
@@ -554,7 +565,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-27349694-peak-14",
@@ -600,7 +612,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-14534252-peak-15",
@@ -646,7 +659,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-14534252-peak-16",
@@ -692,7 +706,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-14534252-peak-17",
@@ -738,7 +753,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-20203139-peak-18",
@@ -784,7 +800,8 @@
       "zOriginal": -12,
       "zMni": -12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-26441569-peak-19",
@@ -830,7 +847,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-26441569-peak-20",
@@ -876,7 +894,8 @@
       "zOriginal": 1,
       "zMni": 1,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-24266644-peak-21",
@@ -922,7 +941,8 @@
       "zOriginal": -14,
       "zMni": -14,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "PTSD"
     },
     {
       "id": "pmid-24527186-peak-22",
@@ -968,7 +988,8 @@
       "zOriginal": 10.46,
       "zMni": 10.46,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Tumours and other focal structural lesions"
+      "patientCategory": "Tumours and other focal structural lesions",
+      "patientGroupWebsite": "Brain tumours; Other brain lesions"
     },
     {
       "id": "pmid-25166619-peak-23",
@@ -1014,7 +1035,8 @@
       "zOriginal": 5,
       "zMni": 5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Toxic / metabolic / other encephalopathies"
+      "patientCategory": "Toxic / metabolic / other encephalopathies",
+      "patientGroupWebsite": "Encephalopathy"
     },
     {
       "id": "pmid-28079059-peak-26",
@@ -1060,7 +1082,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression"
     },
     {
       "id": "pmid-28079059-peak-27",
@@ -1106,7 +1129,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression"
     },
     {
       "id": "pmid-15531561-peak-28",
@@ -1152,7 +1176,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Genetic / congenital / inborn metabolic conditions"
+      "patientCategory": "Genetic / congenital / inborn metabolic conditions",
+      "patientGroupWebsite": "Congenital central hypoventilation syndrome"
     },
     {
       "id": "pmid-15531561-peak-29",
@@ -1198,7 +1223,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Genetic / congenital / inborn metabolic conditions"
+      "patientCategory": "Genetic / congenital / inborn metabolic conditions",
+      "patientGroupWebsite": "Congenital central hypoventilation syndrome"
     },
     {
       "id": "pmid-24944217-peak-30",
@@ -1244,7 +1270,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-31",
@@ -1290,7 +1317,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-32",
@@ -1336,7 +1364,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-33",
@@ -1382,7 +1411,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-34",
@@ -1428,7 +1458,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-35",
@@ -1474,7 +1505,8 @@
       "zOriginal": 6,
       "zMni": 6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-36",
@@ -1520,7 +1552,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-37",
@@ -1566,7 +1599,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-38",
@@ -1612,7 +1646,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-39",
@@ -1658,7 +1693,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-40",
@@ -1704,7 +1740,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-24944217-peak-41",
@@ -1750,7 +1787,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Renal disease"
     },
     {
       "id": "pmid-26564411-peak-42",
@@ -1796,7 +1834,8 @@
       "zOriginal": -2,
       "zMni": -2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-24831391-peak-43",
@@ -1842,7 +1881,8 @@
       "zOriginal": 1,
       "zMni": 1,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Schizophrenia spectrum"
     },
     {
       "id": "pmid-20144695-peak-44",
@@ -1888,7 +1928,8 @@
       "zOriginal": 8,
       "zMni": 8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41519954-peak-47",
@@ -1934,7 +1975,8 @@
       "zOriginal": 3,
       "zMni": 3,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-27718507-peak-48",
@@ -1980,7 +2022,8 @@
       "zOriginal": 22,
       "zMni": 22,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-27718507-peak-49",
@@ -2026,7 +2069,8 @@
       "zOriginal": 16,
       "zMni": 16,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-27718507-peak-50",
@@ -2072,7 +2116,8 @@
       "zOriginal": 19,
       "zMni": 19,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-27718507-peak-51",
@@ -2118,7 +2163,8 @@
       "zOriginal": 13,
       "zMni": 13,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-24083408-peak-56",
@@ -2164,7 +2210,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Toxic / metabolic / other encephalopathies"
+      "patientCategory": "Toxic / metabolic / other encephalopathies",
+      "patientGroupWebsite": "Carbon monoxide exposure; Encephalopathy"
     },
     {
       "id": "pmid-34252875-peak-66",
@@ -2210,7 +2257,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Hypersomnolence disorders"
     },
     {
       "id": "pmid-40528148-peak-67",
@@ -2256,7 +2304,8 @@
       "zOriginal": 15,
       "zMni": 15,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Cannabis use"
     },
     {
       "id": "pmid-25309462-peak-71",
@@ -2302,7 +2351,8 @@
       "zOriginal": 20,
       "zMni": 20,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression; Cannabis use"
     },
     {
       "id": "pmid-17968544-peak-72",
@@ -2348,7 +2398,8 @@
       "zOriginal": -5,
       "zMni": -5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Frontotemporal dementia"
     },
     {
       "id": "pmid-17968544-peak-73",
@@ -2394,7 +2445,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Frontotemporal dementia"
     },
     {
       "id": "pmid-17566768-peak-74",
@@ -2440,7 +2492,8 @@
       "zOriginal": -10,
       "zMni": -10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-29335882-peak-81",
@@ -2486,7 +2539,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Essential tremor"
     },
     {
       "id": "pmid-29335882-peak-82",
@@ -2532,7 +2586,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Essential tremor"
     },
     {
       "id": "pmid-29335882-peak-83",
@@ -2578,7 +2633,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Essential tremor"
     },
     {
       "id": "pmid-33503315-peak-84",
@@ -2624,7 +2680,8 @@
       "zOriginal": 15,
       "zMni": 15,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Tumours and other focal structural lesions"
+      "patientCategory": "Tumours and other focal structural lesions",
+      "patientGroupWebsite": "Brain tumours"
     },
     {
       "id": "pmid-24760033-peak-85",
@@ -2670,7 +2727,8 @@
       "zOriginal": -15,
       "zMni": -15,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-16317714-peak-86",
@@ -2716,7 +2774,8 @@
       "zOriginal": -2,
       "zMni": -2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-28579788-peak-87",
@@ -2762,7 +2821,8 @@
       "zOriginal": 9,
       "zMni": 9,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Sensory disorders"
+      "patientCategory": "Sensory disorders",
+      "patientGroupWebsite": "Glaucoma"
     },
     {
       "id": "pmid-41218859-peak-88",
@@ -2808,7 +2868,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Chronic cough"
     },
     {
       "id": "pmid-40800468-peak-89",
@@ -2854,7 +2915,8 @@
       "zOriginal": -12,
       "zMni": -12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-90",
@@ -2900,7 +2962,8 @@
       "zOriginal": -18.8,
       "zMni": -18.8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-91",
@@ -2946,7 +3009,8 @@
       "zOriginal": -11.2,
       "zMni": -11.2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-92",
@@ -2992,7 +3056,8 @@
       "zOriginal": -5.25,
       "zMni": -5.25,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-93",
@@ -3038,7 +3103,8 @@
       "zOriginal": -8.25,
       "zMni": -8.25,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-94",
@@ -3084,7 +3150,8 @@
       "zOriginal": -10.5,
       "zMni": -10.5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-95",
@@ -3130,7 +3197,8 @@
       "zOriginal": -12,
       "zMni": -12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-96",
@@ -3176,7 +3244,8 @@
       "zOriginal": -7.5,
       "zMni": -7.5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-97",
@@ -3222,7 +3291,8 @@
       "zOriginal": -9,
       "zMni": -9,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-98",
@@ -3268,7 +3338,8 @@
       "zOriginal": -6,
       "zMni": -6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-99",
@@ -3314,7 +3385,8 @@
       "zOriginal": -8.25,
       "zMni": -8.25,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-100",
@@ -3360,7 +3432,8 @@
       "zOriginal": -14.2,
       "zMni": -14.2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-101",
@@ -3406,7 +3479,8 @@
       "zOriginal": -18.8,
       "zMni": -18.8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-102",
@@ -3452,7 +3526,8 @@
       "zOriginal": -6.75,
       "zMni": -6.75,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-103",
@@ -3498,7 +3573,8 @@
       "zOriginal": -6,
       "zMni": -6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-104",
@@ -3544,7 +3620,8 @@
       "zOriginal": -9,
       "zMni": -9,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-105",
@@ -3590,7 +3667,8 @@
       "zOriginal": -5.25,
       "zMni": -5.25,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-106",
@@ -3636,7 +3714,8 @@
       "zOriginal": -6.75,
       "zMni": -6.75,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-40800468-peak-107",
@@ -3682,7 +3761,8 @@
       "zOriginal": -6.75,
       "zMni": -6.75,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-23910949-peak-108",
@@ -3728,7 +3808,8 @@
       "zOriginal": 17,
       "zMni": 17,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression"
     },
     {
       "id": "pmid-32243040-peak-109",
@@ -3774,7 +3855,8 @@
       "zOriginal": 6,
       "zMni": 6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Sensory disorders"
+      "patientCategory": "Sensory disorders",
+      "patientGroupWebsite": "Hearing disorders"
     },
     {
       "id": "pmid-28095312-peak-110",
@@ -3820,7 +3902,8 @@
       "zOriginal": 6,
       "zMni": 6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-22491891-peak-111",
@@ -3866,7 +3949,8 @@
       "zOriginal": 8,
       "zMni": 8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Tobacco use"
     },
     {
       "id": "pmid-39012481-peak-112",
@@ -3912,7 +3996,8 @@
       "zOriginal": -3,
       "zMni": -3,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-38266332-peak-113",
@@ -3958,7 +4043,8 @@
       "zOriginal": -5.5,
       "zMni": -5.5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Anxiety disorders; Body dysmorphic disorder"
     },
     {
       "id": "pmid-24418502-peak-114",
@@ -4004,7 +4090,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-24418502-peak-115",
@@ -4050,7 +4137,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-34911203-peak-116",
@@ -4096,7 +4184,8 @@
       "zOriginal": -2,
       "zMni": -2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression"
     },
     {
       "id": "pmid-28314184-peak-117",
@@ -4142,7 +4231,8 @@
       "zOriginal": 13,
       "zMni": 13,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-28314184-peak-118",
@@ -4188,7 +4278,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-28314184-peak-119",
@@ -4234,7 +4325,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-23806586-peak-120",
@@ -4280,7 +4372,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Bipolar disorder; Depression"
     },
     {
       "id": "pmid-21828200-peak-121",
@@ -4326,7 +4419,8 @@
       "zOriginal": 5,
       "zMni": 5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Inflammatory / infectious / demyelinating CNS disorders"
+      "patientCategory": "Inflammatory / infectious / demyelinating CNS disorders",
+      "patientGroupWebsite": "Multiple sclerosis / related demyelination"
     },
     {
       "id": "pmid-39821801-peak-122",
@@ -4372,7 +4466,8 @@
       "zOriginal": 5,
       "zMni": 5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Lewy body dementia; Alzheimer's disease"
     },
     {
       "id": "pmid-39821801-peak-123",
@@ -4418,7 +4513,8 @@
       "zOriginal": 8,
       "zMni": 8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Lewy body dementia; Alzheimer's disease"
     },
     {
       "id": "pmid-25394198-peak-124",
@@ -4464,7 +4560,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-29468083-peak-125",
@@ -4510,7 +4607,8 @@
       "zOriginal": -5,
       "zMni": -5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-29468083-peak-126",
@@ -4556,7 +4654,8 @@
       "zOriginal": -1,
       "zMni": -1,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-30013923-peak-127",
@@ -4602,7 +4701,8 @@
       "zOriginal": 14,
       "zMni": 14,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "PTSD"
     },
     {
       "id": "pmid-22451196-peak-128",
@@ -4648,7 +4748,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-22451196-peak-129",
@@ -4694,7 +4795,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-130",
@@ -4740,7 +4842,8 @@
       "zOriginal": -1,
       "zMni": -1,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-131",
@@ -4786,7 +4889,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-132",
@@ -4832,7 +4936,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-133",
@@ -4878,7 +4983,8 @@
       "zOriginal": -6,
       "zMni": -6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-134",
@@ -4924,7 +5030,8 @@
       "zOriginal": 6,
       "zMni": 6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-135",
@@ -4970,7 +5077,8 @@
       "zOriginal": -6,
       "zMni": -6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-136",
@@ -5016,7 +5124,8 @@
       "zOriginal": -1,
       "zMni": -1,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-137",
@@ -5062,7 +5171,8 @@
       "zOriginal": 1,
       "zMni": 1,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-138",
@@ -5108,7 +5218,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41235903-peak-139",
@@ -5154,7 +5265,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-23373763-peak-140",
@@ -5200,7 +5312,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-22409909-peak-141",
@@ -5246,7 +5359,8 @@
       "zOriginal": 9,
       "zMni": 9,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Schizophrenia spectrum"
     },
     {
       "id": "pmid-26173182-peak-142",
@@ -5292,7 +5406,8 @@
       "zOriginal": 8,
       "zMni": 8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Genetic / congenital / inborn metabolic conditions"
+      "patientCategory": "Genetic / congenital / inborn metabolic conditions",
+      "patientGroupWebsite": "Prader-Willi syndrome"
     },
     {
       "id": "pmid-19052227-peak-143",
@@ -5338,7 +5453,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-23510545-peak-144",
@@ -5384,7 +5500,8 @@
       "zOriginal": -3,
       "zMni": -3,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression"
     },
     {
       "id": "pmid-23510545-peak-145",
@@ -5430,7 +5547,8 @@
       "zOriginal": -9,
       "zMni": -9,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression"
     },
     {
       "id": "pmid-28522971-peak-146",
@@ -5476,7 +5594,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Cognitive impairment"
     },
     {
       "id": "pmid-28522971-peak-147",
@@ -5522,7 +5641,8 @@
       "zOriginal": -16,
       "zMni": -16,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Cognitive impairment"
     },
     {
       "id": "pmid-28522971-peak-148",
@@ -5568,7 +5688,8 @@
       "zOriginal": -12,
       "zMni": -12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Cognitive impairment"
     },
     {
       "id": "pmid-26226077-peak-149",
@@ -5614,7 +5735,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-34110063-peak-150",
@@ -5660,7 +5782,8 @@
       "zOriginal": -12,
       "zMni": -12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Frontotemporal dementia; Alzheimer's disease"
     },
     {
       "id": "pmid-26445229-peak-151",
@@ -5706,7 +5829,8 @@
       "zOriginal": -2,
       "zMni": -2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression"
     },
     {
       "id": "pmid-29581420-peak-152",
@@ -5752,7 +5876,8 @@
       "zOriginal": -10,
       "zMni": -10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Psychosis / psychosis risk"
     },
     {
       "id": "pmid-29581420-peak-153",
@@ -5798,7 +5923,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Psychosis / psychosis risk"
     },
     {
       "id": "pmid-35287051-peak-154",
@@ -5844,7 +5970,8 @@
       "zOriginal": -4.5,
       "zMni": -4.5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Alcohol use"
     },
     {
       "id": "pmid-27894900-peak-155",
@@ -5890,7 +6017,8 @@
       "zOriginal": 14,
       "zMni": 14,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-27894900-peak-156",
@@ -5936,7 +6064,8 @@
       "zOriginal": 21,
       "zMni": 21,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-21591026-peak-157",
@@ -5982,7 +6111,8 @@
       "zOriginal": 14,
       "zMni": 14,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Traumatic and hypoxic brain injury"
+      "patientCategory": "Traumatic and hypoxic brain injury",
+      "patientGroupWebsite": "Traumatic brain injury"
     },
     {
       "id": "pmid-35523367-peak-158",
@@ -6028,7 +6158,8 @@
       "zOriginal": -5,
       "zMni": -5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-31400532-peak-159",
@@ -6074,7 +6205,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-31400532-peak-160",
@@ -6120,7 +6252,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-31400532-peak-161",
@@ -6166,7 +6299,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-24397347-peak-162",
@@ -6212,7 +6346,8 @@
       "zOriginal": 7,
       "zMni": 7,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodevelopmental and perinatal conditions"
+      "patientCategory": "Neurodevelopmental and perinatal conditions",
+      "patientGroupWebsite": "Tourette syndrome"
     },
     {
       "id": "pmid-24397347-peak-163",
@@ -6258,7 +6393,8 @@
       "zOriginal": -6,
       "zMni": -6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodevelopmental and perinatal conditions"
+      "patientCategory": "Neurodevelopmental and perinatal conditions",
+      "patientGroupWebsite": "Tourette syndrome"
     },
     {
       "id": "pmid-17597301-peak-164",
@@ -6304,7 +6440,8 @@
       "zOriginal": 8,
       "zMni": 8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-17597301-peak-165",
@@ -6350,7 +6487,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-17597301-peak-166",
@@ -6396,7 +6534,8 @@
       "zOriginal": 26,
       "zMni": 26,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-32521476-peak-167",
@@ -6442,7 +6581,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Parkinson's disease"
     },
     {
       "id": "pmid-32521476-peak-168",
@@ -6488,7 +6628,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Parkinson's disease"
     },
     {
       "id": "pmid-23750128-peak-169",
@@ -6534,7 +6675,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25790021-peak-170",
@@ -6580,7 +6722,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "PTSD"
     },
     {
       "id": "pmid-19022864-peak-171",
@@ -6626,7 +6769,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-19022864-peak-172",
@@ -6672,7 +6816,8 @@
       "zOriginal": -8.05,
       "zMni": -8.05,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-19022864-peak-173",
@@ -6718,7 +6863,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-19022864-peak-174",
@@ -6764,7 +6910,8 @@
       "zOriginal": 0,
       "zMni": 0,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-19022864-peak-175",
@@ -6810,7 +6957,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-19022864-peak-176",
@@ -6856,7 +7004,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-177",
@@ -6902,7 +7051,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-178",
@@ -6948,7 +7098,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-179",
@@ -6994,7 +7145,8 @@
       "zOriginal": 8,
       "zMni": 8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-180",
@@ -7040,7 +7192,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-181",
@@ -7086,7 +7239,8 @@
       "zOriginal": 8,
       "zMni": 8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-182",
@@ -7132,7 +7286,8 @@
       "zOriginal": -6,
       "zMni": -6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-183",
@@ -7178,7 +7333,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-184",
@@ -7224,7 +7380,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-185",
@@ -7270,7 +7427,8 @@
       "zOriginal": -6,
       "zMni": -6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25211175-peak-186",
@@ -7316,7 +7474,8 @@
       "zOriginal": -10,
       "zMni": -10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-18691703-peak-187",
@@ -7362,7 +7521,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-34824311-peak-188",
@@ -7408,7 +7568,8 @@
       "zOriginal": -2,
       "zMni": -2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-30014958-peak-189",
@@ -7454,7 +7615,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression; Bipolar disorder"
     },
     {
       "id": "pmid-30014958-peak-190",
@@ -7500,7 +7662,8 @@
       "zOriginal": 14,
       "zMni": 14,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression; Bipolar disorder"
     },
     {
       "id": "pmid-27362339-peak-191",
@@ -7546,7 +7709,8 @@
       "zOriginal": -3,
       "zMni": -3,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Epilepsy and status epilepticus"
+      "patientCategory": "Epilepsy and status epilepticus",
+      "patientGroupWebsite": "Epilepsy / status epilepticus"
     },
     {
       "id": "pmid-41612150-peak-192",
@@ -7592,7 +7756,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41612150-peak-193",
@@ -7638,7 +7803,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41612150-peak-194",
@@ -7684,7 +7850,8 @@
       "zOriginal": 8,
       "zMni": 8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-41612150-peak-195",
@@ -7730,7 +7897,8 @@
       "zOriginal": -4,
       "zMni": -4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25865357-peak-196",
@@ -7776,7 +7944,8 @@
       "zOriginal": 6,
       "zMni": 6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "PTSD"
     },
     {
       "id": "pmid-29266586-peak-197",
@@ -7822,7 +7991,8 @@
       "zOriginal": 6,
       "zMni": 6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "PTSD"
     },
     {
       "id": "pmid-15721058-peak-198",
@@ -7868,7 +8038,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Hypogonadism"
     },
     {
       "id": "pmid-15721058-peak-199",
@@ -7914,7 +8085,8 @@
       "zOriginal": 12,
       "zMni": 12,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Other clinical conditions"
+      "patientCategory": "Other clinical conditions",
+      "patientGroupWebsite": "Hypogonadism"
     },
     {
       "id": "pmid-24062699-peak-200",
@@ -7960,7 +8132,8 @@
       "zOriginal": -8,
       "zMni": -8,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Cognitive impairment"
     },
     {
       "id": "pmid-21952129-peak-201",
@@ -8006,7 +8179,8 @@
       "zOriginal": 22,
       "zMni": 22,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Eating and weight-related conditions"
     },
     {
       "id": "pmid-36811216-peak-202",
@@ -8052,7 +8226,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-36811216-peak-203",
@@ -8098,7 +8273,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-25024571-peak-204",
@@ -8144,7 +8320,8 @@
       "zOriginal": 10.24,
       "zMni": 10.24,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Progressive supranuclear palsy"
     },
     {
       "id": "pmid-25024571-peak-205",
@@ -8190,7 +8367,8 @@
       "zOriginal": 17.44,
       "zMni": 17.44,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Progressive supranuclear palsy"
     },
     {
       "id": "pmid-23314939-peak-206",
@@ -8236,7 +8414,8 @@
       "zOriginal": -15,
       "zMni": -15,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-30505720-peak-207",
@@ -8282,7 +8461,8 @@
       "zOriginal": 3,
       "zMni": 3,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Depression"
     },
     {
       "id": "pmid-33474716-peak-208",
@@ -8328,7 +8508,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-33474716-peak-209",
@@ -8374,7 +8555,8 @@
       "zOriginal": 10,
       "zMni": 10,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-38797521-peak-210",
@@ -8420,7 +8602,8 @@
       "zOriginal": -10.5,
       "zMni": -10.5,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodevelopmental and perinatal conditions, Cerebrovascular disorders"
+      "patientCategory": "Neurodevelopmental and perinatal conditions, Cerebrovascular disorders",
+      "patientGroupWebsite": "Stroke; Stuttering"
     },
     {
       "id": "pmid-27002909-peak-211",
@@ -8466,7 +8649,8 @@
       "zOriginal": -6,
       "zMni": -6,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Neurodegenerative / cognitive / movement disorders"
+      "patientCategory": "Neurodegenerative / cognitive / movement disorders",
+      "patientGroupWebsite": "Alzheimer's disease"
     },
     {
       "id": "pmid-27110113-peak-212",
@@ -8512,7 +8696,8 @@
       "zOriginal": 18,
       "zMni": 18,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-28194012-peak-213",
@@ -8558,7 +8743,8 @@
       "zOriginal": 7,
       "zMni": 7,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-28803349-peak-214",
@@ -8604,7 +8790,8 @@
       "zOriginal": 1,
       "zMni": 1,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Anxiety disorders; Depression"
     },
     {
       "id": "pmid-28803349-peak-215",
@@ -8650,7 +8837,8 @@
       "zOriginal": 1,
       "zMni": 1,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "Psychiatric and substance-related conditions"
+      "patientCategory": "Psychiatric and substance-related conditions",
+      "patientGroupWebsite": "Anxiety disorders; Depression"
     },
     {
       "id": "pmid-28280514-peak-216",
@@ -8696,7 +8884,8 @@
       "zOriginal": 2,
       "zMni": 2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-28280514-peak-217",
@@ -8742,7 +8931,8 @@
       "zOriginal": 4,
       "zMni": 4,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     },
     {
       "id": "pmid-28280514-peak-218",
@@ -8788,7 +8978,8 @@
       "zOriginal": -2,
       "zMni": -2,
       "transformation": "None — originally reported in MNI space",
-      "patientCategory": "NA"
+      "patientCategory": "NA",
+      "patientGroupWebsite": ""
     }
   ]
 }
