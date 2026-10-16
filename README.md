@@ -6,7 +6,7 @@ This repository contains the source code for [Claustrum Coordinates](https://nav
 
 ## Built with
 
-The site is built with **React**, **TypeScript**, **Vite**, and **NiiVue**, and is deployed with **GitHub Pages**. Development was supported by AI-assisted coding tools, including **ChatGPT** and **Claude**.
+Development of this website was supported by AI-assisted coding tools, including ChatGPT and Claude.
 
 ## Contributions
 
@@ -30,17 +30,3 @@ If you use the web resource, please cite [Zenodo citation / DOI forthcoming]. Fo
 ## License
 
 The website source code is released under the **MIT License**.
-
-## Refresh review data
-
-Export Table 1 as an Excel workbook, then run:
-
-```bash
-node scripts/refresh-review-data.mjs /path/to/table-1.xlsx
-npm run build
-node --test tests/*.test.mjs
-```
-
-The importer reads second-row headers in `All studies - MRI information` and `Peak reporting`. It refreshes `public/data/peaks-mni.json` with reported MNI coordinates and study/cohort metadata, including extraction notes, and writes the three website classification fields to `public/data/peak-classifications.json`. Both files are public website data. It preserves matching peak IDs and stops on missing required headers, ambiguous matches, invalid coordinates, or incomplete classifications before writing.
-
-Filters allow any selected label within each dropdown and require matches across dropdowns. Age is a study-level cohort label; task domain is specific to the reported contrast. CSV downloads include all three classification fields. Talairach and unreported coordinate spaces are excluded until harmonization is completed.
