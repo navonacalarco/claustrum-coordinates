@@ -604,6 +604,11 @@
     "articleCategoryWebsite": "Observational: group comparison",
     "contrastCategoryWebsite": "Not applicable"
   },
+  "title-acaseofvariantcreutzfeldtjakobdiseaseinromania-row-233": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Case report / case series",
+    "contrastCategoryWebsite": "Not applicable"
+  },
   "pmid-26226077-peak-149": {
     "ageGroupWebsite": "Adults",
     "articleCategoryWebsite": "Observational: association",
@@ -953,5 +958,25 @@
     "ageGroupWebsite": "Adults",
     "articleCategoryWebsite": "Intervention",
     "contrastCategoryWebsite": "Sensory perception"
+  },
+  "pmid-41494496-row-422": {
+    "ageGroupWebsite": "Children; Adolescents; Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-41494496-row-423": {
+    "ageGroupWebsite": "Children; Adolescents; Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Not applicable"
+  },
+  "pmid-32056768-row-424": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: group comparison",
+    "contrastCategoryWebsite": "Attention / cognitive control; Emotion"
+  },
+  "pmid-30259698-row-425": {
+    "ageGroupWebsite": "Adults",
+    "articleCategoryWebsite": "Observational: association",
+    "contrastCategoryWebsite": "Not applicable"
   }
 }

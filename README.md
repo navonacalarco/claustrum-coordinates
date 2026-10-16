@@ -41,6 +41,6 @@ npm run build
 node --test tests/*.test.mjs
 ```
 
-The importer reads second-row headers in `All studies - MRI information` and `Peak reporting`. It exports only the three website classification fields to `public/data/peak-classifications.json`, keyed by existing published peak IDs. It does not export extraction notes, participant details, or additional coordinates. Missing headers, ambiguous matches, and incomplete labels stop the import before writing.
+The importer reads second-row headers in `All studies - MRI information` and `Peak reporting`. It refreshes `public/data/peaks-mni.json` with reported MNI coordinates and study/cohort metadata, including extraction notes, and writes the three website classification fields to `public/data/peak-classifications.json`. Both files are public website data. It preserves matching peak IDs and stops on missing required headers, ambiguous matches, invalid coordinates, or incomplete classifications before writing.
 
-Filters allow any selected label within each dropdown and require matches across dropdowns. Age is a study-level cohort label; task domain is specific to the reported contrast. CSV downloads include all three classification fields. The viewer continues to show reported MNI coordinates; Talairach harmonization remains pending.
+Filters allow any selected label within each dropdown and require matches across dropdowns. Age is a study-level cohort label; task domain is specific to the reported contrast. CSV downloads include all three classification fields. Talairach and unreported coordinate spaces are excluded until harmonization is completed.
