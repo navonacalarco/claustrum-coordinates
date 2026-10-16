@@ -105,6 +105,37 @@ function FiltersPanel({
       />
 
       <MultiSelectFilter
+        label="Population"
+        value={filters.population}
+        allLabel="All populations"
+        options={filterOptions.population}
+        onChange={(value) =>
+          onFilterChange(
+            'population',
+            value,
+          )
+        }
+      />
+
+      <PatientCategoryFilter
+        categories={filterOptions.patientCategory}
+        groupsByCategory={filterOptions.groupsByCategory}
+        selected={filters.patientCategory}
+        groups={filters.patientGroup}
+        disabled={patientGroupDisabled}
+        onCategoriesChange={value => onFilterChange('patientCategory', value)}
+        onGroupsChange={value => onFilterChange('patientGroup', value)}
+      />
+
+      <MultiSelectFilter
+        label="Age at scan"
+        value={filters.ageGroup}
+        allLabel="All ages"
+        options={filterOptions.ageGroup}
+        onChange={(value) => onFilterChange('ageGroup', value)}
+      />
+
+      <MultiSelectFilter
         label="Study design"
         value={filters.studyDesign}
         allLabel="All study designs"
@@ -118,37 +149,6 @@ function FiltersPanel({
         allLabel="All domains"
         options={filterOptions.taskDomain}
         onChange={(value) => onFilterChange('taskDomain', value)}
-      />
-
-      <MultiSelectFilter
-        label="Population"
-        value={filters.population}
-        allLabel="All populations"
-        options={filterOptions.population}
-        onChange={(value) =>
-          onFilterChange(
-            'population',
-            value,
-          )
-        }
-      />
-
-      <MultiSelectFilter
-        label="Age at scan"
-        value={filters.ageGroup}
-        allLabel="All ages"
-        options={filterOptions.ageGroup}
-        onChange={(value) => onFilterChange('ageGroup', value)}
-      />
-
-      <PatientCategoryFilter
-        categories={filterOptions.patientCategory}
-        groupsByCategory={filterOptions.groupsByCategory}
-        selected={filters.patientCategory}
-        groups={filters.patientGroup}
-        disabled={patientGroupDisabled}
-        onCategoriesChange={value => onFilterChange('patientCategory', value)}
-        onGroupsChange={value => onFilterChange('patientGroup', value)}
       />
 
       <MultiSelectFilter
