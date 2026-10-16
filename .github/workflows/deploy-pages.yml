@@ -20,16 +20,16 @@ jobs:
       - run: npm ci
       - name: Download background template
         run: |
-          curl --fail --location --retry 3 --output public/imaging/T1w_ICBM152_MNI2009bSym_0p5mm.nii.gz \
-            https://github.com/navonacalarco/claustrum-coordinates/releases/download/imaging-v1/mni_icbm152_t1_tal_nlin_sym_09b_hires.nii.gz
-          gzip -t public/imaging/T1w_ICBM152_MNI2009bSym_0p5mm.nii.gz
+          curl --fail --location --retry 3 --output public/imaging/T1w_ICBM152_MNI2009bSym_0p5mm_display8bit.nii.gz \
+            https://github.com/navonacalarco/claustrum-coordinates/releases/download/imaging-v1/T1w_ICBM152_MNI2009bSym_0p5mm_display8bit.nii.gz
+          gzip -t public/imaging/T1w_ICBM152_MNI2009bSym_0p5mm_display8bit.nii.gz
       - run: node --test tests/*.test.mjs
       - run: npm run build
         env:
           GITHUB_PAGES: 'true'
       - name: Check deployed imaging assets
         run: |
-          for file in T1w_ICBM152_MNI2009bSym_0p5mm claustrum_Calarco_MNI2009bSym_0p5mm claustrum_Mauri_MNI2009bSym_0p5mm insula_AllenAHRAv2_MNI2009bSym_0p5mm putamen_Xiao_MNI2009bSym_0p5mm amygdala_Xiao_MNI2009bSym_0p5mm; do
+          for file in T1w_ICBM152_MNI2009bSym_0p5mm_display8bit claustrum_Calarco_MNI2009bSym_0p5mm claustrum_Mauri_MNI2009bSym_0p5mm insula_AllenAHRAv2_MNI2009bSym_0p5mm putamen_Xiao_MNI2009bSym_0p5mm amygdala_Xiao_MNI2009bSym_0p5mm; do
             test -s "dist/imaging/$file.nii.gz" || exit 1
           done
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5

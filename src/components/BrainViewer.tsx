@@ -279,7 +279,7 @@ export default function BrainViewer({
       await nv.loadVolumes([
         {
           url:
-            `${import.meta.env.BASE_URL}imaging/T1w_ICBM152_MNI2009bSym_0p5mm.nii.gz`,
+            `${import.meta.env.BASE_URL}imaging/T1w_ICBM152_MNI2009bSym_0p5mm_display8bit.nii.gz`,
           colormap: 'gray',
           opacity: 1,
         },
